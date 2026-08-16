@@ -7,108 +7,262 @@ window.publicComponents = {
 
   renderHeader() {
     return `
-      <header class="header" id="header">
-        <div class="container header-inner">
-          <a href="#" class="brand-logo" onclick="publicComponents.scrollToTop(event)">
+      <header class="header header-pill-style card-nav-container" id="mobileCardNav">
+        <div class="container header-inner card-nav-top">
+          
+          <a href="#" class="brand-logo logo-container" onclick="publicComponents.scrollToTop(event)">
             <div class="brand-logo-mark">A</div>
             <div>
-              <div>AKSHARA</div>
-              <div class="brand-tagline">Plotted Developments</div>
+              <div style="line-height: 1;">AKSHARA</div>
             </div>
           </a>
 
-          <nav>
-            <ul class="nav-links">
-              <li><a href="#about" class="nav-link">About Us</a></li>
-              <li><a href="#projects" class="nav-link" onclick="publicComponents.setFilter('All')">Our Projects</a></li>
-              <li><a href="#why-us" class="nav-link">Why Akshara</a></li>
-              <li><a href="#process" class="nav-link">Process</a></li>
-              <li><a href="#leadership" class="nav-link">Leadership</a></li>
-              <li><a href="#contact" class="nav-link">Contact</a></li>
+          <nav class="nav-pill-container desktop-only">
+            <ul class="nav-links-pill">
+              <li><a href="#projects" class="nav-pill-item" onclick="publicComponents.setFilter('All')">OUR PROJECTS</a></li>
+              <li><a href="#why-us" class="nav-pill-item">WHY AKSHARA</a></li>
+              <li><a href="#process" class="nav-pill-item">PROCESS</a></li>
+              <li>
+                <a href="#contact" class="nav-pill-item contact-pill-btn">
+                  <span class="contact-pill-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </span>
+                  Contact
+                </a>
+              </li>
             </ul>
           </nav>
 
           <div class="header-actions">
-            <button class="admin-trigger-btn" onclick="app.openAdminModal()">
-              🔒 Admin Panel
+            <button class="hamburger-menu mobile-menu-toggle" id="mobileNavToggle" aria-label="Menu" onclick="publicComponents.toggleMobileNav()">
+              <div class="hamburger-line"></div>
+              <div class="hamburger-line"></div>
             </button>
-            <a href="#projects" class="btn btn-primary btn-sm">Explore Projects</a>
-            <button class="mobile-menu-toggle" id="mobileNavToggle" onclick="publicComponents.toggleMobileNav()">
-              ☰
-            </button>
+          </div>
+
+        </div>
+
+        <!-- Card Nav Content (Mobile Only) -->
+        <div class="card-nav-content" id="cardNavContent">
+          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+            <div class="nav-card-label">About</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">↗ About Us</a>
+              <a class="nav-card-link" href="#why-us" onclick="publicComponents.toggleMobileNav()">↗ Why Akshara</a>
+              <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">↗ Our Process</a>
+            </div>
+          </div>
+          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+            <div class="nav-card-label">Projects</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">↗ Our Projects</a>
+            </div>
+          </div>
+          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+            <div class="nav-card-label">Contact</div>
+            <div class="nav-card-links">
+              <a class="nav-card-link" href="#contact" onclick="publicComponents.toggleMobileNav()">↗ Contact Us</a>
+              <a class="nav-card-link" href="#" onclick="publicComponents.toggleMobileNav(); app.openAdminModal();">↗ Admin Login</a>
+            </div>
           </div>
         </div>
       </header>
-
-      <div class="mobile-nav" id="mobileNav">
-        <ul class="mobile-nav-links">
-          <li><a href="#about" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">About Us</a></li>
-          <li><a href="#projects" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">Our Projects</a></li>
-          <li><a href="#why-us" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">Why Akshara</a></li>
-          <li><a href="#process" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">Our Process</a></li>
-          <li><a href="#leadership" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">Leadership</a></li>
-          <li><a href="#contact" class="mobile-nav-link" onclick="publicComponents.toggleMobileNav()">Contact Us</a></li>
-          <li>
-            <button class="btn btn-secondary btn-full" onclick="publicComponents.toggleMobileNav(); app.openAdminModal();">
-              🔒 Admin Login
-            </button>
-          </li>
-        </ul>
-      </div>
     `;
   },
 
-  renderHero() {
+  renderContactPage() {
     return `
-      <section class="hero" id="hero">
-        <div class="container hero-grid">
-          <div class="hero-content">
-            <div class="hero-badge">
-              <span>●</span> Ready-to-Build Approved Residential Layouts
-            </div>
-            <h1 class="hero-title">
-              Showcasing Benchmark Residential Layouts <span>in Prime Growth Corridors</span>
-            </h1>
-            <p class="hero-text">
-              Akshara develops fully approved, high-yield plotted communities across <strong>Vellore, Chittoor, Tirupati, and Chennai</strong>. Complete with 40ft asphalt roads, subterranean utilities, 100% clear titles, and immediate registration.
-            </p>
-            <div class="hero-ctas">
-              <a href="#projects" class="btn btn-primary btn-lg">
-                View Project Showcase
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
-              <a href="#contact" class="btn btn-secondary btn-lg">Schedule Site Visit</a>
-            </div>
-            <div class="hero-stats">
-              <div>
-                <div class="hero-stat-number">45+</div>
-                <div class="hero-stat-label">Layout Projects Completed</div>
-              </div>
-              <div>
-                <div class="hero-stat-number">3,500+</div>
-                <div class="hero-stat-label">Satisfied Plot Owners</div>
-              </div>
-              <div>
-                <div class="hero-stat-number">100%</div>
-                <div class="hero-stat-label">DTCP & CMDA Approved</div>
-              </div>
-            </div>
-          </div>
-          <div class="hero-visual-container">
-            <div class="hero-visual-card">
-              <img src="assets/hero_visual.png" alt="Akshara Plotted Development Render" class="hero-image" />
-              <div class="hero-floating-tag">
-                <div>
-                  <div class="hero-tag-text">Katpadi & Sriperumbudur Layouts</div>
-                  <div class="hero-tag-sub">Wide 40ft Asphalt Roads • Underground Cabling</div>
+      <section class="contact-page-wrapper">
+        <div class="container">
+          <div class="contact-page-grid">
+            <div class="contact-page-left">
+              <div class="contact-subtitle">Akshara Plotted Layouts, Vellore</div>
+              <h1 class="contact-page-title">Activate<br/>your<br/>property.</h1>
+              <p class="contact-page-desc">
+                We guide buyers in their investment journey to design their future perspectives. 100% verified titles and premium infrastructure.
+              </p>
+              
+              <!-- Smooth Swipe Button -->
+              <div class="swipe-button-container" id="swipeBtnContainer">
+                <div class="swipe-button-track">
+                  <div class="swipe-button-thumb" id="swipeBtnThumb">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                  </div>
+                  <span class="swipe-button-text">Swipe to submit</span>
                 </div>
-                <span class="btn btn-primary btn-sm" onclick="publicComponents.openProjectDetail('proj-1')">View Layout Map</span>
+              </div>
+            </div>
+            
+            <div class="contact-page-right">
+              <div class="contact-form-card dark-form">
+                <form id="publicEnquiryForm" onsubmit="publicComponents.handleFormSubmit(event)">
+                  <div class="form-group">
+                    <input type="text" id="leadName" class="form-control border-bottom-only" placeholder="Your Name" required />
+                  </div>
+
+                  <div class="form-group">
+                    <input type="tel" id="leadPhone" class="form-control border-bottom-only" placeholder="Phone Number" required />
+                  </div>
+                  
+                  <div class="form-group">
+                    <input type="email" id="leadEmail" class="form-control border-bottom-only" placeholder="Email Address" />
+                  </div>
+
+                  <div class="form-group">
+                    <textarea id="leadMessage" class="form-control border-bottom-only" placeholder="Your message..." rows="3"></textarea>
+                  </div>
+
+                  <button type="submit" id="hiddenSubmitBtn" style="display: none;"></button>
+                </form>
               </div>
             </div>
           </div>
         </div>
       </section>
     `;
+  },
+
+  initSwipeButton() {
+    const thumb = document.getElementById('swipeBtnThumb');
+    const container = document.getElementById('swipeBtnContainer');
+    const track = document.querySelector('.swipe-button-track');
+    
+    if (!thumb || !container || !track) return;
+    
+    let isDragging = false;
+    let startX = 0;
+    let currentTranslate = 0;
+    
+    const trackRect = track.getBoundingClientRect();
+    const thumbRect = thumb.getBoundingClientRect();
+    // Allow thumb to slide to the very end of the track minus some padding
+    const padding = 8;
+    const maxDrag = trackRect.width - thumbRect.width - (padding * 2); 
+    
+    const onMove = (e) => {
+      if (!isDragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let currentX = clientX - startX;
+      
+      if (currentX < 0) currentX = 0;
+      if (currentX > maxDrag) currentX = maxDrag;
+      
+      thumb.style.transform = `translateX(${currentX}px)`;
+      
+      if (currentX >= maxDrag * 0.95) {
+        // Trigger submit
+        isDragging = false;
+        thumb.style.transform = `translateX(${maxDrag}px)`;
+        document.getElementById('hiddenSubmitBtn').click();
+        document.querySelector('.swipe-button-text').innerText = 'Submitted ✓';
+        
+        // Reset after a delay
+        setTimeout(() => {
+          thumb.style.transform = 'translateX(0px)';
+          document.querySelector('.swipe-button-text').innerText = 'Swipe to submit';
+        }, 3000);
+      }
+    };
+    
+    const onUp = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      thumb.style.transition = 'transform 0.3s ease';
+      thumb.style.transform = 'translateX(0px)';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onUp);
+    };
+    
+    const onDown = (e) => {
+      isDragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      // Extract current transform value
+      const transform = thumb.style.transform;
+      let currentX = 0;
+      if (transform && transform.includes('translateX')) {
+        currentX = parseFloat(transform.replace('translateX(', '').replace('px)', '')) || 0;
+      }
+      startX = clientX - currentX;
+      thumb.style.transition = 'none';
+      
+      document.addEventListener('mousemove', onMove);
+      document.addEventListener('mouseup', onUp);
+      document.addEventListener('touchmove', onMove);
+      document.addEventListener('touchend', onUp);
+    };
+    
+    thumb.addEventListener('mousedown', onDown);
+    thumb.addEventListener('touchstart', onDown);
+  },
+
+  renderHero() {
+    return `
+      <section class="hero-section" id="hero">
+        <div class="hero-sticky">
+          <div class="hero-background">
+            <img src="assets/hero_visual.png" alt="Akshara Background" id="heroZoomImage" />
+          </div>
+
+          <div class="hero-content cinematic-content">
+            <h1 class="impact akshara-hero-title">AKSHARA</h1>
+            <p class="hero-subtitle">Plotted Developments</p>
+            <div class="hero-ctas" style="justify-content: center; margin-top: 40px; margin-bottom: 0;">
+              <a href="#projects" class="btn btn-primary btn-lg btn-cinematic">
+                View Project Showcase
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    `;
+  },
+
+  initHeroScroll() {
+    const heroImage = document.getElementById('heroZoomImage');
+    const heroContent = document.querySelector('.cinematic-content');
+    
+    if (!heroImage) return;
+
+    if (this._onHeroScroll) {
+      window.removeEventListener('scroll', this._onHeroScroll);
+    }
+
+    this._onHeroScroll = () => {
+      const section = document.getElementById('hero');
+      if (!section) return;
+      
+      const rect = section.getBoundingClientRect();
+      const start = rect.top;
+      const maxScroll = rect.height - window.innerHeight;
+      
+      let progress = 0;
+      if (start <= 0 && maxScroll > 0) {
+        progress = Math.min(Math.abs(start) / maxScroll, 1);
+      } else if (start > 0) {
+        progress = 0;
+      } else {
+        progress = 1;
+      }
+
+      // Smooth transformations
+      const scale = 1 + progress;
+      const blur = progress * 10;
+      const opacity = 1 - progress;
+
+      heroImage.style.transform = `scale(${scale})`;
+      heroImage.style.filter = `blur(${blur}px)`;
+      
+      if (heroContent) {
+        heroContent.style.opacity = opacity;
+        heroContent.style.transform = `translateY(${progress * 50}px)`;
+      }
+    };
+
+    window.addEventListener('scroll', this._onHeroScroll);
+    this._onHeroScroll();
   },
 
   renderAbout() {
@@ -466,67 +620,48 @@ window.publicComponents = {
   renderFooter() {
     const settings = window.store.getSettings();
     return `
-      <footer class="footer">
+      <footer class="footer-redesigned">
         <div class="container">
-          <div class="footer-grid">
-            <div>
-              <div class="footer-brand-title">AKSHARA</div>
-              <p class="footer-brand-desc">
-                Developing DTCP, CMDA & RERA approved plotted layouts with benchmark infrastructure across Vellore, Chittoor, Tirupati, and Chennai.
-              </p>
-              <div style="font-weight: 700; font-size: 0.84rem; color: var(--text-primary);">
-                Headquarters: Katpadi Main Road, Vellore
+          <div class="footer-dark-box">
+            <div class="footer-left-col">
+              <div class="footer-logo">
+                <div class="brand-logo-mark" style="background:#fff; color:#000;">A</div>
+                <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em;">AKSHARA</div>
+              </div>
+              <h2 class="footer-tagline">Premium Plotted Developments<br/>Built for the Future</h2>
+            </div>
+
+            <div class="footer-right-col">
+              <div class="footer-links-col">
+                <a href="#projects" class="footer-link">Projects</a>
+                <a href="#about" class="footer-link">About</a>
+                <a href="#why-us" class="footer-link">Why Akshara</a>
+              </div>
+              
+              <div class="footer-links-col">
+                <a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Vellore')">Vellore</a>
+                <a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Tirupati')">Tirupati</a>
+                <a href="#contact" class="footer-link">Contact</a>
+              </div>
+
+              <div class="footer-links-col icon-links-col">
+                <button class="footer-icon-btn" onclick="app.openAdminModal()" title="Admin Login">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </button>
+                <a href="#" class="footer-icon-btn" title="Instagram">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                </a>
+                <a href="https://wa.me/${settings.whatsappNumber}" target="_blank" class="footer-icon-btn" title="WhatsApp">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+                </a>
               </div>
             </div>
-
-            <div>
-              <h4 class="footer-heading">Quick Links</h4>
-              <ul class="footer-links">
-                <li><a href="#about" class="footer-link">About Company</a></li>
-                <li><a href="#projects" class="footer-link">Project Portfolio</a></li>
-                <li><a href="#why-us" class="footer-link">Why Choose Us</a></li>
-                <li><a href="#leadership" class="footer-link">Board of Directors</a></li>
-                <li><a href="#contact" class="footer-link">Contact Us</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 class="footer-heading">Key Markets</h4>
-              <ul class="footer-links">
-                <li><a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Vellore')">Vellore Layouts</a></li>
-                <li><a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Tirupati')">Tirupati Layouts</a></li>
-                <li><a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Chittoor')">Chittoor Layouts</a></li>
-                <li><a href="#projects" class="footer-link" onclick="publicComponents.setFilter('Chennai')">Chennai Villa Plots</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h4 class="footer-heading">Statutory Approvals</h4>
-              <ul class="footer-links">
-                <li class="footer-link">DTCP Certified Layouts</li>
-                <li class="footer-link">CMDA & TUDA Clearances</li>
-                <li class="footer-link">RERA Registered Layouts</li>
-                <li class="footer-link">Clear Parent Title Deeds</li>
-                <li style="margin-top: 12px;">
-                  <button class="admin-trigger-btn" onclick="app.openAdminModal()">
-                    🔒 Admin Portal Access
-                  </button>
-                </li>
-              </ul>
-            </div>
           </div>
-
-          <div class="footer-bottom">
-            <div>© ${new Date().getFullYear()} Akshara Plotted Developments. All Rights Reserved.</div>
-            <div>Pure White Minimalist Architectural Design System</div>
+          <div class="footer-legal">
+            © ${new Date().getFullYear()} Akshara Plotted Developments. All Rights Reserved.
           </div>
         </div>
       </footer>
-
-      <!-- Floating WhatsApp Action -->
-      <a href="https://wa.me/${settings.whatsappNumber}?text=Hi%20Akshara%20Team,%20I%20am%20interested%20in%20viewing%20your%20plotted%20layouts." target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
-        💬
-      </a>
     `;
   },
 
@@ -613,15 +748,20 @@ window.publicComponents = {
 
   handleFormSubmit(e) {
     e.preventDefault();
-    const name = document.getElementById('leadName').value;
-    const phone = document.getElementById('leadPhone').value;
-    const email = document.getElementById('leadEmail').value;
-    const cityPref = document.getElementById('leadCityPref').value;
-    const projectPref = document.getElementById('leadProjectPref').value;
-    const message = document.getElementById('leadMessage').value;
+    const name = document.getElementById('leadName')?.value || '';
+    const phone = document.getElementById('leadPhone')?.value || '';
+    const email = document.getElementById('leadEmail')?.value || '';
+    const cityPref = document.getElementById('leadCityPref')?.value || 'Not Specified';
+    const projectPref = document.getElementById('leadProjectPref')?.value || 'Not Specified';
+    const message = document.getElementById('leadMessage')?.value || '';
 
     window.store.addLead({ name, phone, email, cityPref, projectPref, message });
-    app.showToast('✓ Thank you! Your enquiry has been received. Our team will contact you shortly.');
+    
+    const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nMessage: ${message}`;
+    const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
+    window.open(waUrl, '_blank');
+
+    app.showToast('✓ Redirecting to WhatsApp...');
     document.getElementById('publicEnquiryForm').reset();
   },
 
@@ -644,9 +784,63 @@ window.publicComponents = {
     app.showToast(`✓ Request submitted for ${projectName}. Layout officer assigned!`);
   },
 
+  isCardNavOpen: false,
+  cardNavTl: null,
+
   toggleMobileNav() {
-    const nav = document.getElementById('mobileNav');
-    nav.classList.toggle('open');
+    const isMobile = window.innerWidth <= 992;
+    if (!isMobile) return;
+
+    const nav = document.getElementById('mobileCardNav');
+    const content = document.getElementById('cardNavContent');
+    const hamburger = document.getElementById('mobileNavToggle');
+    const cards = document.querySelectorAll('.nav-card');
+    
+    if (!this.isCardNavOpen) {
+      this.isCardNavOpen = true;
+      hamburger.classList.add('open');
+      nav.classList.add('open');
+      
+      content.style.visibility = 'visible';
+      content.style.position = 'static';
+      content.style.pointerEvents = 'auto';
+      const contentHeight = content.scrollHeight;
+      content.style.position = 'absolute';
+      
+      const targetHeight = 60 + contentHeight + 16;
+      
+      if (typeof gsap !== 'undefined') {
+        gsap.set(cards, { y: 50, opacity: 0 });
+        
+        this.cardNavTl = gsap.timeline();
+        this.cardNavTl.to(nav, {
+          height: targetHeight,
+          duration: 0.4,
+          ease: "power3.out"
+        });
+        
+        this.cardNavTl.to(cards, {
+          y: 0,
+          opacity: 1,
+          duration: 0.4,
+          ease: "power3.out",
+          stagger: 0.08
+        }, "-=0.1");
+      }
+      
+    } else {
+      this.isCardNavOpen = false;
+      hamburger.classList.remove('open');
+      
+      if (this.cardNavTl && typeof gsap !== 'undefined') {
+        this.cardNavTl.reverse().then(() => {
+          nav.classList.remove('open');
+          content.style.visibility = 'hidden';
+          content.style.pointerEvents = 'none';
+          gsap.set(nav, { height: 60 });
+        });
+      }
+    }
   },
 
   scrollToTop(e) {

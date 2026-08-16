@@ -5,6 +5,7 @@
 class App {
   constructor() {
     this.isAdminViewOpen = false;
+    this.currentRoute = window.location.hash === '#contact' ? 'contact' : 'home';
   }
 
   init() {
@@ -29,26 +30,56 @@ class App {
       adminApp.style.display = 'none';
       publicApp.style.display = 'block';
 
-      publicApp.innerHTML = `
-        ${window.publicComponents.renderHeader()}
-        <main>
-          ${window.publicComponents.renderHero()}
-          ${window.publicComponents.renderAbout()}
-          <div id="projects-container">
-            ${window.publicComponents.renderProjects()}
-          </div>
-          ${window.publicComponents.renderWhyChoose()}
-          ${window.publicComponents.renderProcess()}
-          ${window.publicComponents.renderBoard()}
-          ${window.publicComponents.renderTestimonials()}
-          ${window.publicComponents.renderContact()}
-        </main>
-        ${window.publicComponents.renderFooter()}
-      `;
+      if (this.currentRoute === 'contact') {
+        publicApp.innerHTML = `
+          ${window.publicComponents.renderHeader()}
+          <main style="padding-top: var(--header-height);">
+            ${window.publicComponents.renderContactPage()}
+          </main>
+          ${window.publicComponents.renderFooter()}
+        `;
+        setTimeout(() => {
+          if (window.publicComponents.initSwipeButton) {
+            window.publicComponents.initSwipeButton();
+          }
+        }, 0);
+      } else {
+        publicApp.innerHTML = `
+          ${window.publicComponents.renderHeader()}
+          <main>
+            ${window.publicComponents.renderHero()}
+            ${window.publicComponents.renderAbout()}
+            <div id="projects-container">
+              ${window.publicComponents.renderProjects()}
+            </div>
+            ${window.publicComponents.renderWhyChoose()}
+            ${window.publicComponents.renderProcess()}
+            ${window.publicComponents.renderBoard()}
+            ${window.publicComponents.renderTestimonials()}
+          </main>
+          ${window.publicComponents.renderFooter()}
+        `;
+        // Initialize hero scroll zoom effect
+        setTimeout(() => {
+          if (window.publicComponents.initHeroScroll) {
+            window.publicComponents.initHeroScroll();
+          }
+        }, 0);
+      }
     }
   }
 
   setupEventListeners() {
+    // Handle route changes
+    window.addEventListener('hashchange', () => {
+      const newRoute = window.location.hash === '#contact' ? 'contact' : 'home';
+      if (this.currentRoute !== newRoute) {
+        this.currentRoute = newRoute;
+        this.renderApp();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    });
+
     // Escape key closes modal
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
