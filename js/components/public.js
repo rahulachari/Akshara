@@ -44,7 +44,7 @@ window.publicComponents = {
 
         <!-- Card Nav Content (Mobile Only) -->
         <div class="card-nav-content" id="cardNavContent">
-          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+          <div class="nav-card">
             <div class="nav-card-label">About</div>
             <div class="nav-card-links">
               <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">↗ About Us</a>
@@ -52,13 +52,13 @@ window.publicComponents = {
               <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">↗ Our Process</a>
             </div>
           </div>
-          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+          <div class="nav-card">
             <div class="nav-card-label">Projects</div>
             <div class="nav-card-links">
               <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">↗ Our Projects</a>
             </div>
           </div>
-          <div class="nav-card" style="background-color: #f8f9fa; color: #000; border: 1px solid #eaeaea;">
+          <div class="nav-card">
             <div class="nav-card-label">Contact</div>
             <div class="nav-card-links">
               <a class="nav-card-link" href="#contact" onclick="publicComponents.toggleMobileNav()">↗ Contact Us</a>
@@ -354,7 +354,7 @@ window.publicComponents = {
                   </ul>
 
                   <div class="project-footer">
-                    <button class="btn btn-primary btn-full" onclick="publicComponents.openProjectDetail('${proj.id}')">
+                    <button class="btn btn-secondary btn-full" onclick="publicComponents.openProjectDetail('${proj.id}')">
                       View Details & Masterplan
                     </button>
                   </div>
@@ -485,6 +485,21 @@ window.publicComponents = {
         quote: "Transparency was our priority. Akshara shared all RERA certifications and encumbrance reports upfront. Exceptional plotted developer!",
         name: "K. Mohan Das",
         location: "Plot Owner, Sriperumbudur Chennai"
+      },
+      {
+        quote: "The layout's eco-friendly planning and dedicated green spaces make it the perfect place to build our dream home.",
+        name: "P. Karthik",
+        location: "Plot Owner, Katpadi Vellore"
+      },
+      {
+        quote: "Clear titles and a very smooth registration process. Akshara’s team handled everything professionally.",
+        name: "A. Lakshmi",
+        location: "Plot Owner, Renigunta Tirupati"
+      },
+      {
+        quote: "Excellent location and premium amenities. The return on investment here has been beyond our expectations.",
+        name: "V. Harish",
+        location: "Plot Owner, Sriperumbudur Chennai"
       }
     ];
 
@@ -497,19 +512,35 @@ window.publicComponents = {
             <p class="section-subtitle">Real experiences from clients who bought plots in Akshara developments.</p>
           </div>
 
-          <div class="testimonials-grid">
-            ${testimonials.map(t => `
-              <div class="testimonial-card">
-                <p class="testimonial-quote">“${t.quote}”</p>
-                <div class="testimonial-author">
-                  <div class="author-avatar">${t.name[0]}</div>
-                  <div>
-                    <div class="author-name">${t.name}</div>
-                    <div class="author-meta">${t.location}</div>
+          <div class="testimonials-marquee-container">
+            <div class="testimonials-track">
+              ${[...testimonials, ...testimonials].map(t => `
+                <div class="testimonial-card">
+                  <p class="testimonial-quote">"${t.quote}"</p>
+                  <div class="testimonial-author">
+                    <div class="author-avatar">${t.name[0]}</div>
+                    <div>
+                      <div class="author-name">${t.name}</div>
+                      <div class="author-meta">${t.location}</div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            `).join('')}
+              `).join('')}
+            </div>
+            <div class="testimonials-track" aria-hidden="true">
+              ${[...testimonials, ...testimonials].map(t => `
+                <div class="testimonial-card">
+                  <p class="testimonial-quote">"${t.quote}"</p>
+                  <div class="testimonial-author">
+                    <div class="author-avatar">${t.name[0]}</div>
+                    <div>
+                      <div class="author-name">${t.name}</div>
+                      <div class="author-meta">${t.location}</div>
+                    </div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
           </div>
         </div>
       </section>
@@ -651,7 +682,7 @@ window.publicComponents = {
                 <a href="#" class="footer-icon-btn" title="Instagram">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
                 </a>
-                <a href="https://wa.me/${settings.whatsappNumber}" target="_blank" class="footer-icon-btn" title="WhatsApp">
+                <a href="https://wa.me/917013485016" target="_blank" class="footer-icon-btn" title="WhatsApp">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                 </a>
               </div>
@@ -736,7 +767,7 @@ window.publicComponents = {
               <div style="margin-bottom: 16px;">
                 <input type="email" id="modalLeadEmail" class="form-control" placeholder="Email Address" />
               </div>
-              <button type="submit" class="btn btn-primary btn-full">Request Site Visit & Layout Plan</button>
+              <button type="submit" class="btn btn-secondary btn-full">Request Site Visit & Layout Plan</button>
             </form>
           </div>
         </div>
@@ -815,16 +846,16 @@ window.publicComponents = {
         this.cardNavTl = gsap.timeline();
         this.cardNavTl.to(nav, {
           height: targetHeight,
-          duration: 0.4,
-          ease: "power3.out"
+          duration: 0.2,
+          ease: "power2.out"
         });
         
         this.cardNavTl.to(cards, {
           y: 0,
           opacity: 1,
-          duration: 0.4,
-          ease: "power3.out",
-          stagger: 0.08
+          duration: 0.2,
+          ease: "power2.out",
+          stagger: 0.04
         }, "-=0.1");
       }
       
