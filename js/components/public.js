@@ -81,16 +81,6 @@ window.publicComponents = {
               <p class="contact-page-desc">
                 We guide buyers in their investment journey to design their future perspectives. 100% verified titles and premium infrastructure.
               </p>
-              
-              <!-- Smooth Swipe Button -->
-              <div class="swipe-button-container" id="swipeBtnContainer">
-                <div class="swipe-button-track">
-                  <div class="swipe-button-thumb" id="swipeBtnThumb">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                  </div>
-                  <span class="swipe-button-text">Swipe to submit</span>
-                </div>
-              </div>
             </div>
             
             <div class="contact-page-right">
@@ -110,6 +100,28 @@ window.publicComponents = {
 
                   <div class="form-group">
                     <textarea id="leadMessage" class="form-control border-bottom-only" placeholder="Your message..." rows="3"></textarea>
+                  </div>
+
+                  <!-- Submit Area with Audio and Swipe -->
+                  <div style="display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-top: 40px;">
+                    <!-- Smooth Swipe Button -->
+                    <div class="swipe-button-container" id="swipeBtnContainer" style="margin-top: 0; flex: 1;">
+                      <div class="swipe-button-track">
+                        <div class="swipe-button-thumb" id="swipeBtnThumb">
+                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                        <span class="swipe-button-text">Swipe to submit</span>
+                      </div>
+                    </div>
+
+                    <!-- Minimal Audio Player -->
+                    <div class="audio-control" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" onclick="publicComponents.toggleMusic()" title="Toggle Music">
+                      <audio id="bgMusic" loop preload="auto">
+                        <source src="/assets/barely_there.mp3" type="audio/mpeg">
+                      </audio>
+                      <svg id="iconUnmuted" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                      <svg id="iconMuted" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+                    </div>
                   </div>
 
                   <button type="submit" id="hiddenSubmitBtn" style="display: none;"></button>
@@ -794,6 +806,23 @@ window.publicComponents = {
 
     app.showToast('✓ Redirecting to WhatsApp...');
     document.getElementById('publicEnquiryForm').reset();
+  },
+  toggleMusic() {
+    const audio = document.getElementById('bgMusic');
+    const iconUnmuted = document.getElementById('iconUnmuted');
+    const iconMuted = document.getElementById('iconMuted');
+    if (!audio) return;
+    
+    if (audio.paused) {
+      audio.play().then(() => {
+        if (iconUnmuted) iconUnmuted.style.display = 'block';
+        if (iconMuted) iconMuted.style.display = 'none';
+      }).catch(e => console.log('Audio play prevented:', e));
+    } else {
+      audio.pause();
+      if (iconUnmuted) iconUnmuted.style.display = 'none';
+      if (iconMuted) iconMuted.style.display = 'block';
+    }
   },
 
   handleModalFormSubmit(e, projectName, city) {

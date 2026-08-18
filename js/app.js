@@ -33,11 +33,40 @@ class App {
       if (this.currentRoute === 'contact') {
         publicApp.innerHTML = `
           ${window.publicComponents.renderHeader()}
-          <main style="padding-top: var(--header-height);">
+          <main>
             ${window.publicComponents.renderContactPage()}
           </main>
           ${window.publicComponents.renderFooter()}
         `;
+        const audio = document.getElementById('bgMusic');
+        const iconUnmuted = document.getElementById('iconUnmuted');
+        const iconMuted = document.getElementById('iconMuted');
+        if (audio && iconUnmuted && iconMuted) {
+          audio.play().then(() => {
+            iconUnmuted.style.display = 'block';
+            iconMuted.style.display = 'none';
+          }).catch(e => {
+            console.log('Autoplay blocked by browser. User must click to play.');
+            iconUnmuted.style.display = 'none';
+            iconMuted.style.display = 'block';
+            
+            const forcePlay = () => {
+              if (audio.paused) {
+                audio.play().then(() => {
+                  iconUnmuted.style.display = 'block';
+                  iconMuted.style.display = 'none';
+                }).catch(err => console.log('Forced play prevented:', err));
+              }
+              document.removeEventListener('click', forcePlay);
+              document.removeEventListener('scroll', forcePlay);
+              document.removeEventListener('touchstart', forcePlay);
+            };
+            document.addEventListener('click', forcePlay, { once: true });
+            document.addEventListener('scroll', forcePlay, { once: true });
+            document.addEventListener('touchstart', forcePlay, { once: true });
+          });
+        }
+
         setTimeout(() => {
           if (window.publicComponents.initSwipeButton) {
             window.publicComponents.initSwipeButton();
