@@ -10,7 +10,7 @@ window.publicComponents = {
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
         <div class="container header-inner card-nav-top">
           
-          <a href="#" class="brand-logo logo-container" onclick="publicComponents.scrollToTop(event)">
+          <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
             <div class="brand-logo-mark">A</div>
             <div>
               <div style="line-height: 1;">AKSHARA</div>
@@ -277,6 +277,38 @@ window.publicComponents = {
     this._onHeroScroll();
   },
 
+  initProcessScroll() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    
+    gsap.registerPlugin(ScrollTrigger);
+
+    const steps = gsap.utils.toArray('.scroll-step');
+    if (steps.length === 0) return;
+
+    // Timeline progress line
+    gsap.to('#processTimelineProgress', {
+      height: '100%',
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '.process-steps-right',
+        start: 'top center',
+        end: 'bottom center',
+        scrub: true
+      }
+    });
+
+    // Step cards reveal
+    steps.forEach((step, i) => {
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top center+=100',
+        end: 'bottom center-=100',
+        toggleClass: 'is-active',
+        once: false
+      });
+    });
+  },
+
   renderAbout() {
     return `
       <section class="section section-secondary" id="about">
@@ -429,20 +461,28 @@ window.publicComponents = {
     ];
 
     return `
-      <section class="section" id="process">
-        <div class="container">
-          <div class="section-header">
-            <span class="section-tag">Our Process</span>
-            <h2 class="section-title">Transparent 4-Step Layout Journey</h2>
-            <p class="section-subtitle">From initial site visit to receiving your registered plot title deed.</p>
+      <section class="section" id="process" style="background: var(--bg-primary); position: relative;">
+        <div class="container process-sticky-container">
+          <div class="process-sticky-left">
+            <div class="section-header" style="text-align: left; max-width: 100%;">
+              <span class="section-tag">Our Process</span>
+              <h2 class="section-title">Transparent 4-Step Layout Journey</h2>
+              <p class="section-subtitle" style="margin-left: 0;">From initial site visit to receiving your registered plot title deed.</p>
+            </div>
           </div>
-
-          <div class="process-grid">
-            ${steps.map(s => `
-              <div class="process-card">
-                <div class="process-step-number">${s.step}</div>
-                <h3 class="process-title">${s.title}</h3>
-                <p class="process-desc">${s.desc}</p>
+          
+          <div class="process-steps-right">
+            <div class="process-timeline-line">
+              <div class="process-timeline-progress" id="processTimelineProgress"></div>
+            </div>
+            ${steps.map((s, idx) => `
+              <div class="process-card scroll-step" data-step="${idx}">
+                <div class="process-step-indicator"></div>
+                <div class="process-card-content">
+                  <div class="process-step-number">${s.step}</div>
+                  <h3 class="process-title">${s.title}</h3>
+                  <p class="process-desc">${s.desc}</p>
+                </div>
               </div>
             `).join('')}
           </div>
@@ -615,7 +655,7 @@ window.publicComponents = {
                   <input type="text" id="leadName" class="form-control" placeholder="e.g. Anand Kumar" required />
                 </div>
 
-                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px;">
                   <div>
                     <label class="form-label">Phone Number *</label>
                     <input type="tel" id="leadPhone" class="form-control" placeholder="+91 98765 43210" required />
@@ -626,7 +666,7 @@ window.publicComponents = {
                   </div>
                 </div>
 
-                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+                <div class="form-group" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px;">
                   <div>
                     <label class="form-label">City Preference</label>
                     <select id="leadCityPref" class="form-control">
@@ -660,10 +700,11 @@ window.publicComponents = {
     `;
   },
 
-  renderFooter() {
+  renderFooter(options = {}) {
     const settings = window.store.getSettings();
+    const bgColor = options.isDark ? '#111' : 'var(--bg-primary)';
     return `
-      <footer class="footer-redesigned">
+      <footer class="footer-redesigned" style="background-color: ${bgColor};">
         <div class="container">
           <div class="footer-dark-box">
             <div class="footer-left-col">
@@ -735,7 +776,7 @@ window.publicComponents = {
           </p>
 
           <!-- Key Details Grid -->
-          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; background: var(--bg-secondary); border-radius: var(--radius-sm); margin-bottom: 32px;">
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 16px; padding: 20px; background: var(--bg-secondary); border-radius: var(--radius-sm); margin-bottom: 32px;">
             <div>
               <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Plot Size Range</div>
               <div style="font-size: 1.1rem; font-weight: 800;">${proj.plotSizes}</div>
@@ -759,7 +800,7 @@ window.publicComponents = {
           <!-- Amenities -->
           <div style="margin-bottom: 32px;">
             <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 16px;">Layout Amenities & Infrastructure</h3>
-            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 12px;">
               ${proj.amenities.map(a => `
                 <div style="padding: 12px; background: var(--bg-primary); border: 1px solid var(--border-light); border-radius: var(--radius-sm); font-weight: 700; font-size: 0.9rem;">
                   ✓ ${a}
@@ -772,7 +813,7 @@ window.publicComponents = {
           <div style="padding: 32px; background: var(--bg-secondary); border-radius: var(--radius-md); border: 1px solid var(--border-light);">
             <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 16px;">Enquire for ${proj.name} Layout Details</h3>
             <form onsubmit="publicComponents.handleModalFormSubmit(event, '${proj.name}', '${proj.city}')">
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 16px; margin-bottom: 16px;">
                 <input type="text" id="modalLeadName" class="form-control" placeholder="Your Name *" required />
                 <input type="tel" id="modalLeadPhone" class="form-control" placeholder="Phone Number *" required />
               </div>

@@ -31,12 +31,13 @@ class App {
       publicApp.style.display = 'block';
 
       if (this.currentRoute === 'contact') {
+        document.body.style.backgroundColor = '#111';
         publicApp.innerHTML = `
           ${window.publicComponents.renderHeader()}
           <main>
             ${window.publicComponents.renderContactPage()}
           </main>
-          ${window.publicComponents.renderFooter()}
+          ${window.publicComponents.renderFooter({ isDark: true })}
         `;
         const audio = document.getElementById('bgMusic');
         const iconUnmuted = document.getElementById('iconUnmuted');
@@ -73,6 +74,7 @@ class App {
           }
         }, 0);
       } else {
+        document.body.style.backgroundColor = 'var(--bg-primary)';
         publicApp.innerHTML = `
           ${window.publicComponents.renderHeader()}
           <main>
@@ -88,10 +90,13 @@ class App {
           </main>
           ${window.publicComponents.renderFooter()}
         `;
-        // Initialize hero scroll zoom effect
+        // Initialize animations
         setTimeout(() => {
           if (window.publicComponents.initHeroScroll) {
             window.publicComponents.initHeroScroll();
+          }
+          if (window.publicComponents.initProcessScroll) {
+            window.publicComponents.initProcessScroll();
           }
         }, 0);
       }
