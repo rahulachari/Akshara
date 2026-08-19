@@ -9,10 +9,9 @@ window.publicComponents = {
     return `
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
         <div class="container header-inner card-nav-top">
-          
           <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
-            <div class="brand-logo-mark">A</div>
-            <div>
+            <div class="brand-logo-mark"><span style="transform: translateY(-2px); line-height: 1; display: block;">A</span></div>
+            <div style="display: flex; align-items: center;">
               <div style="line-height: 1;">AKSHARA</div>
             </div>
           </a>
@@ -33,9 +32,10 @@ window.publicComponents = {
             </ul>
           </nav>
 
-          <div class="header-actions">
+          <div class="header-actions" style="display: flex; align-items: center; justify-content: center;">
             <button class="hamburger-menu mobile-menu-toggle" id="mobileNavToggle" aria-label="Menu" onclick="publicComponents.toggleMobileNav()">
-              <div class="hamburger-line"></div>
+              <div class="hamburger-line" style="margin-bottom: 4px;"></div>
+              <div class="hamburger-line" style="margin-bottom: 4px;"></div>
               <div class="hamburger-line"></div>
             </button>
           </div>
@@ -44,27 +44,12 @@ window.publicComponents = {
 
         <!-- Card Nav Content (Mobile Only) -->
         <div class="card-nav-content" id="cardNavContent">
-          <div class="nav-card">
-            <div class="nav-card-label">About</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">↗ About Us</a>
-              <a class="nav-card-link" href="#why-us" onclick="publicComponents.toggleMobileNav()">↗ Why Akshara</a>
-              <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">↗ Our Process</a>
-            </div>
-          </div>
-          <div class="nav-card">
-            <div class="nav-card-label">Projects</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">↗ Our Projects</a>
-            </div>
-          </div>
-          <div class="nav-card">
-            <div class="nav-card-label">Contact</div>
-            <div class="nav-card-links">
-              <a class="nav-card-link" href="#contact" onclick="publicComponents.toggleMobileNav()">↗ Contact Us</a>
-              <a class="nav-card-link" href="#" onclick="publicComponents.toggleMobileNav(); app.openAdminModal();">↗ Admin Login</a>
-            </div>
-          </div>
+          <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">About Us</a>
+          <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">Our Projects</a>
+          <a class="nav-card-link" href="#why-us" onclick="publicComponents.toggleMobileNav()">Why Akshara</a>
+          <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">Our Process</a>
+          
+          <a href="#contact" class="mobile-cta-btn" onclick="publicComponents.toggleMobileNav()">Contact Us</a>
         </div>
       </header>
     `;
@@ -555,43 +540,41 @@ window.publicComponents = {
       }
     ];
 
+    const row1 = testimonials;
+    const row2 = [...testimonials].reverse();
+
+    const generateTrack = (items) => {
+      const duplicated = [...items, ...items];
+      return duplicated.map(t => `
+        <div class="testimonial-card">
+          <p class="card-text">"${t.quote}"</p>
+          <div class="card-footer">
+            <p class="author-name">${t.name}</p>
+            <p class="author-title">${t.location}</p>
+          </div>
+        </div>
+      `).join('');
+    };
+
     return `
-      <section class="section" id="testimonials">
+      <section class="section testimonials-section" id="testimonials">
         <div class="container">
           <div class="section-header">
             <span class="section-tag">Client Feedback</span>
             <h2 class="section-title">What Plot Owners Say</h2>
             <p class="section-subtitle">Real experiences from clients who bought plots in Akshara developments.</p>
           </div>
+        </div>
 
-          <div class="testimonials-marquee-container">
-            <div class="testimonials-track">
-              ${[...testimonials, ...testimonials].map(t => `
-                <div class="testimonial-card">
-                  <p class="testimonial-quote">"${t.quote}"</p>
-                  <div class="testimonial-author">
-                    <div class="author-avatar">${t.name[0]}</div>
-                    <div>
-                      <div class="author-name">${t.name}</div>
-                      <div class="author-meta">${t.location}</div>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
+        <div class="marquee-container">
+          <div class="marquee-row marquee-row-left">
+            <div class="marquee-track">
+              ${generateTrack(row1)}
             </div>
-            <div class="testimonials-track" aria-hidden="true">
-              ${[...testimonials, ...testimonials].map(t => `
-                <div class="testimonial-card">
-                  <p class="testimonial-quote">"${t.quote}"</p>
-                  <div class="testimonial-author">
-                    <div class="author-avatar">${t.name[0]}</div>
-                    <div>
-                      <div class="author-name">${t.name}</div>
-                      <div class="author-meta">${t.location}</div>
-                    </div>
-                  </div>
-                </div>
-              `).join('')}
+          </div>
+          <div class="marquee-row marquee-row-right">
+            <div class="marquee-track">
+              ${generateTrack(row2)}
             </div>
           </div>
         </div>
@@ -745,7 +728,17 @@ window.publicComponents = {
             © ${new Date().getFullYear()} Akshara Plotted Developments. All Rights Reserved.
           </div>
         </div>
+
+        <button class="back-to-top-btn" id="backToTopBtn" onclick="window.scrollTo({top: 0, behavior: 'smooth'})" aria-label="Back to top">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+        </button>
       </footer>
+
+      ${options.hideGiantText ? '' : `
+      <div class="footer-giant-text-wrapper">
+        <h1 class="footer-giant-text">Akshara.</h1>
+      </div>
+      `}
     `;
   },
 
@@ -895,7 +888,7 @@ window.publicComponents = {
     const nav = document.getElementById('mobileCardNav');
     const content = document.getElementById('cardNavContent');
     const hamburger = document.getElementById('mobileNavToggle');
-    const cards = document.querySelectorAll('.nav-card');
+    const links = document.querySelectorAll('.nav-card-link, .mobile-cta-btn');
     
     if (!this.isCardNavOpen) {
       this.isCardNavOpen = true;
@@ -908,25 +901,25 @@ window.publicComponents = {
       const contentHeight = content.scrollHeight;
       content.style.position = 'absolute';
       
-      const targetHeight = 60 + contentHeight + 16;
+      const targetHeight = 60 + contentHeight + 24; // 24px bottom padding
       
       if (typeof gsap !== 'undefined') {
-        gsap.set(cards, { y: 50, opacity: 0 });
+        gsap.set(links, { y: 20, opacity: 0 });
         
         this.cardNavTl = gsap.timeline();
         this.cardNavTl.to(nav, {
           height: targetHeight,
-          duration: 0.2,
-          ease: "power2.out"
+          duration: 0.6,
+          ease: "expo.inOut" // Liquid glass effect
         });
         
-        this.cardNavTl.to(cards, {
+        this.cardNavTl.to(links, {
           y: 0,
           opacity: 1,
-          duration: 0.2,
+          duration: 0.4,
           ease: "power2.out",
-          stagger: 0.04
-        }, "-=0.1");
+          stagger: 0.05
+        }, "-=0.3"); // Overlap with container drop
       }
       
     } else {

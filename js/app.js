@@ -31,13 +31,12 @@ class App {
       publicApp.style.display = 'block';
 
       if (this.currentRoute === 'contact') {
-        document.body.style.backgroundColor = '#111';
         publicApp.innerHTML = `
           ${window.publicComponents.renderHeader()}
           <main>
             ${window.publicComponents.renderContactPage()}
           </main>
-          ${window.publicComponents.renderFooter({ isDark: true })}
+          ${window.publicComponents.renderFooter({ isDark: true, hideGiantText: true })}
         `;
         const audio = document.getElementById('bgMusic');
         const iconUnmuted = document.getElementById('iconUnmuted');
@@ -118,6 +117,18 @@ class App {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         this.closeGlobalModal();
+      }
+    });
+
+    // Handle scroll for back-to-top button
+    window.addEventListener('scroll', () => {
+      const btn = document.getElementById('backToTopBtn');
+      if (btn) {
+        if (window.scrollY > 300) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
       }
     });
   }

@@ -1,5 +1,5 @@
 /* Akshara Plotted Developments - High-End Minimalist Design System */
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 :root {
   --bg-primary: #FFFFFF;
@@ -21,7 +21,7 @@
   --badge-upcoming: #52525B;
   --badge-sold: #A1A1AA;
 
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --max-width: 1280px;
   --header-height: 80px;
   
@@ -47,6 +47,7 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
+  background-color: #ffffff; /* Prevents black blur bleed on contact page */
 }
 
 body {
@@ -225,10 +226,18 @@ img {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .header-pill-style .header-inner {
-    width: calc(100% - 32px);
-    margin: 10px auto 0;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    border-radius: 0;
+    margin: 0;
+    width: 100%;
+    height: 60px;
+    padding: 0;
   }
 }
 
@@ -385,24 +394,25 @@ img {
   }
 
   .card-nav-container {
-    position: absolute !important;
-    top: 1.2em;
+    position: fixed !important;
+    top: 12px !important;
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 92%;
     max-width: 800px;
     height: 60px;
+    padding: 0 !important;
     z-index: 2000;
     box-sizing: border-box;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background-color: rgba(10, 10, 10, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 999px;
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
     overflow: hidden;
     will-change: height;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: background-color 0.5s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.5s cubic-bezier(0.19, 1, 0.22, 1), border-radius 0.5s cubic-bezier(0.19, 1, 0.22, 1);
   }
   
   .card-nav-container.open {
@@ -411,16 +421,16 @@ img {
     border-color: rgba(255, 255, 255, 0.15);
   }
 
-  .card-nav-top {
+  .header-pill-style .card-nav-top {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
-    height: 60px;
+    width: 100%;
+    height: 60px; /* Must remain 60px so it stays pinned to the top when the menu opens */
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 1rem;
+    padding: 0 16px 0 12px; /* 12px perfectly centers the 36px circle inside the 60px pill's left curve */
     z-index: 2;
   }
 
@@ -453,11 +463,15 @@ img {
   }
 
   .hamburger-menu.open .hamburger-line:first-child {
-    transform: translateY(4px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  .hamburger-menu.open .hamburger-line:nth-child(2) {
+    opacity: 0;
   }
 
   .hamburger-menu.open .hamburger-line:last-child {
-    transform: translateY(-4px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
   }
 
   .logo-container {
@@ -483,51 +497,39 @@ img {
     justify-content: flex-start;
   }
 
-  .nav-card {
-    min-height: 70px;
-    flex: 1 1 auto;
-    border-radius: 0.55rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 16px 20px;
-    gap: 12px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #FFFFFF;
-  }
-
-  .nav-card-label {
-    font-weight: 700;
-    font-size: 26px;
-    letter-spacing: -0.5px;
-    font-family: 'Playfair Display', serif;
-  }
-
-  .nav-card-links {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
   .nav-card-link {
-    font-size: 17px;
+    font-size: 22px;
     cursor: pointer;
     text-decoration: none;
     transition: opacity 0.3s ease;
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    gap: 6px;
-    color: inherit;
-    font-weight: 700;
-    padding: 8px 0;
-    min-height: 44px;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 12px 24px;
+    font-family: system-ui, -apple-system, sans-serif;
   }
   
   .nav-card-link:hover {
     opacity: 0.7;
-    color: inherit;
+    color: #FFFFFF;
+  }
+
+  .mobile-cta-btn {
+    margin-top: auto;
+    border-radius: 999px;
+    background: #a3e635;
+    color: #000;
+    border: none;
+    font-weight: 700;
+    padding: 16px;
+    font-size: 1.1rem;
+    text-align: center;
+    margin-bottom: 16px;
+    margin-left: 16px;
+    margin-right: 16px;
+    text-decoration: none;
+    display: block;
   }
 }
 
@@ -579,15 +581,14 @@ img {
 }
 
 .akshara-hero-title {
-  font-family: 'Colus', 'Playfair Display', serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   font-size: clamp(3rem, 16vw, 18rem);
-  font-weight: normal;
+  font-weight: 700; /* Reduced from 800 to be less chunky */
   margin: 0;
-  line-height: 0.9;
+  line-height: 0.85;
   text-transform: uppercase;
-  letter-spacing: 0.02em;
-  color: #FFFFFF;
-  mix-blend-mode: difference;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.85); /* Semi-transparent to let the background breathe */
 }
 
 .hero-subtitle {
@@ -1108,26 +1109,27 @@ img {
 
 /* Professional Dark Theme for Leadership Section */
 #leadership {
-  background-color: #0F172A; /* Deep slate blue */
-  color: #F8FAFC;
+  background-color: #000000;
+  background-image: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 80%); /* Premium spotlight effect */
+  color: #FFFFFF;
 }
 #leadership .section-tag {
   background-color: rgba(255, 255, 255, 0.05);
-  color: #E2E8F0;
-  border-color: rgba(255, 255, 255, 0.15);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 #leadership .section-title {
   color: #FFFFFF;
 }
 #leadership .section-subtitle {
-  color: #94A3B8;
+  color: #A1A1AA;
 }
 #leadership .board-card {
-  border-color: #334155;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border-color: #27272A;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 #leadership .board-card:hover {
-  border-color: #64748B;
+  border-color: #52525B;
 }
 
 /* Testimonials */
@@ -1956,5 +1958,190 @@ textarea.form-control {
     width: 100%;
     border-right: none;
     border-bottom: 1px solid var(--border-light);
+  }
+}
+
+/* Testimonials Marquee Section */
+.testimonials-section {
+  background-color: var(--bg-primary);
+  padding: clamp(60px, 10vw, 100px) 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0;
+}
+
+.marquee-row {
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  padding-right: 24px; /* Essential for perfect loop */
+  width: max-content;
+  will-change: transform;
+}
+
+.marquee-row-left .marquee-track {
+  animation: marqueeLeft 45s linear infinite;
+}
+
+.marquee-row-right .marquee-track {
+  animation: marqueeRight 45s linear infinite;
+}
+
+.marquee-row:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.testimonial-card {
+  width: 380px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-pop);
+}
+
+
+.card-text {
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  flex-grow: 1;
+  font-style: italic;
+}
+
+.card-footer {
+  margin-top: 16px;
+  border-top: 1px solid var(--border-light);
+  padding-top: 16px;
+}
+
+.author-name {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.author-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marqueeRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+@media (max-width: 768px) {
+  .testimonial-card {
+    width: 300px;
+    padding: 24px;
+  }
+  .marquee-container {
+    gap: 16px;
+  }
+  .marquee-track {
+    gap: 16px;
+    padding-right: 16px;
+  }
+}
+
+.footer-giant-text-wrapper {
+  background-color: #ffffff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px 0px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-giant-text {
+  font-size: clamp(60px, 20vw, 350px);
+  font-weight: 800;
+  line-height: 0.75;
+  letter-spacing: -0.07em;
+  margin: 0;
+  padding-bottom: 0px;
+  text-align: center;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  transform: translateY(28%); /* Pushes text down so it gets chopped by the container's overflow: hidden */
+  
+  /* Fade effect */
+  background: linear-gradient(to bottom, #000000 10%, rgba(0,0,0,0) 110%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.back-to-top-btn {
+  position: fixed;
+  bottom: 96px; /* Above whatsapp button */
+  right: 28px;
+  width: 50px;
+  height: 50px;
+  background-color: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+  z-index: 990;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.back-to-top-btn.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.back-to-top-btn:hover {
+  transform: translateY(-5px);
+  background-color: #222222;
+}
+
+@media (max-width: 768px) {
+  .back-to-top-btn {
+    bottom: 96px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+  }
+  .footer-giant-text-wrapper {
+    padding: 40px 20px 10px 20px;
   }
 }
