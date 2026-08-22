@@ -10,9 +10,11 @@ window.publicComponents = {
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
         <div class="container header-inner card-nav-top">
           <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
-            <div class="brand-logo-mark"><span style="transform: translateY(-2px); line-height: 1; display: block;">A</span></div>
+            <div class="brand-logo-mark" style="background: #ffffff; padding: 4px; display: flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 50%; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+              <img src="assets/Akshara_logo.png" alt="Akshara Logo" style="width: 24px; height: 24px; object-fit: contain;" />
+            </div>
             <div style="display: flex; align-items: center;">
-              <div style="line-height: 1;">AKSHARA</div>
+              <div style="line-height: 1; font-weight: 800; letter-spacing: -0.04em;">AKSHARA</div>
             </div>
           </a>
 
@@ -321,7 +323,7 @@ window.publicComponents = {
           </div>
 
           <div style="position: relative;">
-            <img src="assets/project_vellore.png" alt="Akshara Infrastructure Showcase" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light);" />
+            <img src="assets/about_showcase.png" alt="Akshara Infrastructure Showcase" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light); width: 100%; height: 100%; object-fit: cover;" />
           </div>
         </div>
       </section>
@@ -383,8 +385,13 @@ window.publicComponents = {
                   </ul>
 
                   <div class="project-footer">
+                    ${(proj.city === 'Vellore' || proj.city === 'Chittoor') ? `
+                      <a href="#blueprint:${encodeURIComponent(proj.name)}" class="btn btn-primary btn-full" style="margin-bottom: 8px; display: inline-block; text-align: center;">
+                        View Interactive Blueprint
+                      </a>
+                    ` : ''}
                     <button class="btn btn-secondary btn-full" onclick="publicComponents.openProjectDetail('${proj.id}')">
-                      View Details & Masterplan
+                      Enquire Now
                     </button>
                   </div>
                 </div>
@@ -505,6 +512,8 @@ window.publicComponents = {
       </section>
     `;
   },
+
+
 
   renderTestimonials() {
     const testimonials = [
@@ -691,9 +700,10 @@ window.publicComponents = {
         <div class="container">
           <div class="footer-dark-box">
             <div class="footer-left-col">
-              <div class="footer-logo">
-                <div class="brand-logo-mark" style="background:#fff; color:#000;">A</div>
-                <div style="font-size: 1.5rem; font-weight: 800; letter-spacing: -0.04em;">AKSHARA</div>
+              <div class="footer-logo" style="margin-bottom: 20px;">
+                <div style="background: #ffffff; padding: 10px 22px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.2);">
+                  <img src="assets/Akshara_logo.png" alt="Akshara One" style="height: 44px; width: auto; object-fit: contain; display: block;" />
+                </div>
               </div>
               <h2 class="footer-tagline">Premium Plotted Developments<br/>Built for the Future</h2>
             </div>
@@ -786,8 +796,27 @@ window.publicComponents = {
 
           <!-- Masterplan Graphic -->
           <div style="margin-bottom: 32px;">
-            <h3 style="font-size: 1.3rem; font-weight: 800; margin-bottom: 12px;">Master Layout Blueprint</h3>
-            <img src="${proj.layoutPlan}" alt="Masterplan layout blueprint" style="width:100%; border-radius:var(--radius-sm); border:1px solid var(--border-light);" />
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+              <h3 style="font-size: 1.3rem; font-weight: 800; margin: 0;">Master Layout Blueprint</h3>
+              ${proj.layoutPlan && proj.layoutPlan.endsWith('.pdf') ? `
+                <a href="${proj.layoutPlan}" target="_blank" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+                  <span>Open Full PDF</span> ↗
+                </a>
+              ` : `
+                <a href="${proj.layoutPlan}" target="_blank" class="btn btn-secondary" style="padding: 6px 14px; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 6px;">
+                  <span>View HD Blueprint</span> 🔍
+                </a>
+              `}
+            </div>
+            ${proj.layoutPlan && proj.layoutPlan.endsWith('.pdf') ? `
+              <div style="position: relative; width: 100%; height: 480px; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-light); background: #f8f9fa;">
+                <iframe src="${proj.layoutPlan}" style="width: 100%; height: 100%; border: none;" title="Masterplan blueprint PDF"></iframe>
+              </div>
+            ` : `
+              <div style="width: 100%; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--border-light); background: #ffffff; text-align: center;">
+                <img src="${proj.layoutPlan}" alt="Masterplan layout blueprint" style="width: 100%; max-height: 500px; object-fit: contain; display: block;" />
+              </div>
+            `}
           </div>
 
           <!-- Amenities -->
@@ -940,5 +969,1003 @@ window.publicComponents = {
   scrollToTop(e) {
     e.preventDefault();
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  },
+
+// Interactive Blueprint Page (Light / Main-Page Match Theme)
+  renderBlueprintPage(projectName) {
+    if (!projectName) projectName = 'Akshara Urban Enclave';
+    const proj = window.store.getProjects('All').find(p => p.name === projectName) || { name: projectName, city: 'Chittoor', location: 'Bangalore Road, Chittoor' };
+    
+    const isVellore = proj.city && proj.city.toLowerCase() === 'vellore';
+    
+    // Vellore Layout (Option A) SVG
+    const velloreSvg = `
+      <!-- OPTION-A (Vellore Layout) Sub-Pixel Exact CAD Polygons -->
+      <!-- Commercial Space: 14,111 SQFT -->
+      <polygon points="164,231 398,214 398,356 189,356" class="blueprint-plot commercial-unit" data-phase="commercial" onclick="publicComponents.showPlotDetails('vellore-commercial', event)">
+        <title>Commercial Space - 14,111 Sq.ft</title>
+      </polygon>
+      <text x="281" y="292" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="800">COMMERCIAL</text>
+      
+      <!-- Plot 5: 6,784 SQFT -->
+      <polygon points="398,214 497,207 497,356 398,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-5', event)">
+        <title>Plot 5 - 6,784 Sq.ft</title>
+      </polygon>
+      <text x="447" y="290" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="700">PLOT-5</text>
+      
+      <!-- Plot 3: 4,924 SQFT -->
+      <polygon points="531,204 659,193 659,280 531,280" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-3', event)">
+        <title>Plot 3 - 4,924 Sq.ft</title>
+      </polygon>
+      <text x="595" y="244" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="700">PLOT-3</text>
+      
+      <!-- Plot 4: 4,543 SQFT -->
+      <polygon points="531,280 659,280 659,356 531,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-4', event)">
+        <title>Plot 4 - 4,543 Sq.ft</title>
+      </polygon>
+      <text x="595" y="324" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="700">PLOT-4</text>
+      
+      <!-- Plot 1: 5,700 SQFT -->
+      <polygon points="659,193 786,184 786,280 659,280" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-1', event)">
+        <title>Plot 1 - 5,700 Sq.ft (Corner)</title>
+      </polygon>
+      <text x="722" y="240" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="700">PLOT-1</text>
+      
+      <!-- Plot 2: 4,454 SQFT -->
+      <polygon points="659,280 786,280 786,356 659,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-2', event)">
+        <title>Plot 2 - 4,454 Sq.ft</title>
+      </polygon>
+      <text x="722" y="324" class="blueprint-plot-num" text-anchor="middle" font-size="11" font-weight="700">PLOT-2</text>
+    `;
+
+    // Chittoor Layout SVG (Exact CAD Mapped Numbers 1-83)
+    const chittoorSvgContent = `
+        <!-- Plot #71 (1150 SQFT) -->
+        <rect x="2360" y="876" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-71', event)">
+          <title>Plot #71 - 1,150 Sq.ft (Irregular (1150 sq.ft))</title>
+        </rect>
+        <text x="2550" y="1040" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">71</text>
+        <!-- Plot #72 (1200 SQFT) -->
+        <rect x="2360" y="1176" width="380" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-72', event)">
+          <title>Plot #72 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="1338" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">72</text>
+        <!-- Plot #73 (1200 SQFT) -->
+        <rect x="2360" y="1472" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-73', event)">
+          <title>Plot #73 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="1636" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">73</text>
+        <!-- Plot #74 (1200 SQFT) -->
+        <rect x="2360" y="1772" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-74', event)">
+          <title>Plot #74 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="1936" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">74</text>
+        <!-- Plot #75 (1150 SQFT) -->
+        <rect x="2360" y="2072" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-75', event)">
+          <title>Plot #75 - 1,150 Sq.ft (Irregular (1150 sq.ft))</title>
+        </rect>
+        <text x="2550" y="2236" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">75</text>
+        <!-- Plot #76 (1200 SQFT) -->
+        <rect x="2360" y="2668" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-76', event)">
+          <title>Plot #76 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">76</text>
+        <!-- Plot #77 (1200 SQFT) -->
+        <rect x="2360" y="2968" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-77', event)">
+          <title>Plot #77 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">77</text>
+        <!-- Plot #78 (1200 SQFT) -->
+        <rect x="2360" y="3268" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-78', event)">
+          <title>Plot #78 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">78</text>
+        <!-- Plot #79 (1200 SQFT) -->
+        <rect x="2360" y="3568" width="380" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-79', event)">
+          <title>Plot #79 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">79</text>
+        <!-- Plot #80 (1200 SQFT) -->
+        <rect x="2360" y="3864" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-80', event)">
+          <title>Plot #80 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">80</text>
+        <!-- Plot #81 (1200 SQFT) -->
+        <rect x="2360" y="4164" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-81', event)">
+          <title>Plot #81 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">81</text>
+        <!-- Plot #82 (1200 SQFT) -->
+        <rect x="2360" y="4464" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-82', event)">
+          <title>Plot #82 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="2550" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">82</text>
+        <!-- Plot #83 (1265 SQFT) -->
+        <rect x="2360" y="4760" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-83', event)">
+          <title>Plot #83 - 1,265 Sq.ft (Irregular (1265 sq.ft))</title>
+        </rect>
+        <text x="2550" y="4924" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">83</text>
+        <!-- Plot #68 (1244 SQFT) -->
+        <rect x="2916" y="876" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-68', event)">
+          <title>Plot #68 - 1,244 Sq.ft (Irregular (1244 sq.ft))</title>
+        </rect>
+        <text x="3112" y="1040" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">68</text>
+        <!-- Plot #67 (1200 SQFT) -->
+        <rect x="2916" y="1176" width="392" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-67', event)">
+          <title>Plot #67 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="1338" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">67</text>
+        <!-- Plot #66 (1200 SQFT) -->
+        <rect x="2916" y="1472" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-66', event)">
+          <title>Plot #66 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="1636" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">66</text>
+        <!-- Plot #65 (1200 SQFT) -->
+        <rect x="2916" y="1772" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-65', event)">
+          <title>Plot #65 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="1936" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">65</text>
+        <!-- Plot #64 (1200 SQFT) -->
+        <rect x="2916" y="2072" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-64', event)">
+          <title>Plot #64 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="2236" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">64</text>
+        <!-- Plot #63 (1200 SQFT) -->
+        <rect x="2916" y="2668" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-63', event)">
+          <title>Plot #63 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">63</text>
+        <!-- Plot #62 (1200 SQFT) -->
+        <rect x="2916" y="2968" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-62', event)">
+          <title>Plot #62 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">62</text>
+        <!-- Plot #61 (1200 SQFT) -->
+        <rect x="2916" y="3268" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-61', event)">
+          <title>Plot #61 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">61</text>
+        <!-- Plot #60 (1200 SQFT) -->
+        <rect x="2916" y="3568" width="392" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-60', event)">
+          <title>Plot #60 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">60</text>
+        <!-- Plot #59 (1200 SQFT) -->
+        <rect x="2916" y="3864" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-59', event)">
+          <title>Plot #59 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">59</text>
+        <!-- Plot #58 (1200 SQFT) -->
+        <rect x="2916" y="4164" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-58', event)">
+          <title>Plot #58 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">58</text>
+        <!-- Plot #57 (1200 SQFT) -->
+        <rect x="2916" y="4464" width="392" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-57', event)">
+          <title>Plot #57 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3112" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">57</text>
+        <!-- Plot #45 (1010 SQFT) -->
+        <rect x="3312" y="876" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-45', event)">
+          <title>Plot #45 - 1,010 Sq.ft (Irregular (1010 sq.ft))</title>
+        </rect>
+        <text x="3510" y="1040" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">45</text>
+        <!-- Plot #46 (1200 SQFT) -->
+        <rect x="3312" y="1176" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-46', event)">
+          <title>Plot #46 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="1338" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">46</text>
+        <!-- Plot #47 (1200 SQFT) -->
+        <rect x="3312" y="1472" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-47', event)">
+          <title>Plot #47 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="1636" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">47</text>
+        <!-- Plot #48 (1200 SQFT) -->
+        <rect x="3312" y="1772" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-48', event)">
+          <title>Plot #48 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="1936" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">48</text>
+        <!-- Plot #49 (1200 SQFT) -->
+        <rect x="3312" y="2072" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-49', event)">
+          <title>Plot #49 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="2236" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">49</text>
+        <!-- Plot #50 (1200 SQFT) -->
+        <rect x="3312" y="2668" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-50', event)">
+          <title>Plot #50 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">50</text>
+        <!-- Plot #51 (1200 SQFT) -->
+        <rect x="3312" y="2968" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-51', event)">
+          <title>Plot #51 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">51</text>
+        <!-- Plot #52 (1200 SQFT) -->
+        <rect x="3312" y="3268" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-52', event)">
+          <title>Plot #52 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">52</text>
+        <!-- Plot #53 (1200 SQFT) -->
+        <rect x="3312" y="3568" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-53', event)">
+          <title>Plot #53 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">53</text>
+        <!-- Plot #54 (1200 SQFT) -->
+        <rect x="3312" y="3864" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-54', event)">
+          <title>Plot #54 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">54</text>
+        <!-- Plot #55 (1200 SQFT) -->
+        <rect x="3312" y="4164" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-55', event)">
+          <title>Plot #55 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="3510" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">55</text>
+        <!-- Plot #56 (1265 SQFT) -->
+        <rect x="3312" y="4464" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-56', event)">
+          <title>Plot #56 - 1,265 Sq.ft (Irregular (1265 sq.ft))</title>
+        </rect>
+        <text x="3510" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">56</text>
+        <!-- Plot #42 (1200 SQFT) -->
+        <rect x="3960" y="876" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-42', event)">
+          <title>Plot #42 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="1040" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">42</text>
+        <!-- Plot #41 (1200 SQFT) -->
+        <rect x="3960" y="1176" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-41', event)">
+          <title>Plot #41 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="1338" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">41</text>
+        <!-- Plot #40 (1200 SQFT) -->
+        <rect x="3960" y="1472" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-40', event)">
+          <title>Plot #40 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="1636" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">40</text>
+        <!-- Plot #39 (1200 SQFT) -->
+        <rect x="3960" y="1772" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-39', event)">
+          <title>Plot #39 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="1936" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">39</text>
+        <!-- Plot #38 (1200 SQFT) -->
+        <rect x="3960" y="2072" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-38', event)">
+          <title>Plot #38 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="2236" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">38</text>
+        <!-- Plot #37 (1200 SQFT) -->
+        <rect x="3960" y="2668" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-37', event)">
+          <title>Plot #37 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">37</text>
+        <!-- Plot #36 (1200 SQFT) -->
+        <rect x="3960" y="2968" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-36', event)">
+          <title>Plot #36 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">36</text>
+        <!-- Plot #35 (1200 SQFT) -->
+        <rect x="3960" y="3268" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-35', event)">
+          <title>Plot #35 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">35</text>
+        <!-- Plot #34 (1200 SQFT) -->
+        <rect x="3960" y="3568" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-34', event)">
+          <title>Plot #34 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">34</text>
+        <!-- Plot #33 (1200 SQFT) -->
+        <rect x="3960" y="3864" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-33', event)">
+          <title>Plot #33 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">33</text>
+        <!-- Plot #32 (1200 SQFT) -->
+        <rect x="3960" y="4164" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-32', event)">
+          <title>Plot #32 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">32</text>
+        <!-- Plot #31 (1200 SQFT) -->
+        <rect x="3960" y="4464" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-31', event)">
+          <title>Plot #31 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4158" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">31</text>
+        <!-- Plot #30 (1089 SQFT) -->
+        <rect x="3960" y="4760" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-30', event)">
+          <title>Plot #30 - 1,089 Sq.ft (Irregular (1089 sq.ft))</title>
+        </rect>
+        <text x="4158" y="4924" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">30</text>
+        <!-- Plot #29 (1089 SQFT) -->
+        <rect x="3960" y="5056" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-29', event)">
+          <title>Plot #29 - 1,089 Sq.ft (Irregular (1089 sq.ft))</title>
+        </rect>
+        <text x="4158" y="5220" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">29</text>
+        <!-- Plot #16 (1200 SQFT) -->
+        <rect x="4360" y="876" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-16', event)">
+          <title>Plot #16 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="1040" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">16</text>
+        <!-- Plot #17 (1200 SQFT) -->
+        <rect x="4360" y="1176" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-17', event)">
+          <title>Plot #17 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="1338" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">17</text>
+        <!-- Plot #18 (1200 SQFT) -->
+        <rect x="4360" y="1472" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-18', event)">
+          <title>Plot #18 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="1636" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">18</text>
+        <!-- Plot #19 (1200 SQFT) -->
+        <rect x="4360" y="1772" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-19', event)">
+          <title>Plot #19 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="1936" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">19</text>
+        <!-- Plot #20 (1200 SQFT) -->
+        <rect x="4360" y="2072" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-20', event)">
+          <title>Plot #20 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="2236" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">20</text>
+        <!-- Plot #21 (1200 SQFT) -->
+        <rect x="4360" y="2668" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-21', event)">
+          <title>Plot #21 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">21</text>
+        <!-- Plot #22 (1200 SQFT) -->
+        <rect x="4360" y="2968" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-22', event)">
+          <title>Plot #22 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">22</text>
+        <!-- Plot #23 (1200 SQFT) -->
+        <rect x="4360" y="3268" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-23', event)">
+          <title>Plot #23 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">23</text>
+        <!-- Plot #24 (1200 SQFT) -->
+        <rect x="4360" y="3568" width="396" height="292" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-24', event)">
+          <title>Plot #24 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">24</text>
+        <!-- Plot #25 (1200 SQFT) -->
+        <rect x="4360" y="3864" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-25', event)">
+          <title>Plot #25 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">25</text>
+        <!-- Plot #26 (1200 SQFT) -->
+        <rect x="4360" y="4164" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-26', event)">
+          <title>Plot #26 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">26</text>
+        <!-- Plot #27 (1200 SQFT) -->
+        <rect x="4360" y="4464" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-27', event)">
+          <title>Plot #27 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">27</text>
+        <!-- Plot #28 (1200 SQFT) -->
+        <rect x="4360" y="4760" width="396" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-28', event)">
+          <title>Plot #28 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="4558" y="4924" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">28</text>
+        <!-- Plot #14 (1200 SQFT) -->
+        <rect x="5000" y="2668" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-14', event)">
+          <title>Plot #14 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="2832" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">14</text>
+        <!-- Plot #13 (1200 SQFT) -->
+        <rect x="5000" y="2968" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-13', event)">
+          <title>Plot #13 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="3132" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">13</text>
+        <!-- Plot #12 (1200 SQFT) -->
+        <rect x="5000" y="3268" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-12', event)">
+          <title>Plot #12 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="3432" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">12</text>
+        <!-- Plot #11 (1200 SQFT) -->
+        <rect x="5000" y="3568" width="380" height="292" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-11', event)">
+          <title>Plot #11 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="3730" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">11</text>
+        <!-- Plot #10 (1200 SQFT) -->
+        <rect x="5000" y="3864" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-10', event)">
+          <title>Plot #10 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="4028" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">10</text>
+        <!-- Plot #9 (1200 SQFT) -->
+        <rect x="5000" y="4164" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-9', event)">
+          <title>Plot #9 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="4328" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">9</text>
+        <!-- Plot #8 (1200 SQFT) -->
+        <rect x="5000" y="4464" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot sold" 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-8', event)">
+          <title>Plot #8 - 1,200 Sq.ft (30'0" x 40'0")</title>
+        </rect>
+        <text x="5190" y="4628" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">8</text>
+        <!-- Plot #7 (1380 SQFT) -->
+        <rect x="5000" y="4760" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-7', event)">
+          <title>Plot #7 - 1,380 Sq.ft (Irregular (1380 sq.ft))</title>
+        </rect>
+        <text x="5190" y="4924" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">7</text>
+        <!-- Plot #3 (1322 SQFT) -->
+        <rect x="5000" y="5056" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-3', event)">
+          <title>Plot #3 - 1,322 Sq.ft (Irregular (1322 sq.ft))</title>
+        </rect>
+        <text x="5190" y="5220" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">3</text>
+        <!-- Plot #2 (1089 SQFT) -->
+        <rect x="5000" y="5352" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-2', event)">
+          <title>Plot #2 - 1,089 Sq.ft (Irregular (1089 sq.ft))</title>
+        </rect>
+        <text x="5190" y="5516" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">2</text>
+        <!-- Plot #1 (810 SQFT) -->
+        <rect x="5000" y="5648" width="380" height="296" rx="10" ry="10" 
+          class="blueprint-plot " 
+          data-phase="residential" 
+          onclick="publicComponents.showPlotDetails('chittoor-plot-1', event)">
+          <title>Plot #1 - 810 Sq.ft (Irregular (810 sq.ft))</title>
+        </rect>
+        <text x="5190" y="5812" class="blueprint-plot-num" text-anchor="middle" font-size="44" font-weight="800">1</text>
+    `;
+
+    const svgContent = isVellore ? velloreSvg : chittoorSvgContent;
+    const bgImage = isVellore ? 'assets/blueprint_master plan_vellore.png' : 'assets/blueprint_master plan_chittoor.png';
+    const viewBox = isVellore ? '0 0 865 843' : '0 0 8760 6124';
+        const optionBadge = isVellore ? 'OPTION-A MASTERPLAN' : 'DTCP APPROVED MASTERPLAN';
+    const totalUnitsCount = isVellore ? '6 Signature Units' : '75+ CAD Plotted Units';
+
+    return `
+      <div class="interactive-blueprint-page light-theme">
+        <!-- Blueprint Header Bar -->
+        <div class="blueprint-header light-header">
+          <div class="blueprint-header-left">
+            <a href="#" class="btn-blueprint-back" onclick="if(window.location.hash) window.location.hash = '#projects';">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+              <span>Back to Projects</span>
+            </a>
+            
+            <div class="blueprint-brand-mark">
+              <img src="assets/Akshara_logo.png" alt="Akshara Logo" />
+            </div>
+
+            <div class="blueprint-title-meta">
+              <div class="blueprint-title-row">
+                <h2 class="blueprint-project-name">${proj.name}</h2>
+                <span class="blueprint-badge-pill">${optionBadge}</span>
+                <span class="blueprint-units-pill">${totalUnitsCount}</span>
+              </div>
+              <div class="blueprint-loc-subtitle">
+                <span>📍 ${proj.city}, ${proj.location}</span>
+                <span class="desktop-only-inline">• Touch or click any plot to inspect dimensions, SQFT & facing</span>
+              </div>
+            </div>
+          </div>
+          
+          <div class="blueprint-header-right">
+            <a href="${encodeURI(bgImage)}" target="_blank" class="btn-blueprint-action btn-outline" title="Open Full CAD Blueprint">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              <span>HD Layout</span>
+            </a>
+            <a href="#" class="btn-blueprint-action btn-close" onclick="window.location.hash = '#projects';">
+              <span>Close</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </a>
+          </div>
+        </div>
+      
+        <div class="blueprint-main-container">
+          <!-- Floating Category Filter Tabs -->
+          <div class="blueprint-tabs-container">
+            <div class="luminexa-tabs-wrapper light-tabs">
+              <button class="luminexa-tab-btn active" onclick="publicComponents.filterMapPhase('all', this)">
+                <span class="tab-dot dot-all"></span> All Units
+              </button>
+              <button class="luminexa-tab-btn" onclick="publicComponents.filterMapPhase('residential', this)">
+                <span class="tab-dot dot-residential"></span> Residential Plots
+              </button>
+              <button class="luminexa-tab-btn" onclick="publicComponents.filterMapPhase('commercial', this)">
+                <span class="tab-dot dot-commercial"></span> Commercial Space
+              </button>
+              <button class="luminexa-tab-btn" onclick="publicComponents.filterMapPhase('park', this)">
+                <span class="tab-dot dot-park"></span> Park & Greens
+              </button>
+            </div>
+          </div>
+
+          <!-- Touch / Gesture Guide Hint (Mobile & iPad) -->
+          <div class="blueprint-mobile-hint">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/></svg>
+            <span>Scroll & drag to explore layout • Tap any plot to view details</span>
+          </div>
+
+          <!-- Main Blueprint Canvas Container -->
+          <div class="blueprint-canvas-scroll" id="blueprintScrollContainer">
+            <div class="blueprint-canvas-wrapper light-wrapper">
+              <img src="${encodeURI(bgImage)}" alt="${proj.name} CAD Blueprint" class="blueprint-base-img" />
+              <svg viewBox="${viewBox}" class="blueprint-svg-overlay">
+                ${svgContent}
+              </svg>
+            </div>
+          </div>
+          
+          <!-- Floating Live Plot Detail Card (Desktop & Slide-Up Sheet for Mobile/iPad) -->
+          <div id="plotDetailPopup" class="plot-detail-popup light-popup">
+            <div class="popup-drag-handle mobile-only"></div>
+            <button class="popup-close-btn" onclick="document.getElementById('plotDetailPopup').classList.remove('visible')" aria-label="Close">✕</button>
+            
+            <div class="popup-header">
+              <div>
+                <span class="popup-badge" id="popupPhaseTag">Residential Plotted Unit</span>
+                <h3 id="popupPlotId" class="popup-plot-title">Plot #1</h3>
+              </div>
+              <span id="popupPlotStatus" class="popup-status status-available">Available</span>
+            </div>
+            
+            <div class="popup-divider"></div>
+            
+            <div class="popup-specs-grid">
+              <div class="popup-stat-box">
+                <span class="stat-label">Total Plot Area</span>
+                <span class="stat-value highlight-gold" id="popupPlotArea">1,200 sq.ft</span>
+              </div>
+              <div class="popup-stat-box">
+                <span class="stat-label">Facing / Orientation</span>
+                <span class="stat-value" id="popupPlotFacing">East Facing</span>
+              </div>
+              <div class="popup-stat-box full-width">
+                <span class="stat-label">Boundary Dimensions</span>
+                <span class="stat-value" id="popupPlotDims">30'0" x 40'0"</span>
+              </div>
+            </div>
+
+            <button class="btn btn-primary btn-full btn-reserve-action" onclick="publicComponents.openDirectPlotEnquiry('${proj.name}')">
+              <span>Enquire & Reserve Unit</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+    `;
+  },
+
+  currentSelectedPlot: null,
+
+  showPlotDetails(plotId, event) {
+    const data = window.store.getPlotData(plotId);
+    if (!data) return;
+
+    this.currentSelectedPlot = data;
+
+    // Highlight polygon
+    document.querySelectorAll('.blueprint-plot').forEach(p => p.classList.remove('active'));
+    if (event && event.currentTarget) {
+      event.currentTarget.classList.add('active');
+    } else if (event && event.target) {
+      event.target.classList.add('active');
+    }
+
+    // Update Popup Content
+    const titleEl = document.getElementById('popupPlotId');
+    if (titleEl) titleEl.innerText = data.name ? data.name : ('Plot #' + data.id);
+    
+    const areaEl = document.getElementById('popupPlotArea');
+    if (areaEl) areaEl.innerText = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' sq.ft' : '1,200 sq.ft';
+    
+    const facingEl = document.getElementById('popupPlotFacing');
+    if (facingEl) facingEl.innerText = data.facing || 'East Facing';
+    
+    const dimsEl = document.getElementById('popupPlotDims');
+    if (dimsEl) dimsEl.innerText = data.boundaryDims || (data.dimensions || '30\'0" x 40\'0"');
+    
+    const statusEl = document.getElementById('popupPlotStatus');
+    if (statusEl) {
+      statusEl.innerText = data.status || 'Available';
+      statusEl.className = 'popup-status ' + (data.status === 'Sold' ? 'status-sold' : 'status-available');
+    }
+
+    const phaseTag = document.getElementById('popupPhaseTag');
+    if (phaseTag) {
+      phaseTag.innerText = data.phase === 'commercial' ? 'Commercial Zone' : data.phase === 'park' ? 'Park & Greenery' : data.phase === 'phase2' ? 'Rear Zone Plot' : 'Residential Plotted Unit';
+    }
+
+    // Animate Popup
+    const popup = document.getElementById('plotDetailPopup');
+    if (popup) {
+      popup.classList.add('visible');
+    }
+  },
+
+  filterMapPhase(phase, btnEl) {
+    document.querySelectorAll('.luminexa-tab-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    
+    document.querySelectorAll('.blueprint-plot').forEach(polygon => {
+      polygon.classList.remove('active');
+      if (phase === 'all') {
+        polygon.classList.remove('hidden-phase');
+      } else {
+        if (polygon.dataset.phase === phase) {
+          polygon.classList.remove('hidden-phase');
+        } else {
+          polygon.classList.add('hidden-phase');
+        }
+      }
+    });
+  },
+
+  openDirectPlotEnquiry(projectName) {
+    const plot = this.currentSelectedPlot;
+    const plotInfo = plot ? `${plot.name || ('Plot #' + plot.id)} (${plot.areaSqFt} sq.ft, ${plot.facing})` : 'Master Layout Plot';
+    
+    const modalBody = document.getElementById('globalModalBody');
+    if (!modalBody) return;
+
+    modalBody.innerHTML = `
+      <div style="padding: 10px;">
+        <h2 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 8px;">Direct Plot Reservation Enquiry</h2>
+        <div style="background: var(--bg-secondary); padding: 12px 16px; border-radius: var(--radius-sm); margin-bottom: 24px; border: 1px solid var(--border-light);">
+          <div style="font-size: 0.8rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Selected Layout Unit</div>
+          <div style="font-size: 1.1rem; font-weight: 800; color: #f59e0b;">${projectName || 'Akshara Layout'} • ${plotInfo}</div>
+        </div>
+
+        <form onsubmit="publicComponents.handlePlotLeadSubmit(event, '${projectName}', '${plotInfo}')">
+          <div class="form-group">
+            <label class="form-label">Full Name *</label>
+            <input type="text" id="plotLeadName" class="form-control" placeholder="Your Name" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number (WhatsApp) *</label>
+            <input type="tel" id="plotLeadPhone" class="form-control" placeholder="+91 98765 43210" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" id="plotLeadEmail" class="form-control" placeholder="yourname@gmail.com" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Additional Message / Visit Date</label>
+            <textarea id="plotLeadMessage" class="form-control" placeholder="Interested in reserving this specific plot. Please share CAD coordinates." rows="2"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full btn-lg" style="margin-top: 16px;">
+            Submit Reservation Request
+          </button>
+        </form>
+      </div>
+    `;
+
+    document.getElementById('globalModalOverlay').classList.add('active');
+  },
+
+  handlePlotLeadSubmit(e, projectName, plotInfo) {
+    e.preventDefault();
+    const name = document.getElementById('plotLeadName')?.value || '';
+    const phone = document.getElementById('plotLeadPhone')?.value || '';
+    const email = document.getElementById('plotLeadEmail')?.value || '';
+    const message = document.getElementById('plotLeadMessage')?.value || '';
+
+    window.store.addLead({
+      name,
+      phone,
+      email,
+      projectPref: projectName,
+      plotSizePref: plotInfo,
+      message: `Enquired for ${plotInfo}. Note: ${message}`
+    });
+
+    app.closeGlobalModal();
+    app.showToast(`✓ Request received for ${plotInfo}! Layout officer will call you.`);
+
+    const waText = `Hi Akshara Team, I am interested in reserving:\nProject: ${projectName}\nUnit: ${plotInfo}\nName: ${name}\nPhone: ${phone}`;
+    const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
+    window.open(waUrl, '_blank');
+  },
+
+  // Animated Enquiry Flow
+  openAnimatedEnquiry() {
+    const wrapper = document.createElement('div');
+    wrapper.className = 'animated-enquiry-wrapper';
+    wrapper.innerHTML = `
+      <div class="animated-enquiry-header">
+        <div class="brand-logo-mark" style="background:#fff; color:#000;">A</div>
+        <button class="animated-enquiry-close" onclick="publicComponents.closeAnimatedEnquiry()">✕</button>
+      </div>
+      <div class="animated-enquiry-content">
+        <div class="enquiry-step active" id="eqStep1">
+          <div class="enquiry-step-title">What's your name?</div>
+          <input type="text" id="eqName" class="enquiry-input-large" placeholder="Type here..." autofocus />
+          <button class="enquiry-next-btn" onclick="publicComponents.nextEnquiryStep(1)">Continue</button>
+        </div>
+        
+        <div class="enquiry-step" id="eqStep2">
+          <div class="enquiry-step-title">Nice to meet you, <span id="eqNameDisplay"></span>. What's your phone number?</div>
+          <input type="tel" id="eqPhone" class="enquiry-input-large" placeholder="+91..." />
+          <button class="enquiry-next-btn" onclick="publicComponents.nextEnquiryStep(2)">Continue</button>
+        </div>
+        
+        <div class="enquiry-step" id="eqStep3">
+          <div class="enquiry-step-title">Which location are you interested in?</div>
+          <select id="eqLocation" class="enquiry-input-large" style="appearance: none; -webkit-appearance: none; cursor: pointer;">
+             <option value="" disabled selected>Select...</option>
+             <option value="Vellore">Vellore</option>
+             <option value="Chittoor">Chittoor</option>
+             <option value="Tirupati">Tirupati</option>
+             <option value="Chennai">Chennai</option>
+          </select>
+          <button class="enquiry-next-btn" onclick="publicComponents.submitAnimatedEnquiry()">Submit</button>
+        </div>
+        
+        <div class="enquiry-step" id="eqStep4">
+          <div class="enquiry-step-title" style="color: #ff9800;">Thank You!</div>
+          <p style="font-size: 1.5rem; color: #ccc;">We will get back to you shortly.</p>
+          <button class="enquiry-next-btn" onclick="publicComponents.closeAnimatedEnquiry()">Close</button>
+        </div>
+      </div>
+    `;
+    
+    document.body.appendChild(wrapper);
+    if (typeof gsap !== 'undefined') {
+      gsap.to(wrapper, { opacity: 1, duration: 0.4 });
+      gsap.from('#eqStep1', { y: 30, opacity: 0, duration: 0.5, delay: 0.2 });
+    } else {
+      wrapper.style.opacity = 1;
+    }
+  },
+
+  nextEnquiryStep(currentStep) {
+    if (currentStep === 1) {
+      const name = document.getElementById('eqName').value;
+      if (!name) return;
+      document.getElementById('eqNameDisplay').innerText = name;
+    }
+    if (currentStep === 2) {
+      if (!document.getElementById('eqPhone').value) return;
+    }
+
+    const currentEl = document.getElementById('eqStep' + currentStep);
+    const nextEl = document.getElementById('eqStep' + (currentStep + 1));
+    
+    if (typeof gsap !== 'undefined') {
+      gsap.to(currentEl, { y: -30, opacity: 0, duration: 0.3, onComplete: () => {
+        currentEl.classList.remove('active');
+        nextEl.classList.add('active');
+        gsap.fromTo(nextEl, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
+      }});
+    } else {
+      currentEl.classList.remove('active');
+      nextEl.classList.add('active');
+    }
+  },
+
+  submitAnimatedEnquiry() {
+    const name = document.getElementById('eqName').value;
+    const phone = document.getElementById('eqPhone').value;
+    const loc = document.getElementById('eqLocation').value;
+    
+    window.store.addLead({ name, phone, email: '', cityPref: loc, projectPref: 'Interactive Map Enquiry', message: '' });
+    
+    this.nextEnquiryStep(3);
+  },
+
+  closeAnimatedEnquiry() {
+    const wrapper = document.getElementById('animatedEnquiry');
+    if (wrapper) {
+      if (typeof gsap !== 'undefined') {
+        gsap.to(wrapper, { opacity: 0, duration: 0.3, onComplete: () => wrapper.remove() });
+      } else {
+        wrapper.remove();
+      }
+    }
   }
 };

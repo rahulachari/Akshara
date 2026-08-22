@@ -5,7 +5,17 @@
 class App {
   constructor() {
     this.isAdminViewOpen = false;
-    this.currentRoute = window.location.hash === '#contact' ? 'contact' : 'home';
+    let route = 'home';
+    let param = null;
+    const hash = window.location.hash;
+    if (hash === '#contact') route = 'contact';
+    else if (hash.startsWith('#blueprint:')) {
+      route = 'blueprint';
+      param = decodeURIComponent(hash.split(':')[1]);
+    }
+    
+    this.currentRoute = route;
+    this.routeParam = param;
   }
 
   init() {
@@ -72,6 +82,15 @@ class App {
             window.publicComponents.initSwipeButton();
           }
         }, 0);
+      } else if (this.currentRoute === 'blueprint') {
+        document.body.style.backgroundColor = 'var(--bg-primary)';
+        publicApp.innerHTML = `
+          ${window.publicComponents.renderHeader()}
+          <main style="padding-top: 80px; min-height: 100vh; background: var(--bg-primary);">
+            ${window.publicComponents.renderBlueprintPage(this.routeParam)}
+          </main>
+          ${window.publicComponents.renderFooter({ hideGiantText: true })}
+        `;
       } else {
         document.body.style.backgroundColor = 'var(--bg-primary)';
         publicApp.innerHTML = `
@@ -105,9 +124,18 @@ class App {
   setupEventListeners() {
     // Handle route changes
     window.addEventListener('hashchange', () => {
-      const newRoute = window.location.hash === '#contact' ? 'contact' : 'home';
-      if (this.currentRoute !== newRoute) {
+      let newRoute = 'home';
+      let param = null;
+      const hash = window.location.hash;
+      if (hash === '#contact') newRoute = 'contact';
+      else if (hash.startsWith('#blueprint:')) {
+        newRoute = 'blueprint';
+        param = decodeURIComponent(hash.split(':')[1]);
+      }
+
+      if (this.currentRoute !== newRoute || this.routeParam !== param) {
         this.currentRoute = newRoute;
+        this.routeParam = param;
         this.renderApp();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
