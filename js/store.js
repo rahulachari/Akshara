@@ -2,13 +2,13 @@
  * Akshara Plotted Developments - Reactive Store & CMS Engine (V2 Showcase Mode)
  */
 
-const STORAGE_KEY_PROJECTS = 'akshara_projects_v9';
+const STORAGE_KEY_PROJECTS = 'akshara_projects_v10';
 const STORAGE_KEY_BOARD = 'akshara_board_v3';
 const STORAGE_KEY_LEADS = 'akshara_leads_v2';
 const STORAGE_KEY_SETTINGS = 'akshara_settings_v2';
 const STORAGE_KEY_ANALYTICS = 'akshara_analytics_v2';
 
-// Default Projects Showcase (Venture Sketch Designs)
+// Default Projects Showcase (Pricing Removed)
 const DEFAULT_PROJECTS = [
   {
     id: 'proj-1',
@@ -19,7 +19,7 @@ const DEFAULT_PROJECTS = [
     totalPlots: '128 Plots',
     plotSizes: '1,200 - 3,200 sq.ft.',
     featured: true,
-    image: 'assets/sketch_venture_vellore.jpg',
+    image: 'assets/project_vellore.png',
     layoutPlan: 'assets/blueprint_master plan_vellore.png',
     dtcpApproval: 'DTCP No: 42/2024 (Vellore Region)',
     reraNo: 'TN/05/Layout/0182/2024',
@@ -42,7 +42,7 @@ const DEFAULT_PROJECTS = [
     totalPlots: '94 Plots',
     plotSizes: '1,500 - 4,500 sq.ft.',
     featured: true,
-    image: 'assets/sketch_venture_tirupati.jpg',
+    image: 'assets/project_tirupati.png',
     layoutPlan: 'assets/masterplan_blueprint.png',
     dtcpApproval: 'TUDA Approved Layout L.P. No. 12/2025',
     reraNo: 'AP/RERA/LAYOUT/2025/089',
@@ -65,7 +65,7 @@ const DEFAULT_PROJECTS = [
     totalPlots: '160 Plots',
     plotSizes: '1,200 - 2,400 sq.ft.',
     featured: false,
-    image: 'assets/sketch_venture_chittoor.jpg',
+    image: 'assets/project_chittoor.png',
     layoutPlan: 'assets/blueprint_chittoor_optimized.webp',
     dtcpApproval: 'AP DGTCP Approved LP No. 78/2024',
     reraNo: 'AP/RERA/CHITTOOR/00421',
@@ -88,7 +88,7 @@ const DEFAULT_PROJECTS = [
     totalPlots: '85 Villa Plots',
     plotSizes: '1,800 - 4,800 sq.ft.',
     featured: true,
-    image: 'assets/sketch_venture_chennai.jpg',
+    image: 'assets/project_chennai.png',
     layoutPlan: 'assets/masterplan_blueprint.png',
     dtcpApproval: 'CMDA Approved Layout No: 114/2024',
     reraNo: 'TN/29/Layout/0892/2024',

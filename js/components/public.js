@@ -218,41 +218,32 @@ window.publicComponents = {
 
   renderHero() {
     return `
-      <section class="hero-section hero-sketch-full-section" id="hero">
-        <div class="hero-sketch-sticky">
-          
-          <!-- Full-Size Full-Bleed Architectural Sketch Canvas Background with Mobile Ratio Support -->
-          <div class="hero-sketch-full-viewport" id="heroSketchBg">
-            <picture class="hero-sketch-full-picture">
-              <source media="(max-width: 768px)" srcset="assets/hero_sketch_mobile.png" />
-              <img 
-                src="assets/hero_kononenko_sketch.jpg" 
-                alt="Akshara Architectural Concept Sketch" 
-                class="hero-sketch-full-img" 
-                id="heroSketchImg" 
-              />
-            </picture>
-            <div class="hero-sketch-soft-vignette"></div>
+      <section class="hero-section" id="hero">
+        <div class="hero-sticky">
+          <div class="hero-background">
+            <img src="assets/hero_visual.png" alt="Akshara Background" id="heroZoomImage" />
           </div>
 
-          <!-- Pure Fullscreen Vector-Fitted AKSHARA Title with Depth Motion -->
-          <div class="hero-sketch-overlay-stage" id="heroSketchStage">
-            <div class="akshara-svg-fit-wrap" id="heroSketchTitle">
-              <svg class="akshara-fit-svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet">
-                <text x="500" y="175" text-anchor="middle" class="akshara-svg-text">AKSHARA</text>
-              </svg>
+          <div class="hero-content cinematic-content">
+            <h1 class="impact akshara-hero-title">AKSHARA</h1>
+            <p class="hero-subtitle">Plotted Developments</p>
+            <div class="hero-ctas" style="justify-content: center; margin-top: 40px; margin-bottom: 0;">
+              <a href="#projects" class="btn btn-primary btn-lg btn-cinematic">
+                View Project Showcase
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </a>
             </div>
           </div>
-
         </div>
       </section>
     `;
   },
 
   initHeroScroll() {
-    const sketchImg = document.getElementById('heroSketchImg');
-    const heroTitle = document.getElementById('heroSketchTitle');
-    const heroSection = document.getElementById('hero');
+    const heroImage = document.getElementById('heroZoomImage');
+    const heroContent = document.querySelector('.cinematic-content');
+    
+    if (!heroImage) return;
 
     if (this._onHeroScroll) {
       window.removeEventListener('scroll', this._onHeroScroll);
@@ -275,24 +266,21 @@ window.publicComponents = {
         progress = 1;
       }
 
-      const isMobile = window.innerWidth <= 768;
+      // Smooth transformations
+      const scale = 1 + progress;
+      const blur = progress * 10;
+      const opacity = 1 - progress;
 
-      // 1. Full-Size Sketch Zoom & Depth Scroll Effect
-      if (sketchImg) {
-        const sketchScale = isMobile ? (1 + progress * 0.35) : (1 + progress * 0.95);
-        const sketchY = progress * (isMobile ? 4 : 8);
-        sketchImg.style.transform = `scale(${sketchScale}) translateY(${sketchY}%)`;
-      }
-
-      // 2. Climbing AKSHARA Title Motion with 3D Depth
-      if (heroTitle) {
-        const climbY = -progress * (isMobile ? 70 : 130);
-        const titleScale = 1 - progress * (isMobile ? 0.08 : 0.15);
-        heroTitle.style.transform = `translate3d(0, ${climbY}px, 0) scale(${titleScale})`;
+      heroImage.style.transform = `scale(${scale})`;
+      heroImage.style.filter = `blur(${blur}px)`;
+      
+      if (heroContent) {
+        heroContent.style.opacity = opacity;
+        heroContent.style.transform = `translateY(${progress * 50}px)`;
       }
     };
 
-    window.addEventListener('scroll', this._onHeroScroll);
+    window.addEventListener('scroll', this._onHeroScroll, { passive: true });
     this._onHeroScroll();
   },
 
@@ -355,7 +343,7 @@ window.publicComponents = {
           </div>
 
           <div style="position: relative;">
-            <img src="assets/about_venture_sketch.jpg" alt="Akshara Infrastructure Showcase & Masterplan Sketch" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light); width: 100%; height: auto; object-fit: contain; background: #FFFFFF;" />
+            <img src="assets/about_showcase.png" alt="Akshara Infrastructure Showcase" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light); width: 100%; height: 100%; object-fit: cover;" />
           </div>
         </div>
       </section>

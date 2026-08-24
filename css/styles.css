@@ -110,34 +110,12 @@ html {
 
 body {
   font-family: var(--font-family);
-  background-color: #FFFFFF;
-  background-image: 
-    linear-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
-    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
-  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
-  background-attachment: fixed;
+  background-color: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
-  position: relative;
-}
-
-/* Subtle 45-degree Technical Drafting Line across Home Page (Matching Image Reference) */
-body::before {
-  content: '';
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(135deg, transparent 49.9%, rgba(0, 0, 0, 0.06) 50%, transparent 50.1%);
-  pointer-events: none;
-  z-index: 0;
 }
 
 a {
@@ -614,132 +592,100 @@ img {
 }
 
 /* Hero Section */
-/* ==========================================================================
-   Hero Section: Sky View to Venture Dive & Climbing Brand Experience
-   ========================================================================== */
-
-/* ==========================================================================
-   Hero Section: Full-Size Architectural Sketch with AKSHARA Depth Scroll
-   ========================================================================== */
-
-.hero-sketch-full-section {
-  height: 220vh;
+.hero-section {
+  height: 200vh;
   position: relative;
-  background-color: #FFFFFF;
+  background-color: #000;
 }
 
-.hero-sketch-sticky {
+.hero-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
-  width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #FFFFFF;
 }
 
-.hero-sketch-full-viewport {
+.hero-background {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  background: #FFFFFF;
 }
 
-.hero-sketch-full-picture {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-sketch-full-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-  display: block;
-  transform-origin: center center;
-  will-change: transform;
-  transition: transform 0.08s ease-out;
-}
-
-.hero-sketch-soft-vignette {
+.hero-background::after {
+  content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.25) 60%, rgba(255, 255, 255, 0.7) 100%),
-              linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 20%, transparent 80%, rgba(255, 255, 255, 0.8) 100%);
-  pointer-events: none;
+  background: rgba(0, 0, 0, 0.4); /* Dark overlay */
   z-index: 2;
 }
 
-/* ==========================================================================
-   Pure Fullscreen Vector-Fitted AKSHARA Title with Depth Motion
-   ========================================================================== */
-
-.hero-sketch-overlay-stage {
-  position: absolute;
-  inset: 0;
-  z-index: 10;
+.hero-background img {
   width: 100%;
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 clamp(12px, 3vw, 40px);
-  box-sizing: border-box;
-  pointer-events: none;
+  object-fit: cover;
+  transform-origin: center;
+  will-change: transform, filter;
 }
 
-.akshara-svg-fit-wrap {
-  width: 100%;
-  max-width: min(92vw, 1200px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  will-change: transform;
-  transition: transform 0.08s ease-out;
+.cinematic-content {
+  text-align: center;
+  color: #FFFFFF;
+  z-index: 10;
+  position: relative;
+  will-change: opacity, transform;
 }
 
-.akshara-fit-svg {
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  display: block;
-}
-
-.akshara-svg-text {
+.akshara-hero-title {
   font-family: 'Samarkan', 'Federo', 'Cinzel', system-ui, -apple-system, sans-serif;
-  font-size: 195px;
-  font-weight: 400;
-  letter-spacing: 14px;
-  fill: #080B10;
-  filter: drop-shadow(0 2px 25px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 35px rgba(212, 175, 55, 0.25));
-  user-select: none;
+  font-size: clamp(3rem, 16vw, 18rem);
+  font-weight: 400; /* Reduced from 800 to be less chunky */
+  margin: 0;
+  line-height: 0.85;
+  text-transform: none;
+  letter-spacing: -0.04em;
+  color: rgba(255, 255, 255, 0.85); /* Semi-transparent to let the background breathe */
+}
+
+.hero-subtitle {
+  font-size: clamp(0.875rem, 3vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-top: 10px;
+  color: rgba(255,255,255,0.9);
+}
+
+.hero-ctas {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn-cinematic {
+  background: transparent;
+  color: #FFFFFF;
+  border-color: #FFFFFF;
+  border-radius: 50px;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+}
+
+.btn-cinematic:hover {
+  background: #FFFFFF;
+  color: #000000;
+  border-color: #FFFFFF;
 }
 
 @media (max-width: 768px) {
-  .hero-sketch-full-section {
-    height: 160vh;
+  .akshara-hero-title {
+    font-size: 16vw;
   }
-  .hero-sketch-full-img {
-    object-fit: cover;
-    object-position: center center;
-  }
-  .akshara-svg-fit-wrap {
-    max-width: 94vw;
-  }
-  .akshara-svg-text {
-    font-size: 190px;
-    letter-spacing: 8px;
+  .hero-subtitle {
+    font-size: 1rem;
   }
 }
 
@@ -833,21 +779,17 @@ img {
   position: relative;
   height: 240px;
   overflow: hidden;
-  background-color: #FFFFFF;
 }
 
 .project-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  background-color: #FFFFFF;
-  padding: 8px;
-  box-sizing: border-box;
+  object-fit: cover;
   transition: transform var(--transition-smooth);
 }
 
 .project-card:hover .project-thumb img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 
 .project-status-badge {
