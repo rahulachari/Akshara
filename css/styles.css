@@ -3737,15 +3737,30 @@ textarea.form-control {
 
 /* Monochrome Architectural CAD Inspector Popup Card */
 .plot-detail-popup.monochrome-popup {
-  background: rgba(14, 14, 16, 0.95);
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 360px;
+  max-width: calc(100vw - 40px);
+  background: rgba(14, 14, 16, 0.96);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
-  padding: 24px;
-  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+  padding: 22px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
   color: #FFFFFF;
-  z-index: 100;
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  pointer-events: none;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.plot-detail-popup.monochrome-popup.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
 }
 
 .popup-badge.mono-badge-tag {
@@ -3894,12 +3909,74 @@ textarea.form-control {
 
 @media (max-width: 768px) {
   .blueprint-hud-header.monochrome-hud {
-    margin: 0 0 20px 0;
-    padding: 6px 12px;
+    margin: 0 auto 20px auto;
+    padding: 6px 10px;
+    gap: 8px;
+    width: 100%;
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
   }
+  
+  .blueprint-hud-left {
+    gap: 6px;
+    min-width: 0;
+    flex: 1;
+  }
+
+  .hud-btn-back.mono-btn {
+    padding: 8px 10px;
+    flex-shrink: 0;
+  }
+
   .hud-btn-back.mono-btn span {
     display: none;
   }
+
+  .hud-brand-pill.mono-pill {
+    padding: 4px 8px;
+    gap: 8px;
+    min-width: 0;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .hud-logo-img {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px;
+  }
+
+  .hud-title-col {
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .hud-project-title {
+    font-size: 0.85rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .hud-project-meta {
+    font-size: 0.65rem !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+  }
+
+  .blueprint-hud-right {
+    flex-shrink: 0;
+  }
+
+  .hud-btn-action.mono-action {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    white-space: nowrap;
+  }
+
   .plot-detail-popup.monochrome-popup {
     position: fixed;
     bottom: 0;
@@ -3907,17 +3984,31 @@ textarea.form-control {
     right: 0;
     width: 100%;
     max-width: 100%;
-    border-radius: 24px 24px 0 0;
+    border-radius: 28px 28px 0 0;
     border-bottom: none;
     border-left: none;
     border-right: none;
     transform: translateY(100%);
-    padding: 18px 18px max(28px, env(safe-area-inset-bottom, 28px)) 18px;
-    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.9);
-    z-index: 200;
+    padding: 16px 20px max(24px, env(safe-area-inset-bottom, 24px)) 20px;
+    box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.95);
+    z-index: 2000;
+    opacity: 1;
+    pointer-events: none;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
   }
+
+  .plot-detail-popup.monochrome-popup .popup-drag-handle {
+    display: block;
+    width: 36px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    margin: 0 auto 12px auto;
+  }
+
   .plot-detail-popup.monochrome-popup.visible {
     transform: translateY(0);
+    pointer-events: auto;
   }
 }
 
