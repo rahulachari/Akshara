@@ -1243,36 +1243,17 @@ window.publicComponents = {
               </div>
             </div>
             
-            <!-- Technical CAD Vector Figure Box -->
+            <!-- Technical CAD Vector Figure Box with Dynamic Shape -->
             <div class="cad-figure-box mono-cad-box">
-              <div class="cad-figure-canvas">
-                <svg viewBox="0 0 250 96" class="cad-figure-svg">
-                  <defs>
-                    <pattern id="cadGridSpec" width="14" height="14" patternUnits="userSpaceOnUse">
-                      <path d="M 14 0 L 0 0 0 14" fill="none" stroke="rgba(255, 255, 255, 0.12)" stroke-width="0.75"/>
-                    </pattern>
-                  </defs>
-                  <!-- Pure Technical Pitch Black Grid -->
-                  <rect width="250" height="96" fill="#09090b" rx="8" />
-                  <rect width="250" height="96" fill="url(#cadGridSpec)" rx="8" />
-                  
-                  <!-- Main Plot Boundary Rectangle (Crisp White Dashed Box) -->
-                  <rect x="34" y="20" width="156" height="62" rx="6" class="cad-figure-rect mono-rect" />
-                  
-                  <!-- Width Measurement Dimension (Top) -->
-                  <line x1="34" y1="10" x2="190" y2="10" class="cad-dim-line mono-line" />
-                  <polyline points="44,6 34,10 44,14" class="cad-dim-arrow mono-arrow" />
-                  <polyline points="180,6 190,10 180,14" class="cad-dim-arrow mono-arrow" />
-                  <text x="112" y="8" id="cadFigureWidth" class="cad-dim-text mono-text" text-anchor="middle">30' 0"</text>
-                  
-                  <!-- Height Measurement Dimension (Right) -->
-                  <line x1="205" y1="20" x2="205" y2="82" class="cad-dim-line mono-line" />
-                  <polyline points="201,28 205,20 209,28" class="cad-dim-arrow mono-arrow" />
-                  <polyline points="201,74 205,82 209,74" class="cad-dim-arrow mono-arrow" />
-                  <text x="213" y="55" id="cadFigureHeight" class="cad-dim-text side mono-text" text-anchor="start">40' 0"</text>
-                  
-                  <!-- Center Area Watermark / Dimension Box Tag -->
-                  <text x="112" y="55" id="cadFigureAreaWatermark" class="cad-center-area mono-watermark" text-anchor="middle">1,200 SQ.FT</text>
+              <div class="cad-figure-canvas" id="cadFigureContainer">
+                <svg viewBox="0 0 250 130" class="cad-figure-svg animated-plot-shape">
+                  <rect width="250" height="130" fill="#09090b" rx="10" />
+                  <rect x="45" y="20" width="160" height="90" rx="4" class="cad-isolated-polygon" />
+                  <circle cx="45" cy="20" r="4.5" class="cad-corner-node" />
+                  <circle cx="205" cy="20" r="4.5" class="cad-corner-node" />
+                  <circle cx="205" cy="110" r="4.5" class="cad-corner-node" />
+                  <circle cx="45" cy="110" r="4.5" class="cad-corner-node" />
+                  <text x="125" y="70" class="cad-center-area mono-watermark" text-anchor="middle">1,200 SQ.FT</text>
                 </svg>
               </div>
             </div>
@@ -1304,6 +1285,92 @@ window.publicComponents = {
 
   currentSelectedPlot: null,
 
+  renderPlotShapeSvg(shapeEl, data) {
+    let points = [];
+    if (shapeEl) {
+      if (shapeEl.tagName.toLowerCase() === 'polygon') {
+        const rawPoints = shapeEl.getAttribute('points').trim().split(/\s+/);
+        points = rawPoints.map(p => {
+          const [x, y] = p.split(',').map(Number);
+          return { x, y };
+        });
+      } else if (shapeEl.tagName.toLowerCase() === 'rect') {
+        const x = parseFloat(shapeEl.getAttribute('x'));
+        const y = parseFloat(shapeEl.getAttribute('y'));
+        const w = parseFloat(shapeEl.getAttribute('width'));
+        const h = parseFloat(shapeEl.getAttribute('height'));
+        points = [
+          { x: x, y: y },
+          { x: x + w, y: y },
+          { x: x + w, y: y + h },
+          { x: x, y: y + h }
+        ];
+      }
+    }
+
+    if (!points || points.length === 0 || points.some(p => isNaN(p.x) || isNaN(p.y))) {
+      points = [
+        { x: 0, y: 0 },
+        { x: 120, y: 0 },
+        { x: 120, y: 160 },
+        { x: 0, y: 160 }
+      ];
+    }
+
+    const minX = Math.min(...points.map(p => p.x));
+    const maxX = Math.max(...points.map(p => p.x));
+    const minY = Math.min(...points.map(p => p.y));
+    const maxY = Math.max(...points.map(p => p.y));
+
+    const width = maxX - minX || 1;
+    const height = maxY - minY || 1;
+
+    const targetW = 180;
+    const targetH = 90;
+    const paddingX = 35;
+    const paddingY = 20;
+
+    const scale = Math.min(targetW / width, targetH / height);
+    const offsetX = paddingX + (targetW - width * scale) / 2;
+    const offsetY = paddingY + (targetH - height * scale) / 2;
+
+    const normalizedPoints = points.map(p => ({
+      x: offsetX + (p.x - minX) * scale,
+      y: offsetY + (p.y - minY) * scale
+    }));
+
+    const pointsAttr = normalizedPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+    const nodesSvg = normalizedPoints.map(p => `
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" class="cad-corner-node" />
+    `).join('');
+
+    const areaText = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' SQ.FT' : '1,200 SQ.FT';
+
+    return `
+      <svg viewBox="0 0 250 130" class="cad-figure-svg animated-plot-shape">
+        <defs>
+          <pattern id="cadGridSpec_${data.id || 'plot'}" width="16" height="16" patternUnits="userSpaceOnUse">
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.75"/>
+          </pattern>
+        </defs>
+        <rect width="250" height="130" fill="#09090b" rx="10" />
+        <rect width="250" height="130" fill="url(#cadGridSpec_${data.id || 'plot'})" rx="10" />
+        
+        <!-- Plot Exact Geometry Polygon -->
+        <polygon points="${pointsAttr}" class="cad-isolated-polygon" />
+        
+        <!-- Corner Vertex Nodes (from reference image) -->
+        ${nodesSvg}
+        
+        <!-- Center Area Watermark -->
+        <text x="125" y="70" class="cad-center-area mono-watermark" text-anchor="middle">
+          ${areaText}
+        </text>
+      </svg>
+    `;
+  },
+
   showPlotDetails(plotId, event) {
     const data = window.store.getPlotData(plotId);
     if (!data) return;
@@ -1313,12 +1380,15 @@ window.publicComponents = {
       window.trackEvent('blueprint_plot_inspected', { plotId, area: data.areaSqFt, dimensions: data.dimensions });
     }
 
-    // Highlight polygon
+    // Highlight polygon on blueprint map
     document.querySelectorAll('.blueprint-plot').forEach(p => p.classList.remove('active'));
+    let shapeEl = null;
     if (event && event.currentTarget) {
       event.currentTarget.classList.add('active');
+      shapeEl = event.currentTarget;
     } else if (event && event.target) {
       event.target.classList.add('active');
+      shapeEl = event.target;
     }
 
     // Update Popup Content
@@ -1328,9 +1398,6 @@ window.publicComponents = {
     const formattedArea = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' sq.ft' : '1,200 sq.ft';
     const areaEl = document.getElementById('popupPlotArea');
     if (areaEl) areaEl.innerText = formattedArea;
-
-    const areaWatermark = document.getElementById('cadFigureAreaWatermark');
-    if (areaWatermark) areaWatermark.textContent = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' SQ.FT' : '1,200 SQ.FT';
     
     const facingEl = document.getElementById('popupPlotFacing');
     if (facingEl) facingEl.innerText = data.facing || 'East Facing (25ft Road)';
@@ -1339,16 +1406,10 @@ window.publicComponents = {
     const dimsEl = document.getElementById('popupPlotDims');
     if (dimsEl) dimsEl.innerText = dimsStr;
 
-    // Parse width and height for CAD dimension lines
-    const widthEl = document.getElementById('cadFigureWidth');
-    const heightEl = document.getElementById('cadFigureHeight');
-    if (dimsStr.includes('x')) {
-      const parts = dimsStr.split('x').map(s => s.trim().replace(/"/g, '"').replace(/'/g, "'"));
-      if (widthEl) widthEl.textContent = parts[0] || "30' 0\"";
-      if (heightEl) heightEl.textContent = parts[1] || "40' 0\"";
-    } else {
-      if (widthEl) widthEl.textContent = dimsStr;
-      if (heightEl) heightEl.textContent = "Exact CAD";
+    // Render Exact Plot Geometry Polygon with Nodes
+    const containerEl = document.getElementById('cadFigureContainer');
+    if (containerEl) {
+      containerEl.innerHTML = this.renderPlotShapeSvg(shapeEl, data);
     }
 
     const phaseTag = document.getElementById('popupPhaseTag');
