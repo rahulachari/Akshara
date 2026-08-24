@@ -218,231 +218,38 @@ window.publicComponents = {
 
   renderHero() {
     return `
-      <section class="hero-section" id="hero">
-        <div class="hero-sticky">
-          <div class="hero-background">
-            <img src="assets/hero_visual.png" alt="Akshara Background" id="heroZoomImage" />
+      <section class="hero-section hero-sketch-full-section" id="hero">
+        <div class="hero-sketch-sticky">
+          
+          <!-- Full-Size Full-Bleed Architectural Sketch Canvas Background -->
+          <div class="hero-sketch-full-viewport" id="heroSketchBg">
+            <img 
+              src="assets/hero_kononenko_sketch.jpg" 
+              alt="Akshara Architectural Concept Sketch" 
+              class="hero-sketch-full-img" 
+              id="heroSketchImg" 
+            />
+            <div class="hero-sketch-soft-vignette"></div>
           </div>
 
-          <!-- Luxury Apple Precision Architectural Compass Widget -->
-          <div class="luxury-compass-root" id="compassWidgetRoot">
-            <div class="luxury-compass-frame" id="compassDialContainer">
-              <!-- Fixed 12 o'clock Heading Index Needle -->
-              <div class="compass-fixed-index"></div>
-
-              <div class="compass-rotating-disc" id="compassRotatingLayer">
-                <svg viewBox="0 0 200 200" class="luxury-compass-svg">
-                  <!-- Generated 360-degree ticks -->
-                  <g id="compassTicksGroup"></g>
-
-                  <!-- Outer Degree Numerals (0 to 330 in 30 deg steps) in Solid Dark -->
-                  <text x="100" y="32" class="comp-deg-text" text-anchor="middle">0</text>
-                  <text x="138" y="42" class="comp-deg-text" text-anchor="middle">30</text>
-                  <text x="168" y="72" class="comp-deg-text" text-anchor="middle">60</text>
-                  <text x="178" y="104" class="comp-deg-text" text-anchor="middle">90</text>
-                  <text x="168" y="136" class="comp-deg-text" text-anchor="middle">120</text>
-                  <text x="138" y="166" class="comp-deg-text" text-anchor="middle">150</text>
-                  <text x="100" y="176" class="comp-deg-text" text-anchor="middle">180</text>
-                  <text x="62" y="166" class="comp-deg-text" text-anchor="middle">210</text>
-                  <text x="32" y="136" class="comp-deg-text" text-anchor="middle">240</text>
-                  <text x="22" y="104" class="comp-deg-text" text-anchor="middle">270</text>
-                  <text x="32" y="72" class="comp-deg-text" text-anchor="middle">300</text>
-                  <text x="62" y="42" class="comp-deg-text" text-anchor="middle">330</text>
-
-                  <!-- Precision Crosshairs -->
-                  <line x1="100" y1="52" x2="100" y2="148" stroke="rgba(17, 17, 17, 0.45)" stroke-width="1.2" />
-                  <line x1="52" y1="100" x2="148" y2="100" stroke="rgba(17, 17, 17, 0.45)" stroke-width="1.2" />
-                  <circle cx="100" cy="100" r="26" fill="rgba(0, 0, 0, 0.04)" />
-
-                  <!-- Red Direction Pointer Arrow at North / 0° -->
-                  <polygon points="100,38 95.5,46 104.5,46" fill="#EF4444" />
-
-                  <!-- Crisp Bold Cardinal Directions (N, E, S, W) in Solid Dark Black -->
-                  <text x="100" y="64" class="comp-cardinal-text" text-anchor="middle">N</text>
-                  <text x="134" y="104" class="comp-cardinal-text" text-anchor="middle">E</text>
-                  <text x="100" y="142" class="comp-cardinal-text" text-anchor="middle">S</text>
-                  <text x="66" y="104" class="comp-cardinal-text" text-anchor="middle">W</text>
-                </svg>
-              </div>
-            </div>
-
-            <!-- Digital Heading Readout Pill -->
-            <div class="luxury-compass-heading" id="compassHeadingText">000° N</div>
-
-            <!-- iOS Sensor Permission Prompt (Auto-hidden once active) -->
-            <button class="compass-perm-chip" id="compassPermBtn" style="display: none;">
-              <span>Enable Sensor</span>
-            </button>
-          </div>
-
-          <div class="hero-content cinematic-content">
-            <h1 class="impact akshara-hero-title">AKSHARA</h1>
-            <p class="hero-subtitle">Plotted Developments</p>
-            <div class="hero-ctas" style="justify-content: center; margin-top: 40px; margin-bottom: 0;">
-              <a href="#projects" class="btn btn-primary btn-lg btn-cinematic">
-                View Project Showcase
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+          <!-- Pure Fullscreen Vector-Fitted AKSHARA Title with Depth Motion -->
+          <div class="hero-sketch-overlay-stage" id="heroSketchStage">
+            <div class="akshara-svg-fit-wrap" id="heroSketchTitle">
+              <svg class="akshara-fit-svg" viewBox="0 0 1000 240" preserveAspectRatio="xMidYMid meet">
+                <text x="500" y="175" text-anchor="middle" class="akshara-svg-text">AKSHARA</text>
+              </svg>
             </div>
           </div>
+
         </div>
       </section>
     `;
   },
 
-  initInteractiveCompass() {
-    const root = document.getElementById('compassWidgetRoot');
-    const dialContainer = document.getElementById('compassDialContainer');
-    const rotatingLayer = document.getElementById('compassRotatingLayer');
-    const headingText = document.getElementById('compassHeadingText');
-    const ticksGroup = document.getElementById('compassTicksGroup');
-    const permBtn = document.getElementById('compassPermBtn');
-    if (!root || !dialContainer || !rotatingLayer) return;
-
-    // Generate precision 360 radial ticks in high-contrast solid dark
-    if (ticksGroup && !ticksGroup.hasChildNodes()) {
-      let ticksSvg = '';
-      for (let i = 0; i < 360; i += 3) {
-        const isMajor = i % 30 === 0;
-        const isMedium = i % 15 === 0;
-        const innerR = isMajor ? 68 : (isMedium ? 71 : 74);
-        const outerR = 80;
-        const strokeW = isMajor ? '2.2' : (isMedium ? '1.4' : '0.8');
-        const strokeOpacity = isMajor ? '0.95' : (isMedium ? '0.7' : '0.4');
-
-        const rad = (i * Math.PI) / 180;
-        const cos = Math.cos(rad);
-        const sin = Math.sin(rad);
-
-        const x1 = 100 + innerR * sin;
-        const y1 = 100 - innerR * cos;
-        const x2 = 100 + outerR * sin;
-        const y2 = 100 - outerR * cos;
-
-        ticksSvg += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#111111" stroke-width="${strokeW}" stroke-opacity="${strokeOpacity}" />`;
-      }
-      ticksGroup.innerHTML = ticksSvg;
-    }
-
-    let heading = 0;
-    let gotRealEvent = false;
-    let isDragging = false;
-    let dragStartAngle = 0;
-    let dragStartHeading = 0;
-
-    function normalize(h) {
-      return ((h % 360) + 360) % 360;
-    }
-
-    const cardinal = (deg) => {
-      const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
-      return dirs[Math.round(deg / 45) % 8];
-    };
-
-    function updateHeading(h) {
-      heading = normalize(h);
-      rotatingLayer.style.transform = `rotate(${-heading}deg)`;
-      if (headingText) {
-        const rounded = Math.round(heading);
-        headingText.innerText = `${String(rounded).padStart(3, '0')}° ${cardinal(rounded)}`;
-      }
-    }
-
-    function handleOrientation(e) {
-      let h = null;
-      if (typeof e.webkitCompassHeading === "number") {
-        h = e.webkitCompassHeading;
-      } else if (e.absolute && e.alpha !== null) {
-        h = 360 - e.alpha;
-      } else if (e.alpha !== null) {
-        h = 360 - e.alpha;
-      }
-      if (h !== null) {
-        gotRealEvent = true;
-        if (permBtn) permBtn.style.display = 'none';
-        updateHeading(h);
-      }
-    }
-
-    const hasAPI = typeof window !== "undefined" && "DeviceOrientationEvent" in window;
-    const needsIOSPermission = hasAPI && typeof DeviceOrientationEvent.requestPermission === "function";
-
-    if (needsIOSPermission) {
-      if (permBtn) permBtn.style.display = 'block';
-    } else if (hasAPI) {
-      window.addEventListener("deviceorientationabsolute", handleOrientation, true);
-      window.addEventListener("deviceorientation", handleOrientation, true);
-    }
-
-    if (permBtn) {
-      permBtn.onclick = async () => {
-        try {
-          const result = await DeviceOrientationEvent.requestPermission();
-          if (result === "granted") {
-            if (permBtn) permBtn.style.display = 'none';
-            window.addEventListener("deviceorientation", (e) => {
-              let h = typeof e.webkitCompassHeading === "number" ? e.webkitCompassHeading : (e.alpha !== null ? 360 - e.alpha : null);
-              if (h !== null) updateHeading(h);
-            }, true);
-          }
-        } catch (err) {
-          console.log('Compass permission notice:', err);
-        }
-      };
-    }
-
-    // Interactive Drag to Rotate Dial
-    const angleFromEvent = (clientX, clientY) => {
-      const rect = dialContainer.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = clientX - cx;
-      const dy = clientY - cy;
-      let deg = (Math.atan2(dx, -dy) * 180) / Math.PI;
-      return normalize(deg);
-    };
-
-    const onPointerDown = (e) => {
-      isDragging = true;
-      dialContainer.style.cursor = 'grabbing';
-      rotatingLayer.style.transition = 'none';
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      dragStartAngle = angleFromEvent(clientX, clientY);
-      dragStartHeading = heading;
-    };
-
-    const onPointerMove = (e) => {
-      if (!isDragging) return;
-      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-      const currentAngle = angleFromEvent(clientX, clientY);
-      updateHeading(dragStartHeading - (currentAngle - dragStartAngle));
-    };
-
-    const onPointerUp = () => {
-      if (!isDragging) return;
-      isDragging = false;
-      dialContainer.style.cursor = 'grab';
-      rotatingLayer.style.transition = 'transform 0.2s ease-out';
-    };
-
-    dialContainer.addEventListener('mousedown', onPointerDown);
-    window.addEventListener('mousemove', onPointerMove);
-    window.addEventListener('mouseup', onPointerUp);
-
-    dialContainer.addEventListener('touchstart', onPointerDown, { passive: true });
-    window.addEventListener('touchmove', onPointerMove, { passive: true });
-    window.addEventListener('touchend', onPointerUp, { passive: true });
-
-    updateHeading(0);
-  },
-
   initHeroScroll() {
-    const heroImage = document.getElementById('heroZoomImage');
-    const heroContent = document.querySelector('.cinematic-content');
-    
-    if (!heroImage) return;
+    const sketchImg = document.getElementById('heroSketchImg');
+    const heroTitle = document.getElementById('heroSketchTitle');
+    const heroSection = document.getElementById('hero');
 
     if (this._onHeroScroll) {
       window.removeEventListener('scroll', this._onHeroScroll);
@@ -451,11 +258,11 @@ window.publicComponents = {
     this._onHeroScroll = () => {
       const section = document.getElementById('hero');
       if (!section) return;
-      
+
       const rect = section.getBoundingClientRect();
       const start = rect.top;
       const maxScroll = rect.height - window.innerHeight;
-      
+
       let progress = 0;
       if (start <= 0 && maxScroll > 0) {
         progress = Math.min(Math.abs(start) / maxScroll, 1);
@@ -465,17 +272,18 @@ window.publicComponents = {
         progress = 1;
       }
 
-      // Smooth transformations
-      const scale = 1 + progress;
-      const blur = progress * 10;
-      const opacity = 1 - progress;
+      // 1. Full-Size Sketch Zoom & Depth Scroll Effect
+      if (sketchImg) {
+        const sketchScale = 1 + progress * 0.95;
+        const sketchY = progress * 8;
+        sketchImg.style.transform = `scale(${sketchScale}) translateY(${sketchY}%)`;
+      }
 
-      heroImage.style.transform = `scale(${scale})`;
-      heroImage.style.filter = `blur(${blur}px)`;
-      
-      if (heroContent) {
-        heroContent.style.opacity = opacity;
-        heroContent.style.transform = `translateY(${progress * 50}px)`;
+      // 2. Climbing AKSHARA Title Motion with 3D Depth
+      if (heroTitle) {
+        const climbY = -progress * 130;
+        const titleScale = 1 - progress * 0.15;
+        heroTitle.style.transform = `translate3d(0, ${climbY}px, 0) scale(${titleScale})`;
       }
     };
 
@@ -542,7 +350,7 @@ window.publicComponents = {
           </div>
 
           <div style="position: relative;">
-            <img src="assets/about_showcase.png" alt="Akshara Infrastructure Showcase" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light); width: 100%; height: 100%; object-fit: cover;" />
+            <img src="assets/about_venture_sketch.jpg" alt="Akshara Infrastructure Showcase & Masterplan Sketch" style="border-radius: var(--radius-md); box-shadow: var(--shadow-pop); border: 1px solid var(--border-light); width: 100%; height: auto; object-fit: contain; background: #FFFFFF;" />
           </div>
         </div>
       </section>

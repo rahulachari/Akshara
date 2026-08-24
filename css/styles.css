@@ -567,100 +567,120 @@ img {
 }
 
 /* Hero Section */
-.hero-section {
-  height: 200vh;
+/* ==========================================================================
+   Hero Section: Sky View to Venture Dive & Climbing Brand Experience
+   ========================================================================== */
+
+/* ==========================================================================
+   Hero Section: Full-Size Architectural Sketch with AKSHARA Depth Scroll
+   ========================================================================== */
+
+.hero-sketch-full-section {
+  height: 220vh;
   position: relative;
-  background-color: #000;
+  background-color: #FFFFFF;
 }
 
-.hero-sticky {
+.hero-sketch-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
+  width: 100%;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #FFFFFF;
 }
 
-.hero-background {
+.hero-sketch-full-viewport {
   position: absolute;
   inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #FFFFFF;
 }
 
-.hero-background::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* Dark overlay */
-  z-index: 2;
-}
-
-.hero-background img {
+.hero-sketch-full-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform-origin: center;
-  will-change: transform, filter;
+  object-position: center;
+  display: block;
+  transform-origin: center center;
+  will-change: transform;
+  transition: transform 0.08s ease-out;
 }
 
-.cinematic-content {
-  text-align: center;
-  color: #FFFFFF;
+.hero-sketch-soft-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.25) 60%, rgba(255, 255, 255, 0.7) 100%),
+              linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 20%, transparent 80%, rgba(255, 255, 255, 0.8) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ==========================================================================
+   Pure Fullscreen Vector-Fitted AKSHARA Title with Depth Motion
+   ========================================================================== */
+
+.hero-sketch-overlay-stage {
+  position: absolute;
+  inset: 0;
   z-index: 10;
-  position: relative;
-  will-change: opacity, transform;
-}
-
-.akshara-hero-title {
-  font-family: 'Samarkan', 'Federo', 'Cinzel', system-ui, -apple-system, sans-serif;
-  font-size: clamp(3rem, 16vw, 18rem);
-  font-weight: 400; /* Reduced from 800 to be less chunky */
-  margin: 0;
-  line-height: 0.85;
-  text-transform: none;
-  letter-spacing: -0.04em;
-  color: rgba(255, 255, 255, 0.85); /* Semi-transparent to let the background breathe */
-}
-
-.hero-subtitle {
-  font-size: clamp(0.875rem, 3vw, 1.5rem);
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  margin-top: 10px;
-  color: rgba(255,255,255,0.9);
-}
-
-.hero-ctas {
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0 clamp(12px, 3vw, 40px);
+  box-sizing: border-box;
+  pointer-events: none;
 }
 
-.btn-cinematic {
-  background: transparent;
-  color: #FFFFFF;
-  border-color: #FFFFFF;
-  border-radius: 50px;
-  font-size: 0.95rem;
-  padding: 12px 28px;
+.akshara-svg-fit-wrap {
+  width: 100%;
+  max-width: min(92vw, 1200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  will-change: transform;
+  transition: transform 0.08s ease-out;
 }
 
-.btn-cinematic:hover {
-  background: #FFFFFF;
-  color: #000000;
-  border-color: #FFFFFF;
+.akshara-fit-svg {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+  display: block;
+}
+
+.akshara-svg-text {
+  font-family: 'Samarkan', 'Federo', 'Cinzel', system-ui, -apple-system, sans-serif;
+  font-size: 195px;
+  font-weight: 400;
+  letter-spacing: 14px;
+  fill: #080B10;
+  filter: drop-shadow(0 2px 25px rgba(255, 255, 255, 0.95)) drop-shadow(0 0 35px rgba(212, 175, 55, 0.25));
+  user-select: none;
 }
 
 @media (max-width: 768px) {
-  .akshara-hero-title {
-    font-size: 16vw;
+  .hero-sketch-full-section {
+    height: 160vh;
   }
-  .hero-subtitle {
-    font-size: 1rem;
+  .akshara-svg-fit-wrap {
+    max-width: 94vw;
+  }
+  .akshara-svg-text {
+    font-size: 190px;
+    letter-spacing: 8px;
   }
 }
 
@@ -754,17 +774,21 @@ img {
   position: relative;
   height: 240px;
   overflow: hidden;
+  background-color: #FFFFFF;
 }
 
 .project-thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: #FFFFFF;
+  padding: 8px;
+  box-sizing: border-box;
   transition: transform var(--transition-smooth);
 }
 
 .project-card:hover .project-thumb img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 .project-status-badge {
@@ -4303,158 +4327,7 @@ textarea.form-control {
   }
 }
 
-/* ==========================================================================
-   Luxury Apple Precision Architectural Compass Widget (Pure Transparent)
-   ========================================================================== */
 
-.luxury-compass-root {
-  position: absolute;
-  top: 20px;
-  left: 24px;
-  z-index: 950;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.luxury-compass-frame {
-  width: 92px;
-  height: 92px;
-  border-radius: 50%;
-  background: transparent;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  cursor: grab;
-  touch-action: none;
-}
-
-.luxury-compass-frame:active {
-  cursor: grabbing;
-}
-
-/* Fixed 12 o'clock Reference Line */
-.compass-fixed-index {
-  position: absolute;
-  top: 2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 9px;
-  background: #111111;
-  border-radius: 999px;
-  z-index: 10;
-  pointer-events: none;
-}
-
-.compass-rotating-disc {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  inset: 0;
-  transform: rotate(0deg);
-  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform;
-}
-
-.luxury-compass-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-.comp-deg-text {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 8.5px;
-  font-weight: 600;
-  fill: #111111;
-  dominant-baseline: central;
-}
-
-.comp-cardinal-text {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 15px;
-  font-weight: 800;
-  fill: #111111;
-  dominant-baseline: central;
-  letter-spacing: -0.03em;
-}
-
-.luxury-compass-heading {
-  color: #111111;
-  font-size: 0.88rem;
-  font-weight: 700;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  letter-spacing: 0.03em;
-  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-.compass-perm-chip {
-  margin-top: 4px;
-  font-size: 10px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  border: 1px solid #111111;
-  background: rgba(255, 255, 255, 0.7);
-  color: #111111;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.2s ease;
-}
-
-.compass-perm-chip:hover {
-  background: #FFFFFF;
-}
-
-/* Balanced Mobile & Tablet Positioning */
-@media (max-width: 992px) {
-  .luxury-compass-root {
-    top: 78px;
-    left: 16px;
-    gap: 3px;
-  }
-  
-  .luxury-compass-frame {
-    width: 68px;
-    height: 68px;
-  }
-
-  .comp-cardinal-text {
-    font-size: 13.5px;
-  }
-
-  .luxury-compass-heading {
-    font-size: 0.78rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .luxury-compass-root {
-    top: 74px;
-    left: 12px;
-  }
-
-  .luxury-compass-frame {
-    width: 60px;
-    height: 60px;
-  }
-
-  .comp-cardinal-text {
-    font-size: 12px;
-  }
-
-  .luxury-compass-heading {
-    font-size: 0.72rem;
-  }
-}
 
 /* Accessibility: Respect Reduced Motion Preferences */
 @media (prefers-reduced-motion: reduce) {

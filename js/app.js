@@ -123,11 +123,8 @@ class App {
           </main>
           ${window.publicComponents.renderFooter()}
         `;
-        // Initialize animations & compass
+        // Initialize animations
         setTimeout(() => {
-          if (window.publicComponents.initInteractiveCompass) {
-            window.publicComponents.initInteractiveCompass();
-          }
           if (window.publicComponents.initHeroScroll) {
             window.publicComponents.initHeroScroll();
           }

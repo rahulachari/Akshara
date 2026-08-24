@@ -5,7 +5,7 @@ export default defineConfig({
     host: true,
     port: 5173,
     watch: {
-      ignored: ['**/*.tmp*', '**/*.~tmp*', '**/scratch/**', '**/.system_generated/**', '**/*.lock']
+      ignored: ['**/*.tmp*', '**/*.~tmp*', '**/scratch/**', '**/.system_generated/**', '**/*.lock', '**/*.mp4', '**/*.png', '**/*.jpg', '**/*.webp']
     }
   }
 });
