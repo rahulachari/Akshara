@@ -152,14 +152,34 @@ window.publicComponents = {
         // Trigger submit
         isDragging = false;
         thumb.style.transform = `translateX(${maxDrag}px)`;
-        document.getElementById('hiddenSubmitBtn').click();
-        document.querySelector('.swipe-button-text').innerText = 'Submitted ✓';
+        
+        const textEl = document.querySelector('.swipe-button-text');
+        if (textEl) textEl.innerText = 'Redirecting to WhatsApp ✓';
+
+        const name = document.getElementById('contactLeadName')?.value || '';
+        const phone = document.getElementById('contactLeadPhone')?.value || '';
+        const email = document.getElementById('contactLeadEmail')?.value || '';
+        const cityPref = document.getElementById('contactCityPref')?.value || 'Not Specified';
+        const projectPref = document.getElementById('contactProjectPref')?.value || 'Not Specified';
+        const message = document.getElementById('contactLeadMessage')?.value || '';
+
+        window.store.addLead({ name, phone, email, cityPref, projectPref, message });
+
+        if (window.trackEvent) {
+          window.trackEvent('lead_form_submitted', { cityPref, projectPref });
+        }
+        
+        const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCity: ${cityPref}\nProject: ${projectPref}\nMessage: ${message}`;
+        const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
+        
+        // Direct redirect without popup blocker on iOS/Mac/iPad
+        window.location.href = waUrl;
         
         // Reset after a delay
         setTimeout(() => {
           thumb.style.transform = 'translateX(0px)';
-          document.querySelector('.swipe-button-text').innerText = 'Swipe to submit';
-        }, 3000);
+          if (textEl) textEl.innerText = 'Swipe to submit to WhatsApp';
+        }, 2000);
       }
     };
     
@@ -204,6 +224,57 @@ window.publicComponents = {
             <img src="assets/hero_visual.png" alt="Akshara Background" id="heroZoomImage" />
           </div>
 
+          <!-- Luxury Apple Precision Architectural Compass Widget -->
+          <div class="luxury-compass-root" id="compassWidgetRoot">
+            <div class="luxury-compass-frame" id="compassDialContainer">
+              <!-- Fixed 12 o'clock Heading Index Needle -->
+              <div class="compass-fixed-index"></div>
+
+              <div class="compass-rotating-disc" id="compassRotatingLayer">
+                <svg viewBox="0 0 200 200" class="luxury-compass-svg">
+                  <!-- Generated 360-degree ticks -->
+                  <g id="compassTicksGroup"></g>
+
+                  <!-- Outer Degree Numerals (0 to 330 in 30 deg steps) in Solid Dark -->
+                  <text x="100" y="32" class="comp-deg-text" text-anchor="middle">0</text>
+                  <text x="138" y="42" class="comp-deg-text" text-anchor="middle">30</text>
+                  <text x="168" y="72" class="comp-deg-text" text-anchor="middle">60</text>
+                  <text x="178" y="104" class="comp-deg-text" text-anchor="middle">90</text>
+                  <text x="168" y="136" class="comp-deg-text" text-anchor="middle">120</text>
+                  <text x="138" y="166" class="comp-deg-text" text-anchor="middle">150</text>
+                  <text x="100" y="176" class="comp-deg-text" text-anchor="middle">180</text>
+                  <text x="62" y="166" class="comp-deg-text" text-anchor="middle">210</text>
+                  <text x="32" y="136" class="comp-deg-text" text-anchor="middle">240</text>
+                  <text x="22" y="104" class="comp-deg-text" text-anchor="middle">270</text>
+                  <text x="32" y="72" class="comp-deg-text" text-anchor="middle">300</text>
+                  <text x="62" y="42" class="comp-deg-text" text-anchor="middle">330</text>
+
+                  <!-- Precision Crosshairs -->
+                  <line x1="100" y1="52" x2="100" y2="148" stroke="rgba(17, 17, 17, 0.45)" stroke-width="1.2" />
+                  <line x1="52" y1="100" x2="148" y2="100" stroke="rgba(17, 17, 17, 0.45)" stroke-width="1.2" />
+                  <circle cx="100" cy="100" r="26" fill="rgba(0, 0, 0, 0.04)" />
+
+                  <!-- Red Direction Pointer Arrow at North / 0° -->
+                  <polygon points="100,38 95.5,46 104.5,46" fill="#EF4444" />
+
+                  <!-- Crisp Bold Cardinal Directions (N, E, S, W) in Solid Dark Black -->
+                  <text x="100" y="64" class="comp-cardinal-text" text-anchor="middle">N</text>
+                  <text x="134" y="104" class="comp-cardinal-text" text-anchor="middle">E</text>
+                  <text x="100" y="142" class="comp-cardinal-text" text-anchor="middle">S</text>
+                  <text x="66" y="104" class="comp-cardinal-text" text-anchor="middle">W</text>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Digital Heading Readout Pill -->
+            <div class="luxury-compass-heading" id="compassHeadingText">000° N</div>
+
+            <!-- iOS Sensor Permission Prompt (Auto-hidden once active) -->
+            <button class="compass-perm-chip" id="compassPermBtn" style="display: none;">
+              <span>Enable Sensor</span>
+            </button>
+          </div>
+
           <div class="hero-content cinematic-content">
             <h1 class="impact akshara-hero-title">AKSHARA</h1>
             <p class="hero-subtitle">Plotted Developments</p>
@@ -217,6 +288,154 @@ window.publicComponents = {
         </div>
       </section>
     `;
+  },
+
+  initInteractiveCompass() {
+    const root = document.getElementById('compassWidgetRoot');
+    const dialContainer = document.getElementById('compassDialContainer');
+    const rotatingLayer = document.getElementById('compassRotatingLayer');
+    const headingText = document.getElementById('compassHeadingText');
+    const ticksGroup = document.getElementById('compassTicksGroup');
+    const permBtn = document.getElementById('compassPermBtn');
+    if (!root || !dialContainer || !rotatingLayer) return;
+
+    // Generate precision 360 radial ticks in high-contrast solid dark
+    if (ticksGroup && !ticksGroup.hasChildNodes()) {
+      let ticksSvg = '';
+      for (let i = 0; i < 360; i += 3) {
+        const isMajor = i % 30 === 0;
+        const isMedium = i % 15 === 0;
+        const innerR = isMajor ? 68 : (isMedium ? 71 : 74);
+        const outerR = 80;
+        const strokeW = isMajor ? '2.2' : (isMedium ? '1.4' : '0.8');
+        const strokeOpacity = isMajor ? '0.95' : (isMedium ? '0.7' : '0.4');
+
+        const rad = (i * Math.PI) / 180;
+        const cos = Math.cos(rad);
+        const sin = Math.sin(rad);
+
+        const x1 = 100 + innerR * sin;
+        const y1 = 100 - innerR * cos;
+        const x2 = 100 + outerR * sin;
+        const y2 = 100 - outerR * cos;
+
+        ticksSvg += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" stroke="#111111" stroke-width="${strokeW}" stroke-opacity="${strokeOpacity}" />`;
+      }
+      ticksGroup.innerHTML = ticksSvg;
+    }
+
+    let heading = 0;
+    let gotRealEvent = false;
+    let isDragging = false;
+    let dragStartAngle = 0;
+    let dragStartHeading = 0;
+
+    function normalize(h) {
+      return ((h % 360) + 360) % 360;
+    }
+
+    const cardinal = (deg) => {
+      const dirs = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+      return dirs[Math.round(deg / 45) % 8];
+    };
+
+    function updateHeading(h) {
+      heading = normalize(h);
+      rotatingLayer.style.transform = `rotate(${-heading}deg)`;
+      if (headingText) {
+        const rounded = Math.round(heading);
+        headingText.innerText = `${String(rounded).padStart(3, '0')}° ${cardinal(rounded)}`;
+      }
+    }
+
+    function handleOrientation(e) {
+      let h = null;
+      if (typeof e.webkitCompassHeading === "number") {
+        h = e.webkitCompassHeading;
+      } else if (e.absolute && e.alpha !== null) {
+        h = 360 - e.alpha;
+      } else if (e.alpha !== null) {
+        h = 360 - e.alpha;
+      }
+      if (h !== null) {
+        gotRealEvent = true;
+        if (permBtn) permBtn.style.display = 'none';
+        updateHeading(h);
+      }
+    }
+
+    const hasAPI = typeof window !== "undefined" && "DeviceOrientationEvent" in window;
+    const needsIOSPermission = hasAPI && typeof DeviceOrientationEvent.requestPermission === "function";
+
+    if (needsIOSPermission) {
+      if (permBtn) permBtn.style.display = 'block';
+    } else if (hasAPI) {
+      window.addEventListener("deviceorientationabsolute", handleOrientation, true);
+      window.addEventListener("deviceorientation", handleOrientation, true);
+    }
+
+    if (permBtn) {
+      permBtn.onclick = async () => {
+        try {
+          const result = await DeviceOrientationEvent.requestPermission();
+          if (result === "granted") {
+            if (permBtn) permBtn.style.display = 'none';
+            window.addEventListener("deviceorientation", (e) => {
+              let h = typeof e.webkitCompassHeading === "number" ? e.webkitCompassHeading : (e.alpha !== null ? 360 - e.alpha : null);
+              if (h !== null) updateHeading(h);
+            }, true);
+          }
+        } catch (err) {
+          console.log('Compass permission notice:', err);
+        }
+      };
+    }
+
+    // Interactive Drag to Rotate Dial
+    const angleFromEvent = (clientX, clientY) => {
+      const rect = dialContainer.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dx = clientX - cx;
+      const dy = clientY - cy;
+      let deg = (Math.atan2(dx, -dy) * 180) / Math.PI;
+      return normalize(deg);
+    };
+
+    const onPointerDown = (e) => {
+      isDragging = true;
+      dialContainer.style.cursor = 'grabbing';
+      rotatingLayer.style.transition = 'none';
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      dragStartAngle = angleFromEvent(clientX, clientY);
+      dragStartHeading = heading;
+    };
+
+    const onPointerMove = (e) => {
+      if (!isDragging) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+      const currentAngle = angleFromEvent(clientX, clientY);
+      updateHeading(dragStartHeading - (currentAngle - dragStartAngle));
+    };
+
+    const onPointerUp = () => {
+      if (!isDragging) return;
+      isDragging = false;
+      dialContainer.style.cursor = 'grab';
+      rotatingLayer.style.transition = 'transform 0.2s ease-out';
+    };
+
+    dialContainer.addEventListener('mousedown', onPointerDown);
+    window.addEventListener('mousemove', onPointerMove);
+    window.addEventListener('mouseup', onPointerUp);
+
+    dialContainer.addEventListener('touchstart', onPointerDown, { passive: true });
+    window.addEventListener('touchmove', onPointerMove, { passive: true });
+    window.addEventListener('touchend', onPointerUp, { passive: true });
+
+    updateHeading(0);
   },
 
   initHeroScroll() {
@@ -867,12 +1086,14 @@ window.publicComponents = {
       window.trackEvent('lead_form_submitted', { cityPref, projectPref });
     }
     
-    const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nMessage: ${message}`;
+    const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCity: ${cityPref}\nProject: ${projectPref}\nMessage: ${message}`;
     const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
-    window.open(waUrl, '_blank');
-
+    
     app.showToast('✓ Redirecting to WhatsApp...');
-    document.getElementById('publicEnquiryForm').reset();
+    document.getElementById('publicEnquiryForm')?.reset();
+    
+    // Direct location redirect to prevent popup blocker on iOS/Mac/iPad
+    window.location.href = waUrl;
   },
   toggleMusic() {
     const audio = document.getElementById('bgMusic');
@@ -1211,10 +1432,6 @@ window.publicComponents = {
 
         <!-- Planning Page Hero Headline Section -->
         <div class="planning-hero-section">
-          <div class="planning-badge-row mono-badge">
-            <span class="planning-pulse-dot mono-dot"></span>
-            <span class="planning-tag mono-tag">Interactive CAD Planning & Masterplan</span>
-          </div>
           <h1 class="planning-main-title mono-title">${proj.name}</h1>
           <p class="planning-subtitle mono-subtitle">Touch or click any plot to inspect live boundary dimensions, orientation & exact square footage</p>
         </div>
@@ -1231,52 +1448,60 @@ window.publicComponents = {
             </div>
           </div>
           
-          <!-- Monochrome Architectural CAD Inspector Card -->
+          <!-- Monochrome Architectural CAD Inspector Card (Showcase Specification View) -->
           <div id="plotDetailPopup" class="plot-detail-popup monochrome-popup">
-            <div class="popup-drag-handle mobile-only"></div>
+            <div class="popup-drag-handle"></div>
             <button class="popup-close-btn mono-close-btn" onclick="document.getElementById('plotDetailPopup').classList.remove('visible')" aria-label="Close">✕</button>
             
             <div class="popup-header">
-              <div>
-                <span class="popup-badge mono-badge-tag" id="popupPhaseTag">Architectural CAD Figure</span>
-                <h3 id="popupPlotId" class="popup-plot-title mono-plot-title">Plot #21</h3>
+              <div class="popup-status-pill-row">
+                <span class="popup-plot-number-tag" id="popupPlotTag">PLOT #21 SPECIFICATION</span>
               </div>
+              <h3 id="popupPlotTitle" class="popup-plot-title mono-plot-title">${proj.name}, Plot #21</h3>
+              <p id="popupPlotLocation" class="popup-plot-location">${proj.location}</p>
             </div>
             
-            <!-- Technical CAD Vector Figure Box with Dynamic Shape -->
+            <!-- Technical CAD Vector Figure Box with Dynamic Shape & Outside Boundary Dimensions -->
             <div class="cad-figure-box mono-cad-box">
               <div class="cad-figure-canvas" id="cadFigureContainer">
-                <svg viewBox="0 0 250 130" class="cad-figure-svg animated-plot-shape">
-                  <rect width="250" height="130" fill="#09090b" rx="10" />
-                  <rect x="45" y="20" width="160" height="90" rx="4" class="cad-isolated-polygon" />
-                  <circle cx="45" cy="20" r="4.5" class="cad-corner-node" />
-                  <circle cx="205" cy="20" r="4.5" class="cad-corner-node" />
-                  <circle cx="205" cy="110" r="4.5" class="cad-corner-node" />
-                  <circle cx="45" cy="110" r="4.5" class="cad-corner-node" />
-                  <text x="125" y="70" class="cad-center-area mono-watermark" text-anchor="middle">1,200 SQ.FT</text>
-                </svg>
+                <!-- Dynamically populated with polygon and outside boundary dimensions -->
               </div>
             </div>
             
-            <div class="popup-specs-grid">
-              <div class="popup-stat-box mono-stat-box highlight-box">
-                <span class="stat-label mono-label">Total Plot Area</span>
-                <span class="stat-value mono-val-highlight" id="popupPlotArea">1,200 sq.ft</span>
+            <!-- Clean Plot Specs Section Matching Showcase -->
+            <div class="popup-specs-container">
+              <div class="specs-primary-area-row">
+                <div class="specs-area-col">
+                  <span class="stat-label mono-label">PLOT AREA</span>
+                  <div class="stat-value-large" id="popupPlotAreaLarge">1,200 <span class="stat-unit">sq ft</span></div>
+                  <div class="stat-sub-val" id="popupPlotAreaSqM">111.48 sq m</div>
+                </div>
               </div>
-              <div class="popup-stat-box mono-stat-box">
-                <span class="stat-label mono-label">Boundary Dimensions</span>
-                <span class="stat-value mono-val" id="popupPlotDims">30'0" x 40'0"</span>
-              </div>
-              <div class="popup-stat-box mono-stat-box full-width">
-                <span class="stat-label mono-label">Orientation / Facing</span>
-                <span class="stat-value mono-val" id="popupPlotFacing">East Facing (25ft Road)</span>
+
+              <div class="specs-table-grid">
+                <div class="specs-grid-cell">
+                  <span class="stat-label mono-label">SURVEY / APPROVAL</span>
+                  <span class="stat-value mono-val" id="popupPlotSurvey">250/2</span>
+                </div>
+                <div class="specs-grid-cell">
+                  <span class="stat-label mono-label">FACING</span>
+                  <span class="stat-value mono-val" id="popupPlotFacing">EAST</span>
+                </div>
+                <div class="specs-grid-cell">
+                  <span class="stat-label mono-label">DIMENSIONS</span>
+                  <span class="stat-value mono-val" id="popupPlotDimensions">30'0" x 40'0"</span>
+                </div>
+                <div class="specs-grid-cell">
+                  <span class="stat-label mono-label">DEVELOPMENT</span>
+                  <span class="stat-value mono-val" id="popupPlotProject">${proj.name}</span>
+                </div>
               </div>
             </div>
 
-            <button class="btn btn-full mono-btn-primary" onclick="publicComponents.openDirectPlotEnquiry('${proj.name}')" style="margin-top: 10px;">
-              <span>Enquire & Reserve Unit</span>
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            <button class="btn btn-full mono-btn-primary" onclick="publicComponents.openDirectPlotEnquiry('${proj.name}')" style="margin-top: 14px;">
+              <span>Request CAD & Project Details →</span>
             </button>
+            <div class="popup-footer-note">Area, facing, dimensions, boundaries — architectural masterplan.</div>
           </div>
         </div>
       </div>
@@ -1325,10 +1550,10 @@ window.publicComponents = {
     const width = maxX - minX || 1;
     const height = maxY - minY || 1;
 
-    const targetW = 180;
-    const targetH = 90;
-    const paddingX = 35;
-    const paddingY = 20;
+    const targetW = 150;
+    const targetH = 82;
+    const paddingX = 50;
+    const paddingY = 28;
 
     const scale = Math.min(targetW / width, targetH / height);
     const offsetX = paddingX + (targetW - width * scale) / 2;
@@ -1342,31 +1567,58 @@ window.publicComponents = {
     const pointsAttr = normalizedPoints.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
 
     const nodesSvg = normalizedPoints.map(p => `
-      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4.5" class="cad-corner-node" />
+      <circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" class="cad-corner-node" />
     `).join('');
 
-    const areaText = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' SQ.FT' : '1,200 SQ.FT';
+    // Parse or calculate outer boundary edge dimensions (N, E, S, W)
+    let northDim = "N 30.00 ft";
+    let eastDim = "E 40.00 ft";
+    let southDim = "S 30.00 ft";
+    let westDim = "W 40.00 ft";
+
+    const dimsStr = data.boundaryDims || data.dimensions || "";
+    if (dimsStr.includes('x')) {
+      const parts = dimsStr.split('x').map(s => s.trim());
+      northDim = `N ${parts[0]}`;
+      southDim = `S ${parts[0]}`;
+      eastDim = `E ${parts[1]}`;
+      westDim = `W ${parts[1]}`;
+    } else if (data.areaSqFt) {
+      const approxSide = Math.round(Math.sqrt(data.areaSqFt));
+      northDim = `N ${(approxSide * 0.75).toFixed(1)} ft`;
+      southDim = `S ${(approxSide * 0.75).toFixed(1)} ft`;
+      eastDim = `E ${(approxSide * 1.33).toFixed(1)} ft`;
+      westDim = `W ${(approxSide * 1.33).toFixed(1)} ft`;
+    }
+
+    const normMinX = Math.min(...normalizedPoints.map(p => p.x));
+    const normMaxX = Math.max(...normalizedPoints.map(p => p.x));
+    const normMinY = Math.min(...normalizedPoints.map(p => p.y));
+    const normMaxY = Math.max(...normalizedPoints.map(p => p.y));
+    const centerX = (normMinX + normMaxX) / 2;
+    const centerY = (normMinY + normMaxY) / 2;
 
     return `
-      <svg viewBox="0 0 250 130" class="cad-figure-svg animated-plot-shape">
+      <svg viewBox="0 0 250 140" class="cad-figure-svg animated-plot-shape">
         <defs>
           <pattern id="cadGridSpec_${data.id || 'plot'}" width="16" height="16" patternUnits="userSpaceOnUse">
-            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.75"/>
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(255, 255, 255, 0.06)" stroke-width="0.75"/>
           </pattern>
         </defs>
-        <rect width="250" height="130" fill="#09090b" rx="10" />
-        <rect width="250" height="130" fill="url(#cadGridSpec_${data.id || 'plot'})" rx="10" />
+        <rect width="250" height="140" fill="#09090b" rx="10" />
+        <rect width="250" height="140" fill="url(#cadGridSpec_${data.id || 'plot'})" rx="10" />
         
-        <!-- Plot Exact Geometry Polygon -->
+        <!-- Plot Exact Geometry Polygon (Pure Outline + Soft Glow, NO Text Inside) -->
         <polygon points="${pointsAttr}" class="cad-isolated-polygon" />
         
-        <!-- Corner Vertex Nodes (from reference image) -->
+        <!-- Corner Vertex Nodes -->
         ${nodesSvg}
         
-        <!-- Center Area Watermark -->
-        <text x="125" y="70" class="cad-center-area mono-watermark" text-anchor="middle">
-          ${areaText}
-        </text>
+        <!-- Outside Boundary Dimension Edge Labels (N, E, S, W - matching reference exactly) -->
+        <text x="${centerX.toFixed(1)}" y="${Math.max(14, normMinY - 8).toFixed(1)}" class="cad-outer-dim-text" text-anchor="middle">${northDim}</text>
+        <text x="${Math.min(242, normMaxX + 6).toFixed(1)}" y="${(centerY + 3).toFixed(1)}" class="cad-outer-dim-text" text-anchor="start">${eastDim}</text>
+        <text x="${centerX.toFixed(1)}" y="${Math.min(134, normMaxY + 14).toFixed(1)}" class="cad-outer-dim-text" text-anchor="middle">${southDim}</text>
+        <text x="${Math.max(8, normMinX - 6).toFixed(1)}" y="${(centerY + 3).toFixed(1)}" class="cad-outer-dim-text" text-anchor="end">${westDim}</text>
       </svg>
     `;
   },
@@ -1391,30 +1643,39 @@ window.publicComponents = {
       shapeEl = event.target;
     }
 
-    // Update Popup Content
-    const titleEl = document.getElementById('popupPlotId');
-    if (titleEl) titleEl.innerText = data.name ? data.name : ('Plot #' + data.id);
-    
-    const formattedArea = data.areaSqFt ? data.areaSqFt.toLocaleString() + ' sq.ft' : '1,200 sq.ft';
-    const areaEl = document.getElementById('popupPlotArea');
-    if (areaEl) areaEl.innerText = formattedArea;
-    
-    const facingEl = document.getElementById('popupPlotFacing');
-    if (facingEl) facingEl.innerText = data.facing || 'East Facing (25ft Road)';
-    
-    const dimsStr = data.boundaryDims || (data.dimensions || "30'0\" x 40'0\"");
-    const dimsEl = document.getElementById('popupPlotDims');
-    if (dimsEl) dimsEl.innerText = dimsStr;
+    // Update Header Pill and Titles
+    const tagEl = document.getElementById('popupPlotTag');
+    if (tagEl) tagEl.innerText = data.name ? `${data.name.toUpperCase()} SPECIFICATION` : `PLOT #${data.id} SPECIFICATION`;
 
-    // Render Exact Plot Geometry Polygon with Nodes
+    const titleEl = document.getElementById('popupPlotTitle');
+    if (titleEl) {
+      const projName = window.location.hash.startsWith('#blueprint:') ? decodeURIComponent(window.location.hash.split(':')[1]) : 'Akshara Layout';
+      titleEl.innerText = `${projName}, ${data.name || ('Plot #' + data.id)}`;
+    }
+
+    // Update Specs Row
+    const areaSqFt = data.areaSqFt || 1200;
+    const areaSqM = (areaSqFt * 0.092903).toFixed(2);
+    
+    const areaLargeEl = document.getElementById('popupPlotAreaLarge');
+    if (areaLargeEl) areaLargeEl.innerHTML = `${areaSqFt.toLocaleString()} <span class="stat-unit">sq ft</span>`;
+
+    const areaSqMEl = document.getElementById('popupPlotAreaSqM');
+    if (areaSqMEl) areaSqMEl.innerText = `${areaSqM} sq m`;
+
+    const surveyEl = document.getElementById('popupPlotSurvey');
+    if (surveyEl) surveyEl.innerText = data.surveyNo || data.dtcpApproval || 'DTCP Approved';
+
+    const facingEl = document.getElementById('popupPlotFacing');
+    if (facingEl) facingEl.innerText = (data.facing || 'East').toUpperCase();
+
+    const dimsEl = document.getElementById('popupPlotDimensions');
+    if (dimsEl) dimsEl.innerText = data.boundaryDims || data.dimensions || "30'0\" x 40'0\"";
+
+    // Render Exact Plot Geometry Polygon with Outside Edge Dimensions
     const containerEl = document.getElementById('cadFigureContainer');
     if (containerEl) {
       containerEl.innerHTML = this.renderPlotShapeSvg(shapeEl, data);
-    }
-
-    const phaseTag = document.getElementById('popupPhaseTag');
-    if (phaseTag) {
-      phaseTag.innerText = data.phase === 'commercial' ? 'Commercial Zone Spec' : data.phase === 'park' ? 'Park & Greenery Spec' : 'Residential Plot Spec';
     }
 
     // Animate CAD Figure Box Popup Entrance
@@ -1515,7 +1776,9 @@ window.publicComponents = {
 
     const waText = `Hi Akshara Team, I am interested in reserving:\nProject: ${projectName}\nUnit: ${plotInfo}\nName: ${name}\nPhone: ${phone}`;
     const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
-    window.open(waUrl, '_blank');
+    
+    // Direct location redirect for reliable opening on iOS/Mac/iPad/Android
+    window.location.href = waUrl;
   },
 
   // Animated Enquiry Flow
@@ -1613,5 +1876,97 @@ window.publicComponents = {
         wrapper.remove();
       }
     }
+  },
+
+  render404Page() {
+    return `
+      <div class="page-404-container architectural-cad-theme">
+        <div class="cad-bg-diagonal"></div>
+        
+        <!-- HUD Header -->
+        <header class="blueprint-hud-header monochrome-hud" style="margin-bottom: 0;">
+          <div class="blueprint-hud-left">
+            <a href="#home" class="hud-btn-back mono-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              <span>Home</span>
+            </a>
+            <div class="hud-brand-pill mono-pill">
+              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain;" />
+              <div class="hud-title-col">
+                <span class="hud-project-title">Akshara Developments</span>
+                <span class="hud-project-meta">Masterplan Navigator</span>
+              </div>
+            </div>
+          </div>
+          <div class="blueprint-hud-right">
+            <a href="#projects" class="hud-btn-action mono-action">
+              <span>View Projects</span>
+            </a>
+          </div>
+        </header>
+
+        <!-- 404 Hero Visual Box -->
+        <div class="hero-404-wrapper">
+          <div class="cad-404-box">
+            <div class="cad-404-grid-canvas">
+              <svg viewBox="0 0 400 180" class="cad-404-svg">
+                <defs>
+                  <pattern id="cadGrid404" width="20" height="20" patternUnits="userSpaceOnUse">
+                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.75"/>
+                  </pattern>
+                </defs>
+                <rect width="400" height="180" fill="#09090b" rx="16" />
+                <rect width="400" height="180" fill="url(#cadGrid404)" rx="16" />
+                
+                <!-- Crosshair Coordinates Center -->
+                <line x1="200" y1="20" x2="200" y2="160" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="4, 4" />
+                <line x1="40" y1="90" x2="360" y2="90" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="4, 4" />
+                <circle cx="200" cy="90" r="38" fill="none" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="3, 3" />
+                
+                <!-- Giant 404 Technical Text -->
+                <text x="200" y="112" class="cad-404-giant-num" text-anchor="middle">404</text>
+                
+                <!-- Perimeter Corner Markers -->
+                <circle cx="45" cy="30" r="3.5" fill="#FFFFFF" />
+                <circle cx="355" cy="30" r="3.5" fill="#FFFFFF" />
+                <circle cx="355" cy="150" r="3.5" fill="#FFFFFF" />
+                <circle cx="45" cy="150" r="3.5" fill="#FFFFFF" />
+                
+                <!-- Outer Coordinate Labels -->
+                <text x="200" y="24" class="cad-dim-text mono-text" text-anchor="middle">N 12° 58' 23.4"</text>
+                <text x="350" y="94" class="cad-dim-text mono-text" text-anchor="start">E 79° 08'</text>
+                <text x="200" y="172" class="cad-dim-text mono-text" text-anchor="middle">S 0° 0' 00.0"</text>
+                <text x="48" y="94" class="cad-dim-text mono-text" text-anchor="end">W 79° 07'</text>
+              </svg>
+            </div>
+          </div>
+
+          <div class="content-404-block">
+            <div class="badge-404-tag">
+              <span class="pulse-dot-lime"></span>
+              <span>Coordinates Uncharted</span>
+            </div>
+            
+            <h1 class="title-404">Parcel Not Located</h1>
+            <p class="subtitle-404">
+              The layout sector, blueprint coordinate, or page you requested has not been surveyed or has moved to a new corridor.
+            </p>
+
+            <div class="actions-404-row">
+              <a href="#home" class="btn-404-primary">
+                <span>← Return to Home</span>
+              </a>
+              <a href="#projects" class="btn-404-secondary">
+                <span>Explore Active Projects ↗</span>
+              </a>
+            </div>
+
+            <div class="help-404-text">
+              Looking for a specific layout? <a href="#contact" class="help-link">Speak with our Survey Team</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
   }
 };

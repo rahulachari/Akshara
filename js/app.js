@@ -83,10 +83,27 @@ class App {
           }
         }, 0);
       } else if (this.currentRoute === 'blueprint') {
+        const proj = window.store.getProjects().find(p => p.name === this.routeParam);
+        if (!proj) {
+          document.body.style.backgroundColor = '#000000';
+          publicApp.innerHTML = `
+            <main style="min-height: 100vh; background: #000000;">
+              ${window.publicComponents.render404Page()}
+            </main>
+          `;
+        } else {
+          document.body.style.backgroundColor = '#000000';
+          publicApp.innerHTML = `
+            <main style="min-height: 100vh; background: #000000;">
+              ${window.publicComponents.renderBlueprintPage(this.routeParam)}
+            </main>
+          `;
+        }
+      } else if (this.currentRoute === '404') {
         document.body.style.backgroundColor = '#000000';
         publicApp.innerHTML = `
           <main style="min-height: 100vh; background: #000000;">
-            ${window.publicComponents.renderBlueprintPage(this.routeParam)}
+            ${window.publicComponents.render404Page()}
           </main>
         `;
       } else {
@@ -106,8 +123,11 @@ class App {
           </main>
           ${window.publicComponents.renderFooter()}
         `;
-        // Initialize animations
+        // Initialize animations & compass
         setTimeout(() => {
+          if (window.publicComponents.initInteractiveCompass) {
+            window.publicComponents.initInteractiveCompass();
+          }
           if (window.publicComponents.initHeroScroll) {
             window.publicComponents.initHeroScroll();
           }
@@ -126,9 +146,12 @@ class App {
       let param = null;
       const hash = window.location.hash;
       if (hash === '#contact') newRoute = 'contact';
+      else if (hash === '#404') newRoute = '404';
       else if (hash.startsWith('#blueprint:')) {
         newRoute = 'blueprint';
         param = decodeURIComponent(hash.split(':')[1]);
+      } else if (hash && !['#home', '#projects', '#about', '#why-us', '#process', '#leadership', '#testimonials'].includes(hash)) {
+        newRoute = '404';
       }
 
       if (this.currentRoute !== newRoute || this.routeParam !== param) {

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  
+  <title>404 — Coordinates Uncharted | AKSHARA Plotted Developments</title>
+  <meta name="description" content="The requested layout sector, blueprint coordinate, or page has not been surveyed or has moved to a new corridor." />
+  <meta name="robots" content="noindex, follow" />
+  
+  <link rel="icon" type="image/png" href="assets/Akshara__logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body style="background-color: #000000; margin: 0; padding: 0;">
+
+  <div class="page-404-container architectural-cad-theme">
+    <div class="cad-bg-diagonal"></div>
+    
+    <!-- HUD Header -->
+    <header class="blueprint-hud-header monochrome-hud" style="margin-bottom: 0;">
+      <div class="blueprint-hud-left">
+        <a href="/#home" class="hud-btn-back mono-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          <span>Home</span>
+        </a>
+        <div class="hud-brand-pill mono-pill">
+          <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain;" />
+          <div class="hud-title-col">
+            <span class="hud-project-title">Akshara Developments</span>
+            <span class="hud-project-meta">Masterplan Navigator</span>
+          </div>
+        </div>
+      </div>
+      <div class="blueprint-hud-right">
+        <a href="/#projects" class="hud-btn-action mono-action">
+          <span>View Projects</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- 404 Hero Visual Box -->
+    <div class="hero-404-wrapper">
+      <div class="cad-404-box">
+        <div class="cad-404-grid-canvas">
+          <svg viewBox="0 0 400 180" class="cad-404-svg">
+            <defs>
+              <pattern id="cadGrid404Direct" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255, 255, 255, 0.08)" stroke-width="0.75"/>
+              </pattern>
+            </defs>
+            <rect width="400" height="180" fill="#09090b" rx="16" />
+            <rect width="400" height="180" fill="url(#cadGrid404Direct)" rx="16" />
+            
+            <!-- Crosshair Coordinates Center -->
+            <line x1="200" y1="20" x2="200" y2="160" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="4, 4" />
+            <line x1="40" y1="90" x2="360" y2="90" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="4, 4" />
+            <circle cx="200" cy="90" r="38" fill="none" stroke="rgba(255, 255, 255, 0.15)" stroke-width="1" stroke-dasharray="3, 3" />
+            
+            <!-- Giant 404 Technical Text -->
+            <text x="200" y="112" class="cad-404-giant-num" text-anchor="middle">404</text>
+            
+            <!-- Perimeter Corner Markers -->
+            <circle cx="45" cy="30" r="3.5" fill="#FFFFFF" />
+            <circle cx="355" cy="30" r="3.5" fill="#FFFFFF" />
+            <circle cx="355" cy="150" r="3.5" fill="#FFFFFF" />
+            <circle cx="45" cy="150" r="3.5" fill="#FFFFFF" />
+            
+            <!-- Outer Coordinate Labels -->
+            <text x="200" y="24" class="cad-dim-text mono-text" text-anchor="middle">N 12° 58' 23.4"</text>
+            <text x="350" y="94" class="cad-dim-text mono-text" text-anchor="start">E 79° 08'</text>
+            <text x="200" y="172" class="cad-dim-text mono-text" text-anchor="middle">S 0° 0' 00.0"</text>
+            <text x="48" y="94" class="cad-dim-text mono-text" text-anchor="end">W 79° 07'</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="content-404-block">
+        <div class="badge-404-tag">
+          <span class="pulse-dot-lime"></span>
+          <span>Coordinates Uncharted</span>
+        </div>
+        
+        <h1 class="title-404">Parcel Not Located</h1>
+        <p class="subtitle-404">
+          The layout sector, blueprint coordinate, or page you requested has not been surveyed or has moved to a new corridor.
+        </p>
+
+        <div class="actions-404-row">
+          <a href="/#home" class="btn-404-primary">
+            <span>← Return to Home</span>
+          </a>
+          <a href="/#projects" class="btn-404-secondary">
+            <span>Explore Active Projects ↗</span>
+          </a>
+        </div>
+
+        <div class="help-404-text">
+          Looking for a specific layout? <a href="/#contact" class="help-link">Speak with our Survey Team</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -42,12 +42,23 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
 }
 
 html {
   scroll-behavior: smooth;
   font-size: 16px;
   background-color: #FFFFFF;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
 }
 
 body {
@@ -3474,11 +3485,31 @@ textarea.form-control {
   overflow-x: hidden;
 }
 
-.interactive-blueprint-page.architectural-cad-theme .blueprint-main-container,
+.interactive-blueprint-page.architectural-cad-theme .blueprint-main-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1160px;
+  margin: 0 auto;
+  position: relative;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .interactive-blueprint-page.architectural-cad-theme .blueprint-canvas-scroll {
   background: transparent !important;
   box-shadow: none !important;
   border: none !important;
+  overflow: visible !important;
+  cursor: default !important;
+  touch-action: pan-y !important;
+  width: 100%;
+  max-width: 1060px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
 }
 
 /* Subtle Technical 45-degree Alignment Line from Image 2 */
@@ -3623,39 +3654,11 @@ textarea.form-control {
   color: #FFFFFF;
 }
 
-/* Planning Hero Header */
-.planning-hero-section {
+/* Planning Hero Header */.planning-hero-section {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
   position: relative;
   z-index: 10;
-}
-
-.planning-badge-row.mono-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 16px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 999px;
-  margin-bottom: 14px;
-}
-
-.planning-pulse-dot.mono-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #FFFFFF;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
-}
-
-.planning-tag.mono-tag {
-  font-size: 0.76rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #FFFFFF;
 }
 
 .planning-main-title.mono-title {
@@ -3663,7 +3666,7 @@ textarea.form-control {
   font-weight: 800;
   letter-spacing: -0.03em;
   color: #FFFFFF;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .planning-subtitle.mono-subtitle {
@@ -3738,35 +3741,33 @@ textarea.form-control {
 /* Monochrome Architectural CAD Inspector Popup Card */
 .plot-detail-popup.monochrome-popup {
   position: fixed;
-  bottom: 32px;
-  right: 32px;
-  width: 360px;
+  top: 108px;
+  right: 28px;
+  bottom: auto;
+  width: 330px;
   max-width: calc(100vw - 40px);
-  background: rgba(14, 14, 16, 0.96);
+  max-height: calc(100vh - 128px);
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  background: rgba(12, 12, 14, 0.96);
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
   border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 24px;
-  padding: 22px;
+  border-radius: 20px;
+  padding: 16px 18px;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
   color: #FFFFFF;
   z-index: 1000;
   opacity: 0;
-  transform: translateY(20px) scale(0.96);
+  transform: translateY(12px) scale(0.97);
   pointer-events: none;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .plot-detail-popup.monochrome-popup.visible {
   opacity: 1;
   transform: translateY(0) scale(1);
   pointer-events: auto;
-}
-
-.popup-badge.mono-badge-tag {
-  background: rgba(255, 255, 255, 0.08);
-  color: #FFFFFF;
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .popup-plot-title.mono-plot-title {
@@ -3788,33 +3789,49 @@ textarea.form-control {
 .cad-figure-box.mono-cad-box {
   background: #09090b;
   border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 14px;
-  padding: 8px;
-  margin-bottom: 16px;
+  border-radius: 16px;
+  padding: 10px;
+  margin: 14px 0;
   overflow: hidden;
+  position: relative;
+}
+
+.cad-zoom-pill {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #D4D4D8;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  z-index: 5;
 }
 
 .cad-isolated-polygon {
-  fill: rgba(255, 255, 255, 0.08);
-  stroke: #FFFFFF;
-  stroke-width: 2.2;
+  fill: rgba(163, 230, 53, 0.12);
+  stroke: #a3e635;
+  stroke-width: 2.4;
   stroke-linejoin: round;
   stroke-linecap: round;
-  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
+  filter: drop-shadow(0 0 8px rgba(163, 230, 53, 0.35));
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .cad-corner-node {
   fill: #FFFFFF;
-  stroke: #09090b;
+  stroke: #a3e635;
   stroke-width: 1.5;
-  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+  filter: drop-shadow(0 0 4px rgba(163, 230, 53, 0.8));
   animation: pulseCadNode 2.5s infinite ease-in-out;
 }
 
 @keyframes pulseCadNode {
-  0%, 100% { r: 4.5px; opacity: 1; }
-  50% { r: 5.8px; opacity: 0.85; }
+  0%, 100% { r: 4px; opacity: 1; }
+  50% { r: 5.2px; opacity: 0.85; }
 }
 
 .animated-plot-shape {
@@ -3833,45 +3850,115 @@ textarea.form-control {
   }
 }
 
-.cad-dim-line.mono-line {
-  stroke: rgba(255, 255, 255, 0.4);
-  stroke-width: 1;
-}
-
-.cad-dim-arrow.mono-arrow {
-  fill: none;
-  stroke: #FFFFFF;
-  stroke-width: 1.5;
-}
-
-.cad-dim-text.mono-text {
-  fill: #FFFFFF;
+.cad-outer-dim-text {
+  fill: #A1A1AA;
   font-size: 9px;
-  font-weight: 700;
+  font-weight: 600;
   font-family: inherit;
+  letter-spacing: 0.02em;
 }
 
-.cad-center-area.mono-watermark {
-  fill: #FFFFFF;
-  font-size: 13px;
+/* Status Pill & Header Row */
+.popup-header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  position: relative;
+  padding-right: 32px;
+}
+
+.popup-status-pill-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.popup-plot-number-tag {
+  color: #a3e635;
+  font-size: 0.72rem;
   font-weight: 800;
-  font-family: inherit;
-  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(163, 230, 53, 0.12);
+  border: 1px solid rgba(163, 230, 53, 0.3);
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-block;
 }
 
-.popup-stat-box.mono-stat-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 12px;
-  padding: 10px 14px;
+.popup-plot-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin: 4px 0 2px 0;
+  line-height: 1.3;
+  word-break: break-word;
+}
+
+.popup-plot-location {
+  color: #A1A1AA;
+  font-size: 0.84rem;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+/* Specs Area Breakdown & Grid */
+.popup-specs-container {
+  margin-top: 14px;
+}
+
+.stat-value-large {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.1;
+  margin-top: 3px;
+}
+
+.stat-unit {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #A1A1AA;
+}
+
+.stat-sub-val {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #71717A;
+  margin-top: 2px;
+}
+
+.specs-table-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 18px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.specs-grid-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.popup-footer-note {
+  font-size: 0.74rem;
+  color: #71717A;
+  text-align: center;
+  margin-top: 8px;
 }
 
 .stat-label.mono-label {
   color: #A1A1AA;
   font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.06em;
   margin-bottom: 2px;
+  font-weight: 700;
 }
 
 .stat-value.mono-val {
@@ -3880,18 +3967,12 @@ textarea.form-control {
   font-weight: 700;
 }
 
-.stat-value.mono-val-highlight {
-  color: #FFFFFF !important;
-  font-size: 1.15rem;
-  font-weight: 800;
-}
-
 .btn.mono-btn-primary {
-  background: #FFFFFF;
+  background: #a3e635;
   color: #000000;
   font-weight: 800;
   border-radius: 999px;
-  padding: 12px 20px;
+  padding: 13px 20px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -3899,17 +3980,24 @@ textarea.form-control {
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 16px rgba(163, 230, 53, 0.25);
+  font-size: 0.95rem;
 }
 
 .btn.mono-btn-primary:hover {
-  background: #E4E4E7;
+  background: #bef264;
   transform: translateY(-1px);
 }
 
 @media (max-width: 768px) {
+  .interactive-blueprint-page.architectural-cad-theme {
+    padding: 16px 12px 120px 12px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
   .blueprint-hud-header.monochrome-hud {
-    margin: 0 auto 20px auto;
+    margin: 0 auto 16px auto;
     padding: 6px 10px;
     gap: 8px;
     width: 100%;
@@ -3984,12 +4072,17 @@ textarea.form-control {
     right: 0;
     width: 100%;
     max-width: 100%;
+    max-height: 82vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    touch-action: pan-y;
     border-radius: 28px 28px 0 0;
     border-bottom: none;
     border-left: none;
     border-right: none;
     transform: translateY(100%);
-    padding: 16px 20px max(24px, env(safe-area-inset-bottom, 24px)) 20px;
+    padding: 14px 20px max(24px, env(safe-area-inset-bottom, 24px)) 20px;
     box-shadow: 0 -10px 50px rgba(0, 0, 0, 0.95);
     z-index: 2000;
     opacity: 1;
@@ -4009,6 +4102,357 @@ textarea.form-control {
   .plot-detail-popup.monochrome-popup.visible {
     transform: translateY(0);
     pointer-events: auto;
+  }
+}
+
+/* ==========================================================================
+   404 Page Design - Architectural Venture CAD Theme
+   ========================================================================== */
+
+.page-404-container {
+  min-height: 100vh;
+  background-color: #000000;
+  color: #FFFFFF;
+  padding: 24px 20px 60px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.hero-404-wrapper {
+  width: 100%;
+  max-width: 640px;
+  margin: clamp(40px, 8vh, 80px) auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.cad-404-box {
+  width: 100%;
+  max-width: 440px;
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 20px;
+  padding: 12px;
+  box-shadow: 0 30px 80px -10px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  margin-bottom: 32px;
+}
+
+.cad-404-grid-canvas {
+  width: 100%;
+  position: relative;
+}
+
+.cad-404-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.cad-404-giant-num {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 2.5px;
+  font-size: 76px;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  font-family: inherit;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.5));
+}
+
+.content-404-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badge-404-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(163, 230, 53, 0.12);
+  border: 1px solid rgba(163, 230, 53, 0.35);
+  color: #a3e635;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+
+.pulse-dot-lime {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #a3e635;
+  box-shadow: 0 0 8px #a3e635;
+  animation: pulseDotLime 2s infinite ease-in-out;
+}
+
+@keyframes pulseDotLime {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.7; }
+}
+
+.title-404 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.subtitle-404 {
+  font-size: clamp(0.95rem, 2vw, 1.05rem);
+  color: #A1A1AA;
+  line-height: 1.6;
+  max-width: 520px;
+  margin: 0 auto 28px auto;
+}
+
+.actions-404-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.btn-404-primary {
+  background: #FFFFFF;
+  color: #000000;
+  font-weight: 800;
+  font-size: 0.92rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 20px rgba(255, 255, 255, 0.2);
+}
+
+.btn-404-primary:hover {
+  background: #E4E4E7;
+  transform: translateY(-2px);
+}
+
+.btn-404-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 0.92rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-404-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.help-404-text {
+  font-size: 0.84rem;
+  color: #71717A;
+}
+
+.help-404-text .help-link {
+  color: #A1A1AA;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.help-404-text .help-link:hover {
+  color: #FFFFFF;
+}
+
+@media (max-width: 600px) {
+  .page-404-container {
+    padding: 16px 14px 40px 14px;
+  }
+  .hero-404-wrapper {
+    margin-top: 28px;
+  }
+  .cad-404-box {
+    margin-bottom: 24px;
+  }
+  .actions-404-row {
+    flex-direction: column;
+    width: 100%;
+  }
+  .btn-404-primary,
+  .btn-404-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* ==========================================================================
+   Luxury Apple Precision Architectural Compass Widget (Pure Transparent)
+   ========================================================================== */
+
+.luxury-compass-root {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  z-index: 950;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-compass-frame {
+  width: 92px;
+  height: 92px;
+  border-radius: 50%;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: grab;
+  touch-action: none;
+}
+
+.luxury-compass-frame:active {
+  cursor: grabbing;
+}
+
+/* Fixed 12 o'clock Reference Line */
+.compass-fixed-index {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 9px;
+  background: #111111;
+  border-radius: 999px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.compass-rotating-disc {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  inset: 0;
+  transform: rotate(0deg);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.luxury-compass-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.comp-deg-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  fill: #111111;
+  dominant-baseline: central;
+}
+
+.comp-cardinal-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  fill: #111111;
+  dominant-baseline: central;
+  letter-spacing: -0.03em;
+}
+
+.luxury-compass-heading {
+  color: #111111;
+  font-size: 0.88rem;
+  font-weight: 700;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.compass-perm-chip {
+  margin-top: 4px;
+  font-size: 10px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid #111111;
+  background: rgba(255, 255, 255, 0.7);
+  color: #111111;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.compass-perm-chip:hover {
+  background: #FFFFFF;
+}
+
+/* Balanced Mobile & Tablet Positioning */
+@media (max-width: 992px) {
+  .luxury-compass-root {
+    top: 78px;
+    left: 16px;
+    gap: 3px;
+  }
+  
+  .luxury-compass-frame {
+    width: 68px;
+    height: 68px;
+  }
+
+  .comp-cardinal-text {
+    font-size: 13.5px;
+  }
+
+  .luxury-compass-heading {
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .luxury-compass-root {
+    top: 74px;
+    left: 12px;
+  }
+
+  .luxury-compass-frame {
+    width: 60px;
+    height: 60px;
+  }
+
+  .comp-cardinal-text {
+    font-size: 12px;
+  }
+
+  .luxury-compass-heading {
+    font-size: 0.72rem;
   }
 }
 
