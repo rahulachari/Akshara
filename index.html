@@ -72,11 +72,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Federo&display=swap" rel="stylesheet">
 
+  <!-- Preload Animation Assets -->
+  <link rel="preload" as="image" href="assets/akshara_logo_animation.gif" />
+
   <!-- Main Design System Stylesheet -->
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/MaskedHeading.css" />
 </head>
 <body>
+
+  <!-- Initial Complete Page Load Screen (Shows only on initial hard load/open) -->
+  <div id="initialPageLoader" class="initial-page-loader" aria-hidden="false">
+    <div class="initial-loader-content">
+      <img 
+        src="assets/akshara_logo_animation.gif" 
+        alt="Akshara Architectural Logo" 
+        class="initial-loader-gif" 
+        id="initialLoaderGif"
+      />
+    </div>
+  </div>
 
   <!-- Public Site Application Container -->
   <div id="publicApp"></div>
@@ -106,6 +121,41 @@
   <script src="js/components/admin.js"></script>
   <script src="js/app.js"></script>
 
+  <!-- Complete Page Load Dismissal Handler -->
+  <script>
+    (function() {
+      const loader = document.getElementById('initialPageLoader');
+      if (!loader) return;
+
+      const startTime = performance.now();
+      const MIN_DISPLAY_MS = 1700; // Optimal time for sketch drawing animation
+      let dismissed = false;
+
+      function dismiss() {
+        if (dismissed) return;
+        dismissed = true;
+        const elapsed = performance.now() - startTime;
+        const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
+        
+        setTimeout(() => {
+          loader.classList.add('loaded');
+          setTimeout(() => {
+            if (loader.parentNode) {
+              loader.parentNode.removeChild(loader);
+            }
+          }, 700);
+        }, remaining);
+      }
+
+      if (document.readyState === 'complete') {
+        dismiss();
+      } else {
+        window.addEventListener('load', dismiss, { once: true });
+        // Failsafe timer
+        setTimeout(dismiss, 3500);
+      }
+    })();
+  </script>
 
 </body>
 </html>

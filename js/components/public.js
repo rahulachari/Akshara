@@ -10,8 +10,8 @@ window.publicComponents = {
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
         <div class="container header-inner card-nav-top">
           <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
-            <div class="brand-logo-mark" style="background: #000000; padding: 2px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.15);">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: contain;" />
+            <div class="brand-logo-mark" style="background: #FFFFFF; padding: 2px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);">
+              <img src="assets/Akshara__logo.png" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
             </div>
             <div style="display: flex; align-items: center;">
               <div style="line-height: 1; font-weight: 800; letter-spacing: -0.04em;">AKSHARA</div>
@@ -221,14 +221,17 @@ window.publicComponents = {
       <section class="hero-section hero-sketch-full-section" id="hero">
         <div class="hero-sketch-sticky">
           
-          <!-- Full-Size Full-Bleed Architectural Sketch Canvas Background -->
+          <!-- Full-Size Full-Bleed Architectural Sketch Canvas Background with Mobile Ratio Support -->
           <div class="hero-sketch-full-viewport" id="heroSketchBg">
-            <img 
-              src="assets/hero_kononenko_sketch.jpg" 
-              alt="Akshara Architectural Concept Sketch" 
-              class="hero-sketch-full-img" 
-              id="heroSketchImg" 
-            />
+            <picture class="hero-sketch-full-picture">
+              <source media="(max-width: 768px)" srcset="assets/hero_sketch_mobile.png" />
+              <img 
+                src="assets/hero_kononenko_sketch.jpg" 
+                alt="Akshara Architectural Concept Sketch" 
+                class="hero-sketch-full-img" 
+                id="heroSketchImg" 
+              />
+            </picture>
             <div class="hero-sketch-soft-vignette"></div>
           </div>
 
@@ -272,17 +275,19 @@ window.publicComponents = {
         progress = 1;
       }
 
+      const isMobile = window.innerWidth <= 768;
+
       // 1. Full-Size Sketch Zoom & Depth Scroll Effect
       if (sketchImg) {
-        const sketchScale = 1 + progress * 0.95;
-        const sketchY = progress * 8;
+        const sketchScale = isMobile ? (1 + progress * 0.35) : (1 + progress * 0.95);
+        const sketchY = progress * (isMobile ? 4 : 8);
         sketchImg.style.transform = `scale(${sketchScale}) translateY(${sketchY}%)`;
       }
 
       // 2. Climbing AKSHARA Title Motion with 3D Depth
       if (heroTitle) {
-        const climbY = -progress * 130;
-        const titleScale = 1 - progress * 0.15;
+        const climbY = -progress * (isMobile ? 70 : 130);
+        const titleScale = 1 - progress * (isMobile ? 0.08 : 0.15);
         heroTitle.style.transform = `translate3d(0, ${climbY}px, 0) scale(${titleScale})`;
       }
     };
@@ -731,8 +736,8 @@ window.publicComponents = {
           <div class="footer-dark-box">
             <div class="footer-left-col">
               <div class="footer-logo" style="margin-bottom: 20px;">
-                <div style="background: #000000; padding: 6px 16px; border-radius: var(--radius-sm); display: inline-flex; align-items: center; box-shadow: 0 4px 16px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.15);">
-                  <img src="assets/Akshara__logo.png" alt="Akshara One" style="height: 48px; width: auto; object-fit: contain; display: block;" />
+                <div style="background: #FFFFFF; width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); padding: 4px;">
+                  <img src="assets/Akshara__logo.png" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%; display: block;" />
                 </div>
               </div>
               <h2 class="footer-tagline">Premium Plotted Developments<br/>Built for the Future</h2>
@@ -1219,7 +1224,7 @@ window.publicComponents = {
             </a>
             
             <div class="hud-brand-pill mono-pill">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" width="30" height="30" style="width:30px;height:30px;max-width:30px;max-height:30px;object-fit:contain;border-radius:6px;background:#000;border:1px solid rgba(255,255,255,0.15);" />
+              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" width="30" height="30" style="width:30px;height:30px;max-width:30px;max-height:30px;object-fit:contain;border-radius:50%;background:#FFFFFF;border:1px solid rgba(255,255,255,0.15);" />
               <div class="hud-title-col">
                 <span class="hud-project-title">${proj.name}</span>
                 <span class="hud-project-meta">${proj.city} • ${optionBadge}</span>
@@ -1699,7 +1704,7 @@ window.publicComponents = {
               <span>Home</span>
             </a>
             <div class="hud-brand-pill mono-pill">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain;" />
+              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain; border-radius:50%; background:#FFFFFF;" />
               <div class="hud-title-col">
                 <span class="hud-project-title">Akshara Developments</span>
                 <span class="hud-project-meta">Masterplan Navigator</span>
