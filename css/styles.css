@@ -47,17 +47,39 @@
 html {
   scroll-behavior: smooth;
   font-size: 16px;
-  background-color: #ffffff; /* Prevents black blur bleed on contact page */
+  background-color: #FFFFFF;
 }
 
 body {
   font-family: var(--font-family);
-  background-color: var(--bg-primary);
+  background-color: #FFFFFF;
+  background-image: 
+    linear-gradient(rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.07) 1px, transparent 1px),
+    linear-gradient(rgba(0, 0, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.02) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+  background-attachment: fixed;
   color: var(--text-primary);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  position: relative;
+}
+
+/* Subtle 45-degree Technical Drafting Line across Home Page (Matching Image Reference) */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, transparent 49.9%, rgba(0, 0, 0, 0.06) 50%, transparent 50.1%);
+  pointer-events: none;
+  z-index: 0;
 }
 
 a {
@@ -93,7 +115,7 @@ img {
 }
 
 .section-secondary {
-  background-color: var(--bg-secondary);
+  background-color: transparent;
 }
 
 .section-header {
@@ -1018,6 +1040,66 @@ img {
   position: relative;
   z-index: 2;
   font-size: 0.875rem;
+}
+
+/* Board of Directors - Dark Architectural CAD Grid Theme (Matching Image Reference) */
+.board-leadership-cad-section {
+  background-color: #000000;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.16) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+  position: relative;
+  overflow: hidden;
+  color: #FFFFFF;
+  padding: 40px 0 70px 0;
+}
+
+.cad-bg-diagonal-section {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, transparent 49.85%, rgba(255, 255, 255, 0.1) 50%, transparent 50.15%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.board-leadership-cad-section .section-header {
+  margin-bottom: 32px;
+}
+
+.board-leadership-cad-section .section-tag.mono-tag {
+  color: #A1A1AA;
+}
+
+.board-leadership-cad-section .section-tag.mono-tag::before {
+  background-color: #FFFFFF;
+}
+
+.board-leadership-cad-section .section-title.mono-title {
+  color: #FFFFFF;
+}
+
+.board-leadership-cad-section .section-subtitle.mono-subtitle {
+  color: #A1A1AA;
+}
+
+.board-card.mono-board-card {
+  background-color: rgba(12, 12, 14, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  border-radius: var(--radius-md);
+}
+
+.board-card.mono-board-card:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-6px);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.8);
 }
 
 /* Board Members / Leadership */
@@ -2834,7 +2916,7 @@ textarea.form-control {
   justify-content: flex-start;
   padding: 24px 20px 80px 20px;
   width: 100%;
-  background: radial-gradient(circle at 50% 15%, #f1f5f9 0%, #ffffff 70%);
+  background: transparent;
 }
 
 .blueprint-tabs-container {
@@ -3371,5 +3453,452 @@ textarea.form-control {
     margin: 0 auto 14px auto;
   }
 }
+
+/* ==========================================================================
+   Monochrome Architectural CAD Blueprint Theme (Black & White Technical Grid)
+   ========================================================================== */
+
+.interactive-blueprint-page.architectural-cad-theme {
+  background-color: #000000;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12) 1px, transparent 1px),
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
+  color: #FFFFFF;
+  min-height: 100vh;
+  padding: 28px 20px 80px 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.interactive-blueprint-page.architectural-cad-theme .blueprint-main-container,
+.interactive-blueprint-page.architectural-cad-theme .blueprint-canvas-scroll {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+/* Subtle Technical 45-degree Alignment Line from Image 2 */
+.cad-bg-diagonal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, transparent 49.85%, rgba(255, 255, 255, 0.06) 50%, transparent 50.15%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Sleek Monochrome HUD Top Bar */
+.blueprint-hud-header.monochrome-hud {
+  max-width: 1120px;
+  margin: 0 auto 32px auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  background: rgba(12, 12, 14, 0.92);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  padding: 8px 14px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 30;
+}
+
+.blueprint-hud-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-btn-back.mono-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.hud-btn-back.mono-btn:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.hud-brand-pill.mono-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+}
+
+.hud-logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  background: #FFFFFF;
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.hud-title-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-project-title {
+  font-size: 0.88rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.hud-project-meta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #A1A1AA;
+  line-height: 1.2;
+}
+
+.blueprint-hud-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-btn-action.mono-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: #FFFFFF;
+  border: 1px solid #FFFFFF;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #000000;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.hud-btn-action.mono-action:hover {
+  background: #E4E4E7;
+  transform: translateY(-1px);
+}
+
+.hud-btn-close.mono-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #D4D4D8;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.hud-btn-close.mono-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+/* Planning Hero Header */
+.planning-hero-section {
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 10;
+}
+
+.planning-badge-row.mono-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  margin-bottom: 14px;
+}
+
+.planning-pulse-dot.mono-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.8);
+}
+
+.planning-tag.mono-tag {
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #FFFFFF;
+}
+
+.planning-main-title.mono-title {
+  font-size: clamp(1.8rem, 4vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: #FFFFFF;
+  margin-bottom: 8px;
+}
+
+.planning-subtitle.mono-subtitle {
+  font-size: 0.95rem;
+  color: #A1A1AA;
+  max-width: 660px;
+  margin: 0 auto;
+}
+
+/* Monochrome Technical Device Frame */
+.blueprint-canvas-wrapper.monochrome-device-frame {
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 28px;
+  box-shadow: 0 30px 80px -15px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+  overflow: hidden;
+  padding: 10px;
+  max-width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.blueprint-canvas-wrapper.monochrome-device-frame .blueprint-base-img {
+  border-radius: 20px;
+  max-height: 74vh;
+  display: block;
+  object-fit: contain;
+}
+
+/* Mapped Plots - High-End Technical Monochrome Styling */
+.blueprint-plot {
+  fill: rgba(255, 255, 255, 0.05);
+  stroke: rgba(255, 255, 255, 0.7);
+  stroke-width: 1.8;
+  stroke-dasharray: 4, 3;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.blueprint-plot:hover {
+  fill: rgba(255, 255, 255, 0.3);
+  stroke: #FFFFFF;
+  stroke-width: 2.8;
+  stroke-dasharray: none;
+}
+
+.blueprint-plot.active {
+  fill: rgba(255, 255, 255, 0.65) !important;
+  stroke: #FFFFFF !important;
+  stroke-width: 3.5 !important;
+  stroke-dasharray: none !important;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+}
+
+.blueprint-plot.sold {
+  fill: rgba(239, 68, 68, 0.15);
+  stroke: rgba(239, 68, 68, 0.7);
+}
+
+.blueprint-plot.sold:hover {
+  fill: rgba(239, 68, 68, 0.35);
+  stroke: #EF4444;
+}
+
+.blueprint-plot-num {
+  fill: #000000;
+  font-weight: 800;
+  pointer-events: none;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+}
+
+/* Monochrome Architectural CAD Inspector Popup Card */
+.plot-detail-popup.monochrome-popup {
+  background: rgba(14, 14, 16, 0.95);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.95), inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+  z-index: 100;
+}
+
+.popup-badge.mono-badge-tag {
+  background: rgba(255, 255, 255, 0.08);
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.popup-plot-title.mono-plot-title {
+  color: #FFFFFF;
+}
+
+.popup-close-btn.mono-close-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #D4D4D8;
+}
+
+.popup-close-btn.mono-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  color: #FFFFFF;
+}
+
+/* CAD Figure Box */
+.cad-figure-box.mono-cad-box {
+  background: #09090b;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 16px;
+}
+
+.cad-figure-rect.mono-rect {
+  fill: rgba(255, 255, 255, 0.08);
+  stroke: #FFFFFF;
+  stroke-width: 1.5;
+  stroke-dasharray: 4, 3;
+}
+
+.cad-dim-line.mono-line {
+  stroke: rgba(255, 255, 255, 0.4);
+  stroke-width: 1;
+}
+
+.cad-dim-arrow.mono-arrow {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 1.5;
+}
+
+.cad-dim-text.mono-text {
+  fill: #FFFFFF;
+  font-size: 9px;
+  font-weight: 700;
+  font-family: inherit;
+}
+
+.cad-center-area.mono-watermark {
+  fill: #FFFFFF;
+  font-size: 13px;
+  font-weight: 800;
+  font-family: inherit;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.7));
+}
+
+.popup-stat-box.mono-stat-box {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.stat-label.mono-label {
+  color: #A1A1AA;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.stat-value.mono-val {
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+
+.stat-value.mono-val-highlight {
+  color: #FFFFFF !important;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.btn.mono-btn-primary {
+  background: #FFFFFF;
+  color: #000000;
+  font-weight: 800;
+  border-radius: 999px;
+  padding: 12px 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.2);
+}
+
+.btn.mono-btn-primary:hover {
+  background: #E4E4E7;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .blueprint-hud-header.monochrome-hud {
+    margin: 0 0 20px 0;
+    padding: 6px 12px;
+  }
+  .hud-btn-back.mono-btn span {
+    display: none;
+  }
+  .plot-detail-popup.monochrome-popup {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    border-radius: 24px 24px 0 0;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    transform: translateY(100%);
+    padding: 18px 18px max(28px, env(safe-area-inset-bottom, 28px)) 18px;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.9);
+    z-index: 200;
+  }
+  .plot-detail-popup.monochrome-popup.visible {
+    transform: translateY(0);
+  }
+}
+
+/* Accessibility: Respect Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 
 

@@ -83,13 +83,11 @@ class App {
           }
         }, 0);
       } else if (this.currentRoute === 'blueprint') {
-        document.body.style.backgroundColor = 'var(--bg-primary)';
+        document.body.style.backgroundColor = '#000000';
         publicApp.innerHTML = `
-          ${window.publicComponents.renderHeader()}
-          <main style="padding-top: 80px; min-height: 100vh; background: var(--bg-primary);">
+          <main style="min-height: 100vh; background: #000000;">
             ${window.publicComponents.renderBlueprintPage(this.routeParam)}
           </main>
-          ${window.publicComponents.renderFooter({ hideGiantText: true })}
         `;
       } else {
         document.body.style.backgroundColor = 'var(--bg-primary)';
@@ -137,6 +135,9 @@ class App {
         this.currentRoute = newRoute;
         this.routeParam = param;
         this.renderApp();
+        if (window.trackEvent) {
+          window.trackEvent('route_view', { route: newRoute, param: param || '' });
+        }
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     });
