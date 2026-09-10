@@ -85,16 +85,16 @@ class App {
       } else if (this.currentRoute === 'blueprint') {
         const proj = window.store.getProjects().find(p => p.name === this.routeParam);
         if (!proj) {
-          document.body.style.backgroundColor = '#000000';
+          document.body.style.backgroundColor = '#F8F9FA';
           publicApp.innerHTML = `
-            <main style="min-height: 100vh; background: #000000;">
+            <main style="min-height: 100vh; background: #F8F9FA;">
               ${window.publicComponents.render404Page()}
             </main>
           `;
         } else {
-          document.body.style.backgroundColor = '#000000';
+          document.body.style.backgroundColor = '#F8F9FA';
           publicApp.innerHTML = `
-            <main style="min-height: 100vh; background: #000000;">
+            <main style="min-height: 100vh; background: #F8F9FA;">
               ${window.publicComponents.renderBlueprintPage(this.routeParam)}
             </main>
           `;
@@ -169,17 +169,43 @@ class App {
       }
     });
 
-    // Handle scroll for back-to-top button
-    window.addEventListener('scroll', () => {
-      const btn = document.getElementById('backToTopBtn');
-      if (btn) {
-        if (window.scrollY > 300) {
-          btn.classList.add('visible');
-        } else {
-          btn.classList.remove('visible');
-        }
+    // Handle scroll for back-to-top button & VoiceOS navbar liquid glass (RAF throttled & state-cached)
+    let navTicking = false;
+    let lastScrolled = false;
+    const handleScroll = () => {
+      if (!navTicking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY || window.pageYOffset || 0;
+          
+          const btn = document.getElementById('backToTopBtn');
+          if (btn) {
+            if (scrollY > 300) {
+              btn.classList.add('visible');
+            } else {
+              btn.classList.remove('visible');
+            }
+          }
+
+          const isScrolled = scrollY > 20 || (window.app && window.app.currentRoute !== 'home');
+          if (isScrolled !== lastScrolled) {
+            lastScrolled = isScrolled;
+            const header = document.querySelector('.header-pill-style');
+            if (header) {
+              if (isScrolled) {
+                header.classList.add('scrolled');
+              } else {
+                header.classList.remove('scrolled');
+              }
+            }
+          }
+          navTicking = false;
+        });
+        navTicking = true;
       }
-    });
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
   }
 
   openAdminModal() {

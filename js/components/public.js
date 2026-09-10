@@ -8,25 +8,23 @@ window.publicComponents = {
   renderHeader() {
     return `
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
-        <div class="container header-inner card-nav-top">
+        <div class="header-inner card-nav-top">
           <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
-            <div class="brand-logo-mark" style="background: #FFFFFF; padding: 2px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 1px solid rgba(0,0,0,0.06);">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%;" />
+            <div class="brand-logo-mark">
+              <img src="assets/Akshara__logo.png" alt="Akshara Logo" />
             </div>
-            <div style="display: flex; align-items: center;">
-              <div style="line-height: 1; font-weight: 800; letter-spacing: -0.04em;">AKSHARA</div>
-            </div>
+            <div class="brand-logo-text">AKSHARA</div>
           </a>
 
           <nav class="nav-pill-container desktop-only">
             <ul class="nav-links-pill">
-              <li><a href="#projects" class="nav-pill-item" onclick="publicComponents.setFilter('All')">OUR PROJECTS</a></li>
-              <li><a href="#why-us" class="nav-pill-item">WHY AKSHARA</a></li>
-              <li><a href="#process" class="nav-pill-item">PROCESS</a></li>
+              <li><a href="#projects" class="nav-pill-item" onclick="publicComponents.setFilter('All')">Our Projects</a></li>
+              <li><a href="#why-us" class="nav-pill-item">Why Akshara</a></li>
+              <li><a href="#process" class="nav-pill-item">Process</a></li>
               <li>
                 <a href="#contact" class="nav-pill-item contact-pill-btn">
                   <span class="contact-pill-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                   </span>
                   Contact
                 </a>
@@ -34,11 +32,11 @@ window.publicComponents = {
             </ul>
           </nav>
 
-          <div class="header-actions" style="display: flex; align-items: center; justify-content: center;">
+          <div class="header-actions">
             <button class="hamburger-menu mobile-menu-toggle" id="mobileNavToggle" aria-label="Menu" onclick="publicComponents.toggleMobileNav()">
-              <div class="hamburger-line" style="margin-bottom: 4px;"></div>
-              <div class="hamburger-line" style="margin-bottom: 4px;"></div>
-              <div class="hamburger-line"></div>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
+              <span class="hamburger-line"></span>
             </button>
           </div>
 
@@ -46,15 +44,26 @@ window.publicComponents = {
 
         <!-- Card Nav Content (Mobile Only) -->
         <div class="card-nav-content" id="cardNavContent">
-          <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">About Us</a>
-          <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">Our Projects</a>
-          <a class="nav-card-link" href="#why-us" onclick="publicComponents.toggleMobileNav()">Why Akshara</a>
-          <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">Our Process</a>
+          <div class="card-nav-links-group">
+            <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">About Us</a>
+            <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">Our Projects</a>
+            <a class="nav-card-link" href="#why-us" onclick="publicComponents.toggleMobileNav()">Why Akshara</a>
+            <a class="nav-card-link" href="#process" onclick="publicComponents.toggleMobileNav()">Our Process</a>
+          </div>
           
           <a href="#contact" class="mobile-cta-btn" onclick="publicComponents.toggleMobileNav()">Contact Us</a>
         </div>
       </header>
     `;
+  },
+
+  toggleMobileNav() {
+    const nav = document.getElementById('mobileCardNav');
+    const toggle = document.getElementById('mobileNavToggle');
+    if (nav) {
+      const isOpen = nav.classList.toggle('open');
+      if (toggle) toggle.classList.toggle('open', isOpen);
+    }
   },
 
   renderContactPage() {
@@ -249,34 +258,32 @@ window.publicComponents = {
       window.removeEventListener('scroll', this._onHeroScroll);
     }
 
+    let ticking = false;
+
     this._onHeroScroll = () => {
-      const section = document.getElementById('hero');
-      if (!section) return;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY || window.pageYOffset || 0;
+          const vh = window.innerHeight || 800;
 
-      const rect = section.getBoundingClientRect();
-      const start = rect.top;
-      const maxScroll = rect.height - window.innerHeight;
+          if (scrollY > vh * 1.2) {
+            ticking = false;
+            return;
+          }
 
-      let progress = 0;
-      if (start <= 0 && maxScroll > 0) {
-        progress = Math.min(Math.abs(start) / maxScroll, 1);
-      } else if (start > 0) {
-        progress = 0;
-      } else {
-        progress = 1;
-      }
+          const progress = Math.min(Math.max(scrollY / vh, 0), 1);
+          const translateY = progress * 80;
+          const opacity = Math.max(0, 1 - progress * 1.4);
 
-      // Smooth transformations
-      const scale = 1 + progress;
-      const blur = progress * 10;
-      const opacity = 1 - progress;
-
-      heroImage.style.transform = `scale(${scale})`;
-      heroImage.style.filter = `blur(${blur}px)`;
-      
-      if (heroContent) {
-        heroContent.style.opacity = opacity;
-        heroContent.style.transform = `translateY(${progress * 50}px)`;
+          heroImage.style.transform = `translate3d(0, ${translateY * 0.35}px, 0)`;
+          
+          if (heroContent) {
+            heroContent.style.opacity = opacity;
+            heroContent.style.transform = `translate3d(0, ${translateY * 0.6}px, 0)`;
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -510,7 +517,6 @@ window.publicComponents = {
     const board = window.store.getBoardMembers();
     return `
       <section class="section board-leadership-cad-section" id="leadership">
-        <div class="cad-bg-diagonal-section"></div>
         <div class="container" style="position: relative; z-index: 2;">
           <div class="section-header">
             <span class="section-tag mono-tag">Leadership Team</span>
@@ -1403,10 +1409,10 @@ window.publicComponents = {
       <svg viewBox="0 0 250 140" class="cad-figure-svg animated-plot-shape">
         <defs>
           <pattern id="cadGridSpec_${data.id || 'plot'}" width="16" height="16" patternUnits="userSpaceOnUse">
-            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(255, 255, 255, 0.06)" stroke-width="0.75"/>
+            <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(0, 0, 0, 0.05)" stroke-width="0.75"/>
           </pattern>
         </defs>
-        <rect width="250" height="140" fill="#09090b" rx="10" />
+        <rect width="250" height="140" fill="#F4F5F8" rx="10" />
         <rect width="250" height="140" fill="url(#cadGridSpec_${data.id || 'plot'})" rx="10" />
         
         <!-- Plot Exact Geometry Polygon (Pure Outline + Soft Glow, NO Text Inside) -->
