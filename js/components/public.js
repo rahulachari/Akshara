@@ -8,42 +8,47 @@ window.publicComponents = {
   renderHeader() {
     return `
       <header class="header header-pill-style card-nav-container" id="mobileCardNav">
-        <div class="header-inner card-nav-top">
-          <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
-            <div class="brand-logo-mark">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" />
+        <div class="nav-shell">
+          <div class="glass-filter"></div>
+          <div class="glass-overlay"></div>
+          <div class="nav-notch-sheen"></div>
+
+          <div class="container header-inner card-nav-top">
+            <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
+              <div class="brand-logo-mark">
+                <img src="assets/Akshara__logo.png" alt="Akshara Logo" />
+              </div>
+              <div class="brand-logo-text">AKSHARA</div>
+            </a>
+
+            <nav class="nav-pill-container desktop-only">
+              <ul class="nav-links-pill">
+                <li><a href="#projects" class="nav-pill-item" onclick="publicComponents.setFilter('All')">OUR PROJECTS</a></li>
+                <li><a href="#why-us" class="nav-pill-item">WHY AKSHARA</a></li>
+                <li><a href="#process" class="nav-pill-item">PROCESS</a></li>
+                <li>
+                  <a href="#contact" class="nav-pill-item contact-pill-btn">
+                    <span class="contact-pill-icon">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </span>
+                    Contact
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
+            <div class="header-actions">
+              <button class="hamburger-menu mobile-menu-toggle" id="mobileNavToggle" aria-label="Menu" onclick="publicComponents.toggleMobileNav()">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+              </button>
             </div>
-            <div class="brand-logo-text">AKSHARA</div>
-          </a>
-
-          <nav class="nav-pill-container desktop-only">
-            <ul class="nav-links-pill">
-              <li><a href="#projects" class="nav-pill-item" onclick="publicComponents.setFilter('All')">Our Projects</a></li>
-              <li><a href="#why-us" class="nav-pill-item">Why Akshara</a></li>
-              <li><a href="#process" class="nav-pill-item">Process</a></li>
-              <li>
-                <a href="#contact" class="nav-pill-item contact-pill-btn">
-                  <span class="contact-pill-icon">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                  </span>
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </nav>
-
-          <div class="header-actions">
-            <button class="hamburger-menu mobile-menu-toggle" id="mobileNavToggle" aria-label="Menu" onclick="publicComponents.toggleMobileNav()">
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-              <span class="hamburger-line"></span>
-            </button>
           </div>
-
         </div>
 
-        <!-- Card Nav Content (Mobile Only) -->
-        <div class="card-nav-content" id="cardNavContent">
+        <!-- Card Nav Content (Mobile Drawer Glass) -->
+        <div class="card-nav-content mobile-drawer-glass" id="cardNavContent">
           <div class="card-nav-links-group">
             <a class="nav-card-link" href="#about" onclick="publicComponents.toggleMobileNav()">About Us</a>
             <a class="nav-card-link" href="#projects" onclick="publicComponents.toggleMobileNav()">Our Projects</a>
@@ -357,9 +362,64 @@ window.publicComponents = {
     `;
   },
 
+  renderProjectCards(city = this.currentCityFilter) {
+    const projects = window.store.getProjects(city);
+    if (!projects || projects.length === 0) {
+      return `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted);">
+          <p style="font-size: 1.1rem; font-weight: 500;">No developments found in this region currently.</p>
+        </div>
+      `;
+    }
+
+    return projects.map(proj => `
+      <div class="project-card">
+        <div class="project-thumb">
+          <img src="${proj.image}" alt="${proj.name} - ${proj.city} Plotted Development" loading="lazy" decoding="async" />
+          <span class="project-status-badge ${proj.status === 'Ready' ? 'status-ready' : proj.status === 'Upcoming' ? 'status-upcoming' : 'status-sold'}">
+            ${proj.status === 'Ready' ? 'Completed Layout' : proj.status === 'Upcoming' ? 'Upcoming Layout' : 'Sold Out'}
+          </span>
+          <span class="project-city-tag">📍 ${proj.city}</span>
+        </div>
+        <div class="project-body">
+          <h3 class="project-name">${proj.name}</h3>
+          <div class="project-location">📍 ${proj.location}</div>
+
+          <div class="project-specs">
+            <div>
+              <div class="spec-item-label">Plot Dimensions</div>
+              <div class="spec-item-value">${proj.plotSizes}</div>
+            </div>
+            <div>
+              <div class="spec-item-label">Approval Authority</div>
+              <div class="spec-item-value">${proj.city === 'Chennai' ? 'CMDA Approved' : proj.city === 'Tirupati' ? 'TUDA Approved' : 'DTCP Approved'}</div>
+            </div>
+          </div>
+
+          <ul class="project-highlights">
+            ${proj.highlights.slice(0, 3).map(h => `<li class="project-highlight-item">${h}</li>`).join('')}
+          </ul>
+
+          <div class="project-footer">
+            ${(proj.city === 'Vellore' || proj.city === 'Chittoor') ? `
+              <a href="#blueprint:${encodeURIComponent(proj.name)}" class="btn btn-primary btn-full" style="margin-bottom: 8px; display: inline-block; text-align: center;">
+                View Interactive Blueprint
+              </a>
+            ` : ''}
+            <button class="btn btn-secondary btn-full" onclick="publicComponents.openProjectDetail('${proj.id}')">
+              Enquire Now
+            </button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  },
+
   renderProjects() {
-    const projects = window.store.getProjects(this.currentCityFilter);
-    const cities = ['All', 'Vellore', 'Chittoor', 'Tirupati', 'Chennai'];
+    // Schedule GooeyNav initialization right after DOM is rendered
+    setTimeout(() => {
+      this.initProjectsGooeyNav();
+    }, 0);
 
     return `
       <section class="section" id="projects">
@@ -372,72 +432,104 @@ window.publicComponents = {
             </div>
           </div>
 
-          <!-- City Filters -->
-          <div class="city-filter-tabs">
-            ${cities.map(city => `
-              <button class="filter-tab ${this.currentCityFilter === city ? 'active' : ''}" onclick="publicComponents.setFilter('${city}')">
-                ${city} ${city !== 'All' ? `(${window.store.getProjects(city).length})` : `(${window.store.getProjects('All').length})`}
-              </button>
-            `).join('')}
+          <!-- Gooey Nav Filter Compound Design -->
+          <div class="gooey-nav-wrapper">
+            <div id="projectsGooeyNavMount"></div>
           </div>
 
           <!-- Projects Grid -->
-          <div class="projects-grid">
-            ${projects.map(proj => `
-              <div class="project-card">
-                <div class="project-thumb">
-                  <img src="${proj.image}" alt="${proj.name} - ${proj.city} Plotted Development" loading="lazy" decoding="async" />
-                  <span class="project-status-badge ${proj.status === 'Ready' ? 'status-ready' : proj.status === 'Upcoming' ? 'status-upcoming' : 'status-sold'}">
-                    ${proj.status === 'Ready' ? 'Completed Layout' : proj.status === 'Upcoming' ? 'Upcoming Layout' : 'Sold Out'}
-                  </span>
-                  <span class="project-city-tag">📍 ${proj.city}</span>
-                </div>
-                <div class="project-body">
-                  <h3 class="project-name">${proj.name}</h3>
-                  <div class="project-location">📍 ${proj.location}</div>
-
-                  <div class="project-specs">
-                    <div>
-                      <div class="spec-item-label">Plot Dimensions</div>
-                      <div class="spec-item-value">${proj.plotSizes}</div>
-                    </div>
-                    <div>
-                      <div class="spec-item-label">Approval Authority</div>
-                      <div class="spec-item-value">${proj.city === 'Chennai' ? 'CMDA Approved' : proj.city === 'Tirupati' ? 'TUDA Approved' : 'DTCP Approved'}</div>
-                    </div>
-                  </div>
-
-                  <ul class="project-highlights">
-                    ${proj.highlights.slice(0, 3).map(h => `<li class="project-highlight-item">${h}</li>`).join('')}
-                  </ul>
-
-                  <div class="project-footer">
-                    ${(proj.city === 'Vellore' || proj.city === 'Chittoor') ? `
-                      <a href="#blueprint:${encodeURIComponent(proj.name)}" class="btn btn-primary btn-full" style="margin-bottom: 8px; display: inline-block; text-align: center;">
-                        View Interactive Blueprint
-                      </a>
-                    ` : ''}
-                    <button class="btn btn-secondary btn-full" onclick="publicComponents.openProjectDetail('${proj.id}')">
-                      Enquire Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            `).join('')}
+          <div class="projects-grid" id="projectsGrid">
+            ${this.renderProjectCards(this.currentCityFilter)}
           </div>
         </div>
       </section>
     `;
   },
 
-  setFilter(city) {
+  initProjectsGooeyNav() {
+    const mount = document.getElementById('projectsGooeyNavMount');
+    if (!mount) return;
+
+    const cities = [
+      { name: 'All', label: 'All Projects' },
+      { name: 'Vellore', label: 'Vellore' },
+      { name: 'Chittoor', label: 'Chittoor' },
+      { name: 'Tirupati', label: 'Tirupati' },
+      { name: 'Chennai', label: 'Chennai' }
+    ];
+
+    const currentIdx = Math.max(0, cities.findIndex(c => c.name === this.currentCityFilter));
+
+    const items = cities.map(c => {
+      const count = window.store ? window.store.getProjects(c.name).length : 0;
+      let icon = '';
+      if (c.name === 'All') {
+        icon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="3" width="7" height="7" rx="1.5"></rect><rect x="14" y="14" width="7" height="7" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect></svg>`;
+      } else {
+        icon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>`;
+      }
+      return {
+        label: c.label,
+        count: `(${count})`,
+        icon: icon,
+        cityName: c.name
+      };
+    });
+
+    if (window.GooeyNav) {
+      window.projectsGooeyNavInstance = new window.GooeyNav({
+        container: mount,
+        items: items,
+        defaultValue: currentIdx,
+        value: currentIdx,
+        size: 'md',
+        activeColor: '#0A0A0A',
+        activeLabelColor: '#FFFFFF',
+        barColor: '#F4F4F9',
+        unselectedTextColor: '#71717A',
+        onChange: (index) => {
+          const selectedCity = cities[index].name;
+          this.setFilter(selectedCity, false);
+        }
+      });
+    }
+  },
+
+  setFilter(city, syncNav = true) {
     this.currentCityFilter = city;
     if (window.trackEvent) {
       window.trackEvent('city_filter_selected', { city });
     }
-    const container = document.getElementById('projects-container');
-    if (container) {
-      container.innerHTML = this.renderProjects();
+
+    const grid = document.getElementById('projectsGrid');
+    if (grid) {
+      if (window.gsap) {
+        window.gsap.to(grid.children, {
+          opacity: 0,
+          y: -10,
+          duration: 0.16,
+          stagger: 0.02,
+          ease: 'power2.in',
+          onComplete: () => {
+            grid.innerHTML = this.renderProjectCards(city);
+            window.gsap.fromTo(
+              grid.children,
+              { opacity: 0, y: 16, scale: 0.98 },
+              { opacity: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.04, ease: 'power2.out' }
+            );
+          }
+        });
+      } else {
+        grid.innerHTML = this.renderProjectCards(city);
+      }
+    }
+
+    if (syncNav && window.projectsGooeyNavInstance) {
+      const cities = ['All', 'Vellore', 'Chittoor', 'Tirupati', 'Chennai'];
+      const targetIdx = cities.indexOf(city);
+      if (targetIdx !== -1) {
+        window.projectsGooeyNavInstance.select(targetIdx);
+      }
     }
   },
 
@@ -943,64 +1035,7 @@ window.publicComponents = {
     app.showToast(`✓ Request submitted for ${projectName}. Layout officer assigned!`);
   },
 
-  isCardNavOpen: false,
-  cardNavTl: null,
 
-  toggleMobileNav() {
-    const isMobile = window.innerWidth <= 992;
-    if (!isMobile) return;
-
-    const nav = document.getElementById('mobileCardNav');
-    const content = document.getElementById('cardNavContent');
-    const hamburger = document.getElementById('mobileNavToggle');
-    const links = document.querySelectorAll('.nav-card-link, .mobile-cta-btn');
-    
-    if (!this.isCardNavOpen) {
-      this.isCardNavOpen = true;
-      hamburger.classList.add('open');
-      nav.classList.add('open');
-      
-      content.style.visibility = 'visible';
-      content.style.position = 'static';
-      content.style.pointerEvents = 'auto';
-      const contentHeight = content.scrollHeight;
-      content.style.position = 'absolute';
-      
-      const targetHeight = 60 + contentHeight + 24; // 24px bottom padding
-      
-      if (typeof gsap !== 'undefined') {
-        gsap.set(links, { y: 20, opacity: 0 });
-        
-        this.cardNavTl = gsap.timeline();
-        this.cardNavTl.to(nav, {
-          height: targetHeight,
-          duration: 0.6,
-          ease: "expo.inOut" // Liquid glass effect
-        });
-        
-        this.cardNavTl.to(links, {
-          y: 0,
-          opacity: 1,
-          duration: 0.4,
-          ease: "power2.out",
-          stagger: 0.05
-        }, "-=0.3"); // Overlap with container drop
-      }
-      
-    } else {
-      this.isCardNavOpen = false;
-      hamburger.classList.remove('open');
-      
-      if (this.cardNavTl && typeof gsap !== 'undefined') {
-        this.cardNavTl.reverse().then(() => {
-          nav.classList.remove('open');
-          content.style.visibility = 'hidden';
-          content.style.pointerEvents = 'none';
-          gsap.set(nav, { height: 60 });
-        });
-      }
-    }
-  },
 
   scrollToTop(e) {
     e.preventDefault();
@@ -1019,32 +1054,32 @@ window.publicComponents = {
       <!-- OPTION-A (Vellore Layout) Sub-Pixel Exact CAD Polygons -->
       <!-- Commercial Space: 14,111 SQFT -->
       <polygon points="164,231 398,214 398,356 189,356" class="blueprint-plot commercial-unit" data-phase="commercial" onclick="publicComponents.showPlotDetails('vellore-commercial', event)">
-        <title>Commercial Space - 14,111 Sq.ft</title>
+        <title>Commercial Space - 14,111 Sq.ft (Highway Facing)</title>
       </polygon>
       
       <!-- Plot 5: 6,784 SQFT -->
       <polygon points="398,214 497,207 497,356 398,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-5', event)">
-        <title>Plot 5 - 6,784 Sq.ft</title>
+        <title>Plot #5 - 6,784 Sq.ft</title>
       </polygon>
       
       <!-- Plot 3: 4,924 SQFT -->
       <polygon points="531,204 659,193 659,280 531,280" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-3', event)">
-        <title>Plot 3 - 4,924 Sq.ft</title>
+        <title>Plot #3 - 4,924 Sq.ft</title>
       </polygon>
       
       <!-- Plot 4: 4,543 SQFT -->
       <polygon points="531,280 659,280 659,356 531,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-4', event)">
-        <title>Plot 4 - 4,543 Sq.ft</title>
+        <title>Plot #4 - 4,543 Sq.ft</title>
       </polygon>
       
       <!-- Plot 1: 5,700 SQFT -->
       <polygon points="659,193 786,184 786,280 659,280" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-1', event)">
-        <title>Plot 1 - 5,700 Sq.ft (Corner)</title>
+        <title>Plot #1 - 5,700 Sq.ft (Prime Corner)</title>
       </polygon>
       
       <!-- Plot 2: 4,454 SQFT -->
       <polygon points="659,280 786,280 786,356 659,356" class="blueprint-plot" data-phase="residential" onclick="publicComponents.showPlotDetails('vellore-plot-2', event)">
-        <title>Plot 2 - 4,454 Sq.ft</title>
+        <title>Plot #2 - 4,454 Sq.ft (Corner)</title>
       </polygon>
     `;
 
@@ -1198,7 +1233,7 @@ window.publicComponents = {
     `;
 
     const svgContent = isVellore ? velloreSvg : chittoorSvgContent;
-    const bgImage = isVellore ? 'assets/blueprint_master plan_vellore.png' : 'assets/blueprint_master plan_chittoor.png';
+    const bgImage = isVellore ? 'assets/blueprint_master plan_vellore.png' : 'assets/blueprint_chittoor_optimized.webp';
     const viewBox = isVellore ? '0 0 865 466' : '0 0 8760 6124';
     const optionBadge = isVellore ? 'OPTION-A MASTERPLAN' : 'DTCP APPROVED MASTERPLAN';
     const totalUnitsCount = isVellore ? '6 Signature Units' : '75+ CAD Plotted Units';
@@ -1248,67 +1283,76 @@ window.publicComponents = {
           <!-- Main Blueprint Frame Card (Monochrome Technical CAD Device Frame) -->
           <div class="blueprint-canvas-scroll" id="blueprintScrollContainer">
             <div class="blueprint-canvas-wrapper monochrome-device-frame">
-              <img src="${encodeURI(bgImage)}" alt="${proj.name} CAD Blueprint" class="blueprint-base-img" />
+              <img src="${encodeURI(bgImage)}" alt="${proj.name} CAD Blueprint" class="blueprint-base-img" fetchpriority="high" decoding="async" />
               <svg viewBox="${viewBox}" class="blueprint-svg-overlay">
                 ${svgContent}
               </svg>
             </div>
           </div>
           
-          <!-- Monochrome Architectural CAD Inspector Card (Showcase Specification View) -->
-          <div id="plotDetailPopup" class="plot-detail-popup monochrome-popup">
-            <div class="popup-drag-handle"></div>
-            <button class="popup-close-btn mono-close-btn" onclick="document.getElementById('plotDetailPopup').classList.remove('visible')" aria-label="Close">✕</button>
-            
-            <div class="popup-header">
-              <div class="popup-status-pill-row">
-                <span class="popup-plot-number-tag" id="popupPlotTag">PLOT #21 SPECIFICATION</span>
-              </div>
-              <h3 id="popupPlotTitle" class="popup-plot-title mono-plot-title">${proj.name}, Plot #21</h3>
-              <p id="popupPlotLocation" class="popup-plot-location">${proj.location}</p>
-            </div>
-            
-            <!-- Technical CAD Vector Figure Box with Dynamic Shape & Outside Boundary Dimensions -->
-            <div class="cad-figure-box mono-cad-box">
-              <div class="cad-figure-canvas" id="cadFigureContainer">
-                <!-- Dynamically populated with polygon and outside boundary dimensions -->
-              </div>
-            </div>
-            
-            <!-- Clean Plot Specs Section Matching Showcase -->
-            <div class="popup-specs-container">
-              <div class="specs-primary-area-row">
-                <div class="specs-area-col">
-                  <span class="stat-label mono-label">PLOT AREA</span>
-                  <div class="stat-value-large" id="popupPlotAreaLarge">1,200 <span class="stat-unit">sq ft</span></div>
-                  <div class="stat-sub-val" id="popupPlotAreaSqM">111.48 sq m</div>
+          <!-- Expandable Blueprint Plot Specification Section Aligned Directly Below -->
+          <div id="plotExpandedSection" class="plot-expanded-section">
+            <div class="plot-expanded-card" id="plotExpandedCard">
+              <div class="plot-expanded-header">
+                <div class="plot-expanded-header-left">
+                  <div class="plot-status-tag" id="popupPlotTag">PLOT SPECIFICATION</div>
+                  <h3 id="popupPlotTitle" class="plot-expanded-title">${proj.name}, Plot</h3>
+                  <p id="popupPlotLocation" class="plot-expanded-subtitle">${proj.location}</p>
                 </div>
+                <button class="plot-close-btn" onclick="publicComponents.closePlotDetails()" title="Close details" aria-label="Close plot specification">✕</button>
               </div>
 
-              <div class="specs-table-grid">
-                <div class="specs-grid-cell">
-                  <span class="stat-label mono-label">SURVEY / APPROVAL</span>
-                  <span class="stat-value mono-val" id="popupPlotSurvey">250/2</span>
+              <div class="plot-expanded-body">
+                <!-- Left Column: Architectural CAD Figure Canvas with Dimension Lines -->
+                <div class="plot-cad-col">
+                  <div class="cad-figure-box mono-cad-box">
+                    <div class="cad-figure-canvas" id="cadFigureContainer"></div>
+                  </div>
+                  <div class="cad-figure-caption">Technical CAD Boundary Projection & Alignment</div>
                 </div>
-                <div class="specs-grid-cell">
-                  <span class="stat-label mono-label">FACING</span>
-                  <span class="stat-value mono-val" id="popupPlotFacing">EAST</span>
-                </div>
-                <div class="specs-grid-cell">
-                  <span class="stat-label mono-label">DIMENSIONS</span>
-                  <span class="stat-value mono-val" id="popupPlotDimensions">30'0" x 40'0"</span>
-                </div>
-                <div class="specs-grid-cell">
-                  <span class="stat-label mono-label">DEVELOPMENT</span>
-                  <span class="stat-value mono-val" id="popupPlotProject">${proj.name}</span>
+
+                <!-- Right Column: Structured Specifications Table & Enquiry CTA -->
+                <div class="plot-specs-col">
+                  <div class="specs-primary-area-row">
+                    <div class="specs-area-col">
+                      <span class="stat-label mono-label">PLOT AREA</span>
+                      <div class="stat-value-large" id="popupPlotAreaLarge">1,200 <span class="stat-unit">sq ft</span></div>
+                      <div class="stat-sub-val" id="popupPlotAreaSqM">111.48 sq m</div>
+                    </div>
+                    <div class="specs-facing-col">
+                      <span class="stat-label mono-label">ORIENTATION</span>
+                      <div class="stat-facing-pill" id="popupPlotFacing">EAST</div>
+                    </div>
+                  </div>
+
+                  <div class="specs-table-grid">
+                    <div class="specs-grid-cell">
+                      <span class="stat-label mono-label">SURVEY / APPROVAL</span>
+                      <span class="stat-value mono-val" id="popupPlotSurvey">DTCP Approved</span>
+                    </div>
+                    <div class="specs-grid-cell">
+                      <span class="stat-label mono-label">DIMENSIONS</span>
+                      <span class="stat-value mono-val" id="popupPlotDimensions">30'0" x 40'0"</span>
+                    </div>
+                    <div class="specs-grid-cell">
+                      <span class="stat-label mono-label">ROAD CONNECTIVITY</span>
+                      <span class="stat-value mono-val" id="popupPlotRoad">40ft Asphalt Avenue</span>
+                    </div>
+                    <div class="specs-grid-cell">
+                      <span class="stat-label mono-label">AVAILABILITY</span>
+                      <span class="stat-value mono-val status-available" id="popupPlotStatus">Ready for Registration</span>
+                    </div>
+                  </div>
+
+                  <div class="plot-expanded-actions">
+                    <button class="btn btn-full btn-primary mono-btn-primary" onclick="publicComponents.openDirectPlotEnquiry('${proj.name}')">
+                      <span>Request CAD & Reservation Details →</span>
+                    </button>
+                    <div class="popup-footer-note">100% legal verification, DTCP/RERA certified masterplan coordinates.</div>
+                  </div>
                 </div>
               </div>
             </div>
-
-            <button class="btn btn-full mono-btn-primary" onclick="publicComponents.openDirectPlotEnquiry('${proj.name}')" style="margin-top: 14px;">
-              <span>Request CAD & Project Details →</span>
-            </button>
-            <div class="popup-footer-note">Area, facing, dimensions, boundaries — architectural masterplan.</div>
           </div>
         </div>
       </div>
@@ -1378,24 +1422,24 @@ window.publicComponents = {
     `).join('');
 
     // Parse or calculate outer boundary edge dimensions (N, E, S, W)
-    let northDim = "N 30.00 ft";
-    let eastDim = "E 40.00 ft";
-    let southDim = "S 30.00 ft";
-    let westDim = "W 40.00 ft";
+    let northDim = "N 30'0\"";
+    let eastDim = "E 40'0\"";
+    let southDim = "S 30'0\"";
+    let westDim = "W 40'0\"";
 
     const dimsStr = data.boundaryDims || data.dimensions || "";
     if (dimsStr.includes('x')) {
-      const parts = dimsStr.split('x').map(s => s.trim());
+      const parts = dimsStr.split('x').map(s => s.trim().replace(/\s*\(.*?\)/g, ''));
       northDim = `N ${parts[0]}`;
       southDim = `S ${parts[0]}`;
       eastDim = `E ${parts[1]}`;
       westDim = `W ${parts[1]}`;
     } else if (data.areaSqFt) {
       const approxSide = Math.round(Math.sqrt(data.areaSqFt));
-      northDim = `N ${(approxSide * 0.75).toFixed(1)} ft`;
-      southDim = `S ${(approxSide * 0.75).toFixed(1)} ft`;
-      eastDim = `E ${(approxSide * 1.33).toFixed(1)} ft`;
-      westDim = `W ${(approxSide * 1.33).toFixed(1)} ft`;
+      northDim = `N ${(approxSide * 0.75).toFixed(0)}'0"`;
+      southDim = `S ${(approxSide * 0.75).toFixed(0)}'0"`;
+      eastDim = `E ${(approxSide * 1.33).toFixed(0)}'0"`;
+      westDim = `W ${(approxSide * 1.33).toFixed(0)}'0"`;
     }
 
     const normMinX = Math.min(...normalizedPoints.map(p => p.x));
@@ -1405,15 +1449,17 @@ window.publicComponents = {
     const centerX = (normMinX + normMaxX) / 2;
     const centerY = (normMinY + normMaxY) / 2;
 
+    const patternId = 'cadGridSpec_' + String(data.id || 'plot').replace(/[^a-zA-Z0-9]/g, '');
+
     return `
       <svg viewBox="0 0 250 140" class="cad-figure-svg animated-plot-shape">
         <defs>
-          <pattern id="cadGridSpec_${data.id || 'plot'}" width="16" height="16" patternUnits="userSpaceOnUse">
+          <pattern id="${patternId}" width="16" height="16" patternUnits="userSpaceOnUse">
             <path d="M 16 0 L 0 0 0 16" fill="none" stroke="rgba(0, 0, 0, 0.05)" stroke-width="0.75"/>
           </pattern>
         </defs>
         <rect width="250" height="140" fill="#F4F5F8" rx="10" />
-        <rect width="250" height="140" fill="url(#cadGridSpec_${data.id || 'plot'})" rx="10" />
+        <rect width="250" height="140" fill="url(#${patternId})" rx="10" />
         
         <!-- Plot Exact Geometry Polygon (Pure Outline + Soft Glow, NO Text Inside) -->
         <polygon points="${pointsAttr}" class="cad-isolated-polygon" />
@@ -1428,6 +1474,15 @@ window.publicComponents = {
         <text x="${Math.max(8, normMinX - 6).toFixed(1)}" y="${(centerY + 3).toFixed(1)}" class="cad-outer-dim-text" text-anchor="end">${westDim}</text>
       </svg>
     `;
+  },
+
+  closePlotDetails() {
+    const section = document.getElementById('plotExpandedSection');
+    if (section) {
+      section.classList.remove('visible');
+    }
+    document.querySelectorAll('.blueprint-plot').forEach(p => p.classList.remove('active'));
+    this.currentSelectedPlot = null;
   },
 
   showPlotDetails(plotId, event) {
@@ -1451,13 +1506,21 @@ window.publicComponents = {
     }
 
     // Update Header Pill and Titles
+    const plotDisplayName = data.name || (typeof data.id === 'number' ? `Plot #${data.id}` : data.id);
     const tagEl = document.getElementById('popupPlotTag');
-    if (tagEl) tagEl.innerText = data.name ? `${data.name.toUpperCase()} SPECIFICATION` : `PLOT #${data.id} SPECIFICATION`;
+    if (tagEl) {
+      tagEl.innerText = `${plotDisplayName.toUpperCase()} SPECIFICATION`;
+    }
 
     const titleEl = document.getElementById('popupPlotTitle');
     if (titleEl) {
       const projName = window.location.hash.startsWith('#blueprint:') ? decodeURIComponent(window.location.hash.split(':')[1]) : 'Akshara Layout';
-      titleEl.innerText = `${projName}, ${data.name || ('Plot #' + data.id)}`;
+      titleEl.innerText = `${projName} — ${plotDisplayName}`;
+    }
+
+    const locEl = document.getElementById('popupPlotLocation');
+    if (locEl && data.phase) {
+      locEl.innerText = data.phase === 'commercial' ? 'Prime Commercial Zone • State Highway Connectivity • Clear Legal Title' : 'Approved Residential Plotted Unit • Clear Legal Title';
     }
 
     // Update Specs Row
@@ -1474,10 +1537,34 @@ window.publicComponents = {
     if (surveyEl) surveyEl.innerText = data.surveyNo || data.dtcpApproval || 'DTCP Approved';
 
     const facingEl = document.getElementById('popupPlotFacing');
-    if (facingEl) facingEl.innerText = (data.facing || 'East').toUpperCase();
+    if (facingEl) facingEl.innerText = (data.facing || 'East Facing').toUpperCase();
 
     const dimsEl = document.getElementById('popupPlotDimensions');
     if (dimsEl) dimsEl.innerText = data.boundaryDims || data.dimensions || "30'0\" x 40'0\"";
+
+    const roadEl = document.getElementById('popupPlotRoad');
+    if (roadEl) {
+      if (data.roadConnectivity) {
+        roadEl.innerText = data.roadConnectivity;
+      } else if (data.facing && (data.facing.includes('Road') || data.facing.includes('Avenue'))) {
+        roadEl.innerText = data.facing;
+      } else if (data.phase === 'commercial') {
+        roadEl.innerText = 'Vellore - Chittoor State Highway & 23ft Road';
+      } else {
+        roadEl.innerText = '40ft & 30ft Blacktop Asphalt Avenue';
+      }
+    }
+
+    const statusEl = document.getElementById('popupPlotStatus');
+    if (statusEl) {
+      if (data.status === 'Sold') {
+        statusEl.innerText = 'Sold Out';
+        statusEl.className = 'stat-value mono-val status-sold';
+      } else {
+        statusEl.innerText = 'Available for Registration';
+        statusEl.className = 'stat-value mono-val status-available';
+      }
+    }
 
     // Render Exact Plot Geometry Polygon with Outside Edge Dimensions
     const containerEl = document.getElementById('cadFigureContainer');
@@ -1485,12 +1572,16 @@ window.publicComponents = {
       containerEl.innerHTML = this.renderPlotShapeSvg(shapeEl, data);
     }
 
-    // Animate CAD Figure Box Popup Entrance
-    const popup = document.getElementById('plotDetailPopup');
-    if (popup) {
-      popup.classList.remove('visible');
-      void popup.offsetWidth;
-      popup.classList.add('visible');
+    // Smoothly Expand Below and Scroll Into View
+    const section = document.getElementById('plotExpandedSection');
+    if (section) {
+      section.classList.remove('visible');
+      void section.offsetWidth;
+      section.classList.add('visible');
+
+      setTimeout(() => {
+        section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }, 70);
     }
   },
 

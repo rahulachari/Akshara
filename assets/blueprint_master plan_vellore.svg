@@ -1,0 +1,1505 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8760 6124" width="8760" height="6124">
+  <defs>
+    <!-- Technical CAD Paper Grid -->
+    <pattern id="archGridMajor" width="200" height="200" patternUnits="userSpaceOnUse">
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="rgba(0, 0, 0, 0.04)" stroke-width="2"/>
+    </pattern>
+    <pattern id="archGridMinor" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(0, 0, 0, 0.018)" stroke-width="0.75"/>
+    </pattern>
+    <!-- Road Asphalt Texture -->
+    <linearGradient id="roadAsphaltGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#4F5257"/>
+      <stop offset="100%" stop-color="#43464A"/>
+    </linearGradient>
+    <linearGradient id="highwayGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3D4044"/>
+      <stop offset="100%" stop-color="#35373B"/>
+    </linearGradient>
+    <!-- Plot Fill Textures -->
+    <linearGradient id="commGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E2DDD5"/>
+      <stop offset="100%" stop-color="#D7D1C7"/>
+    </linearGradient>
+    <linearGradient id="resGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#ECE7DF"/>
+      <stop offset="100%" stop-color="#E3DDD3"/>
+    </linearGradient>
+    <!-- Soft Shadows -->
+    <filter id="plotDropShadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="rgba(0,0,0,0.08)"/>
+    </filter>
+  </defs>
+
+  <!-- Base Parchment Background -->
+  <rect width="8760" height="6124" fill="#F6F5F2"/>
+  <rect width="8760" height="6124" fill="url(#archGridMajor)"/>
+  <rect width="8760" height="6124" fill="url(#archGridMinor)"/>
+
+  <!-- Site Plan Outer Boundary Buffer Zone -->
+  <polygon points="1900,1050 7800,1050 7800,4350 2150,4350" fill="rgba(240, 238, 232, 0.6)" stroke="#DDD9CF" stroke-width="3"/>
+
+  <!-- ================= ROADS NETWORK ================= -->
+  <!-- Left State Highway (Chittoor - Vellore State Highway) -->
+  <polygon points="1820,950 2320,950 2580,4500 2080,4500" fill="url(#highwayGrad)" />
+  <line x1="2070" y1="950" x2="2330" y2="4500" stroke="#FFFFFF" stroke-width="8" stroke-dasharray="60,40" opacity="0.6"/>
+  <line x1="1840" y1="950" x2="2100" y2="4500" stroke="#FFFFFF" stroke-width="6" opacity="0.4"/>
+  <line x1="2300" y1="950" x2="2560" y2="4500" stroke="#FFFFFF" stroke-width="6" opacity="0.4"/>
+
+  <!-- Highway Text (Vertical Alignment) -->
+  <g transform="translate(2160, 2750) rotate(-78)">
+    <text text-anchor="middle" font-size="64" font-weight="800" fill="#FFFFFF" letter-spacing="14" opacity="0.85">VELLORE — CHITTOOR STATE HIGHWAY (60FT ROAD)</text>
+  </g>
+
+  <!-- Top 40ft Main Avenue Road -->
+  <rect x="2320" y="1380" width="5360" height="340" fill="url(#roadAsphaltGrad)" />
+  <line x1="2320" y1="1550" x2="7680" y2="1550" stroke="#FFFFFF" stroke-width="8" stroke-dasharray="60,40" opacity="0.65"/>
+  <text x="4950" y="1568" text-anchor="middle" font-size="52" font-weight="800" fill="#FFFFFF" letter-spacing="12" opacity="0.85">40'0" MAIN AVENUE ROAD</text>
+
+  <!-- 23ft Road between Commercial & Plot 5 -->
+  <rect x="4020" y="1720" width="310" height="2130" fill="url(#roadAsphaltGrad)" />
+  <line x1="4175" y1="1720" x2="4175" y2="3850" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="40,30" opacity="0.5"/>
+  <g transform="translate(4188, 2800) rotate(90)">
+    <text text-anchor="middle" font-size="44" font-weight="700" fill="#FFFFFF" letter-spacing="8" opacity="0.8">23'0" WIDE CONNECTIVITY ROAD</text>
+  </g>
+
+  <!-- Bottom 30ft Service Road -->
+  <rect x="2500" y="3850" width="5180" height="300" fill="url(#roadAsphaltGrad)" />
+  <line x1="2500" y1="4000" x2="7680" y2="4000" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="50,35" opacity="0.6"/>
+  <text x="5100" y="4016" text-anchor="middle" font-size="46" font-weight="800" fill="#FFFFFF" letter-spacing="10" opacity="0.85">30'0" SOUTH SERVICE ROAD</text>
+
+  <!-- East 30ft Cross Road -->
+  <rect x="7480" y="1380" width="280" height="2770" fill="url(#roadAsphaltGrad)" />
+  <line x1="7620" y1="1380" x2="7620" y2="4150" stroke="#FFFFFF" stroke-width="6" stroke-dasharray="50,35" opacity="0.6"/>
+  <g transform="translate(7635, 2750) rotate(90)">
+    <text text-anchor="middle" font-size="46" font-weight="800" fill="#FFFFFF" letter-spacing="10" opacity="0.85">30'0" EAST CROSS ROAD</text>
+  </g>
+
+  <!-- Road Corner Curvature Curbs -->
+  <path d="M 2320 1380 Q 2480 1380 2480 1720" fill="none" stroke="#FFFFFF" stroke-width="5" opacity="0.4"/>
+  <path d="M 7480 1720 Q 7480 1380 7760 1380" fill="none" stroke="#FFFFFF" stroke-width="5" opacity="0.4"/>
+  <path d="M 7480 3850 Q 7480 4150 7760 4150" fill="none" stroke="#FFFFFF" stroke-width="5" opacity="0.4"/>
+  <path d="M 2500 4150 Q 2540 3850 2580 3850" fill="none" stroke="#FFFFFF" stroke-width="5" opacity="0.4"/>
+
+  <!-- ================= PLOTS EXACT CAD GEOMETRY ================= -->
+  <!-- Commercial Space: 14,111 Sq.ft (Fronting Highway & 23ft Road) -->
+  <g id="masterplot_commercial" filter="url(#plotDropShadow)">
+    <polygon points="2440,1920 4020,1720 4020,3850 2550,3850" fill="url(#commGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <!-- Technical Dimension Annotations -->
+    <text x="3230" y="1800" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">272'0"</text>
+    <text x="4080" y="2780" font-size="34" font-weight="700" fill="#4B5563" text-anchor="start">172'0"</text>
+    <text x="3280" y="3910" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">248'0"</text>
+    <text x="2430" y="2900" font-size="34" font-weight="700" fill="#4B5563" text-anchor="end">188'0"</text>
+    <!-- Label -->
+    <rect x="2900" y="2600" width="660" height="150" rx="16" fill="#18181B" opacity="0.08"/>
+    <text x="3230" y="2680" font-size="52" font-weight="900" fill="#111827" text-anchor="middle" letter-spacing="4">COMMERCIAL</text>
+    <text x="3230" y="2735" font-size="38" font-weight="700" fill="#4B5563" text-anchor="middle">14,111 SQ.FT</text>
+  </g>
+
+  <!-- Plot #5: 6,784 Sq.ft -->
+  <g id="masterplot_5" filter="url(#plotDropShadow)">
+    <polygon points="4330,1720 5280,1720 5280,3850 4330,3850" fill="url(#resGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <text x="4805" y="1690" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">60'0"</text>
+    <text x="5340" y="2780" font-size="32" font-weight="700" fill="#4B5563" text-anchor="start">113'0"</text>
+    <text x="4805" y="3905" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">60'0"</text>
+    <text x="4270" y="2780" font-size="32" font-weight="700" fill="#4B5563" text-anchor="end">113'0"</text>
+    <text x="4805" y="2740" font-size="76" font-weight="900" fill="#111827" text-anchor="middle">5</text>
+    <text x="4805" y="2805" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">6,784 SQ.FT</text>
+  </g>
+
+  <!-- Plot #3: 4,924 Sq.ft (North residential row) -->
+  <g id="masterplot_3" filter="url(#plotDropShadow)">
+    <polygon points="5360,1720 6380,1720 6380,2740 5360,2740" fill="url(#resGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <text x="5870" y="1690" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="6430" y="2250" font-size="32" font-weight="700" fill="#4B5563" text-anchor="start">52'3"</text>
+    <text x="5870" y="2720" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="5300" y="2250" font-size="32" font-weight="700" fill="#4B5563" text-anchor="end">52'3"</text>
+    <text x="5870" y="2210" font-size="76" font-weight="900" fill="#111827" text-anchor="middle">3</text>
+    <text x="5870" y="2275" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">4,924 SQ.FT</text>
+  </g>
+
+  <!-- Plot #4: 4,543 Sq.ft (South residential row) -->
+  <g id="masterplot_4" filter="url(#plotDropShadow)">
+    <polygon points="5360,2830 6380,2830 6380,3850 5360,3850" fill="url(#resGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <text x="5870" y="2810" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="6430" y="3360" font-size="32" font-weight="700" fill="#4B5563" text-anchor="start">52'3"</text>
+    <text x="5870" y="3905" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="5300" y="3360" font-size="32" font-weight="700" fill="#4B5563" text-anchor="end">52'3"</text>
+    <text x="5870" y="3320" font-size="76" font-weight="900" fill="#111827" text-anchor="middle">4</text>
+    <text x="5870" y="3385" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">4,543 SQ.FT</text>
+  </g>
+
+  <!-- Plot #1: 5,700 Sq.ft (Prime Corner Plot) -->
+  <g id="masterplot_1" filter="url(#plotDropShadow)">
+    <polygon points="6460,1720 7480,1720 7480,2740 6460,2740" fill="url(#resGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <text x="6970" y="1690" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="7530" y="2250" font-size="32" font-weight="700" fill="#4B5563" text-anchor="start">52'3"</text>
+    <text x="6970" y="2720" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">87'4"</text>
+    <text x="6400" y="2250" font-size="32" font-weight="700" fill="#4B5563" text-anchor="end">52'3"</text>
+    <text x="6970" y="2200" font-size="76" font-weight="900" fill="#111827" text-anchor="middle">1</text>
+    <text x="6970" y="2265" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">5,700 SQ.FT</text>
+    <text x="6970" y="2315" font-size="26" font-weight="800" fill="#047857" text-anchor="middle" letter-spacing="2">PRIME CORNER</text>
+  </g>
+
+  <!-- Plot #2: 4,454 Sq.ft (Corner Plot) -->
+  <g id="masterplot_2" filter="url(#plotDropShadow)">
+    <polygon points="6460,2830 7480,2830 7480,3850 6460,3850" fill="url(#resGrad)" stroke="#1F2937" stroke-width="8" stroke-linejoin="round"/>
+    <text x="6970" y="2810" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">85'7"</text>
+    <text x="7530" y="3360" font-size="32" font-weight="700" fill="#4B5563" text-anchor="start">52'3"</text>
+    <text x="6970" y="3905" font-size="32" font-weight="700" fill="#4B5563" text-anchor="middle">85'7"</text>
+    <text x="6400" y="3360" font-size="32" font-weight="700" fill="#4B5563" text-anchor="end">52'3"</text>
+    <text x="6970" y="3320" font-size="76" font-weight="900" fill="#111827" text-anchor="middle">2</text>
+    <text x="6970" y="3385" font-size="34" font-weight="700" fill="#4B5563" text-anchor="middle">4,454 SQ.FT</text>
+    <text x="6970" y="3435" font-size="26" font-weight="800" fill="#047857" text-anchor="middle" letter-spacing="2">CORNER</text>
+  </g>
+
+  <!-- Landscaped Trees Framing Masterplan -->
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1687.822973814192" cy="1112" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1679.822973814192" cy="1100" r="80" fill="#5B7A48" />
+      <circle cx="1659.822973814192" cy="1084" r="52" fill="#6E9256" />
+      <circle cx="1695.822973814192" cy="1112" r="44" fill="#4A6538" />
+      <circle cx="1687.822973814192" cy="1076" r="32" fill="#82A666" />
+      <circle cx="1671.822973814192" cy="1120" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1667.822973814192" cy="1088" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1715.5767004424008" cy="1302" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1707.5767004424008" cy="1290" r="75" fill="#5B7A48" />
+      <circle cx="1688.8267004424008" cy="1275" r="48.75" fill="#6E9256" />
+      <circle cx="1722.5767004424008" cy="1301.25" r="41.25" fill="#4A6538" />
+      <circle cx="1715.0767004424008" cy="1267.5" r="30" fill="#82A666" />
+      <circle cx="1700.0767004424008" cy="1308.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1696.3267004424008" cy="1278.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1698.9978853258565" cy="1492" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1690.9978853258565" cy="1480" r="85" fill="#5B7A48" />
+      <circle cx="1669.7478853258565" cy="1463" r="55.25" fill="#6E9256" />
+      <circle cx="1707.9978853258565" cy="1492.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1699.4978853258565" cy="1454.5" r="34" fill="#82A666" />
+      <circle cx="1682.4978853258565" cy="1501.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1678.2478853258565" cy="1467.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1751.9161920578163" cy="1682" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1743.9161920578163" cy="1670" r="80" fill="#5B7A48" />
+      <circle cx="1723.9161920578163" cy="1654" r="52" fill="#6E9256" />
+      <circle cx="1759.9161920578163" cy="1682" r="44" fill="#4A6538" />
+      <circle cx="1751.9161920578163" cy="1646" r="32" fill="#82A666" />
+      <circle cx="1735.9161920578163" cy="1690" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1731.9161920578163" cy="1658" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1739.2270816282316" cy="1872" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1731.2270816282316" cy="1860" r="75" fill="#5B7A48" />
+      <circle cx="1712.4770816282316" cy="1845" r="48.75" fill="#6E9256" />
+      <circle cx="1746.2270816282316" cy="1871.25" r="41.25" fill="#4A6538" />
+      <circle cx="1738.7270816282316" cy="1837.5" r="30" fill="#82A666" />
+      <circle cx="1723.7270816282316" cy="1878.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1719.9770816282316" cy="1848.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1760.8275466239058" cy="2062" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1752.8275466239058" cy="2050" r="85" fill="#5B7A48" />
+      <circle cx="1731.5775466239058" cy="2033" r="55.25" fill="#6E9256" />
+      <circle cx="1769.8275466239058" cy="2062.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1761.3275466239058" cy="2024.5" r="34" fill="#82A666" />
+      <circle cx="1744.3275466239058" cy="2071.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1740.0775466239058" cy="2037.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1793.7915347478572" cy="2252" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1785.7915347478572" cy="2240" r="80" fill="#5B7A48" />
+      <circle cx="1765.7915347478572" cy="2224" r="52" fill="#6E9256" />
+      <circle cx="1801.7915347478572" cy="2252" r="44" fill="#4A6538" />
+      <circle cx="1793.7915347478572" cy="2216" r="32" fill="#82A666" />
+      <circle cx="1777.7915347478572" cy="2260" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1773.7915347478572" cy="2228" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1774.4895876704297" cy="2442" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1766.4895876704297" cy="2430" r="75" fill="#5B7A48" />
+      <circle cx="1747.7395876704297" cy="2415" r="48.75" fill="#6E9256" />
+      <circle cx="1781.4895876704297" cy="2441.25" r="41.25" fill="#4A6538" />
+      <circle cx="1773.9895876704297" cy="2407.5" r="30" fill="#82A666" />
+      <circle cx="1758.9895876704297" cy="2448.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1755.2395876704297" cy="2418.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1826.5054518193285" cy="2632" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1818.5054518193285" cy="2620" r="85" fill="#5B7A48" />
+      <circle cx="1797.2554518193285" cy="2603" r="55.25" fill="#6E9256" />
+      <circle cx="1835.5054518193285" cy="2632.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1827.0054518193285" cy="2594.5" r="34" fill="#82A666" />
+      <circle cx="1810.0054518193285" cy="2641.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1805.7554518193285" cy="2607.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1817.967079240743" cy="2822" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1809.967079240743" cy="2810" r="80" fill="#5B7A48" />
+      <circle cx="1789.967079240743" cy="2794" r="52" fill="#6E9256" />
+      <circle cx="1825.967079240743" cy="2822" r="44" fill="#4A6538" />
+      <circle cx="1817.967079240743" cy="2786" r="32" fill="#82A666" />
+      <circle cx="1801.967079240743" cy="2830" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1797.967079240743" cy="2798" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1833.9037875779557" cy="3012" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1825.9037875779557" cy="3000" r="75" fill="#5B7A48" />
+      <circle cx="1807.1537875779557" cy="2985" r="48.75" fill="#6E9256" />
+      <circle cx="1840.9037875779557" cy="3011.25" r="41.25" fill="#4A6538" />
+      <circle cx="1833.4037875779557" cy="2977.5" r="30" fill="#82A666" />
+      <circle cx="1818.4037875779557" cy="3018.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1814.6537875779557" cy="2988.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1871.6767351408744" cy="3202" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1863.6767351408744" cy="3190" r="85" fill="#5B7A48" />
+      <circle cx="1842.4267351408744" cy="3173" r="55.25" fill="#6E9256" />
+      <circle cx="1880.6767351408744" cy="3202.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1872.1767351408744" cy="3164.5" r="34" fill="#82A666" />
+      <circle cx="1855.1767351408744" cy="3211.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1850.9267351408744" cy="3177.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1850.43108143365" cy="3392" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1842.43108143365" cy="3380" r="80" fill="#5B7A48" />
+      <circle cx="1822.43108143365" cy="3364" r="52" fill="#6E9256" />
+      <circle cx="1858.43108143365" cy="3392" r="44" fill="#4A6538" />
+      <circle cx="1850.43108143365" cy="3356" r="32" fill="#82A666" />
+      <circle cx="1834.43108143365" cy="3400" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1830.43108143365" cy="3368" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1900.712804514788" cy="3582" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1892.712804514788" cy="3570" r="75" fill="#5B7A48" />
+      <circle cx="1873.962804514788" cy="3555" r="48.75" fill="#6E9256" />
+      <circle cx="1907.712804514788" cy="3581.25" r="41.25" fill="#4A6538" />
+      <circle cx="1900.212804514788" cy="3547.5" r="30" fill="#82A666" />
+      <circle cx="1885.212804514788" cy="3588.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1881.462804514788" cy="3558.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1896.8614377510062" cy="3772" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1888.8614377510062" cy="3760" r="85" fill="#5B7A48" />
+      <circle cx="1867.6114377510062" cy="3743" r="55.25" fill="#6E9256" />
+      <circle cx="1905.8614377510062" cy="3772.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1897.3614377510062" cy="3734.5" r="34" fill="#82A666" />
+      <circle cx="1880.3614377510062" cy="3781.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1876.1114377510062" cy="3747.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1907.1177466258498" cy="3962" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1899.1177466258498" cy="3950" r="80" fill="#5B7A48" />
+      <circle cx="1879.1177466258498" cy="3934" r="52" fill="#6E9256" />
+      <circle cx="1915.1177466258498" cy="3962" r="44" fill="#4A6538" />
+      <circle cx="1907.1177466258498" cy="3926" r="32" fill="#82A666" />
+      <circle cx="1891.1177466258498" cy="3970" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1887.1177466258498" cy="3938" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1949.189713504985" cy="4152" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1941.189713504985" cy="4140" r="75" fill="#5B7A48" />
+      <circle cx="1922.439713504985" cy="4125" r="48.75" fill="#6E9256" />
+      <circle cx="1956.189713504985" cy="4151.25" r="41.25" fill="#4A6538" />
+      <circle cx="1948.689713504985" cy="4117.5" r="30" fill="#82A666" />
+      <circle cx="1933.689713504985" cy="4158.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1929.939713504985" cy="4128.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1926.8236883160826" cy="4342" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1918.8236883160826" cy="4330" r="85" fill="#5B7A48" />
+      <circle cx="1897.5736883160826" cy="4313" r="55.25" fill="#6E9256" />
+      <circle cx="1935.8236883160826" cy="4342.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1927.3236883160826" cy="4304.5" r="34" fill="#82A666" />
+      <circle cx="1910.3236883160826" cy="4351.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1906.0736883160826" cy="4317.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1974.5787474157185" cy="4532" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1966.5787474157185" cy="4520" r="80" fill="#5B7A48" />
+      <circle cx="1946.5787474157185" cy="4504" r="52" fill="#6E9256" />
+      <circle cx="1982.5787474157185" cy="4532" r="44" fill="#4A6538" />
+      <circle cx="1974.5787474157185" cy="4496" r="32" fill="#82A666" />
+      <circle cx="1958.5787474157185" cy="4540" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1954.5787474157185" cy="4508" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1975.8447713900655" cy="4722" rx="71.25" ry="63.75" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1967.8447713900655" cy="4710" r="75" fill="#5B7A48" />
+      <circle cx="1949.0947713900655" cy="4695" r="48.75" fill="#6E9256" />
+      <circle cx="1982.8447713900655" cy="4721.25" r="41.25" fill="#4A6538" />
+      <circle cx="1975.3447713900655" cy="4687.5" r="30" fill="#82A666" />
+      <circle cx="1960.3447713900655" cy="4728.75" r="26.25" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1956.5947713900655" cy="4698.75" r="16.5" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="1980.5323625601916" cy="4912" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="1972.5323625601916" cy="4900" r="85" fill="#5B7A48" />
+      <circle cx="1951.2823625601916" cy="4883" r="55.25" fill="#6E9256" />
+      <circle cx="1989.5323625601916" cy="4912.75" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="1981.0323625601916" cy="4874.5" r="34" fill="#82A666" />
+      <circle cx="1964.0323625601916" cy="4921.25" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="1959.7823625601916" cy="4887.25" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2408" cy="1209.6966535867068" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2400" cy="1197.6966535867068" r="84" fill="#5B7A48" />
+      <circle cx="2379" cy="1180.8966535867069" r="54.6" fill="#6E9256" />
+      <circle cx="2416.8" cy="1210.2966535867067" r="46.2" fill="#4A6538" />
+      <circle cx="2408.4" cy="1172.4966535867068" r="33.6" fill="#82A666" />
+      <circle cx="2391.6" cy="1218.6966535867068" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2387.4" cy="1185.096653586707" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2598" cy="1219.3381788407976" rx="74.1" ry="66.3" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2590" cy="1207.3381788407976" r="78" fill="#5B7A48" />
+      <circle cx="2570.5" cy="1191.7381788407977" r="50.7" fill="#6E9256" />
+      <circle cx="2605.6" cy="1219.0381788407976" r="42.900000000000006" fill="#4A6538" />
+      <circle cx="2597.8" cy="1183.9381788407975" r="31.200000000000003" fill="#82A666" />
+      <circle cx="2582.2" cy="1226.8381788407976" r="27.299999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2578.3" cy="1195.6381788407975" r="17.16" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2788" cy="1200.2465183320974" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2780" cy="1188.2465183320974" r="86" fill="#5B7A48" />
+      <circle cx="2758.5" cy="1171.0465183320973" r="55.9" fill="#6E9256" />
+      <circle cx="2797.2" cy="1201.1465183320975" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="2788.6" cy="1162.4465183320974" r="34.4" fill="#82A666" />
+      <circle cx="2771.4" cy="1209.7465183320974" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2767.1" cy="1175.3465183320973" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2978" cy="1227.1764906358653" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2970" cy="1215.1764906358653" r="80" fill="#5B7A48" />
+      <circle cx="2950" cy="1199.1764906358653" r="52" fill="#6E9256" />
+      <circle cx="2986" cy="1227.1764906358653" r="44" fill="#4A6538" />
+      <circle cx="2978" cy="1191.1764906358653" r="32" fill="#82A666" />
+      <circle cx="2962" cy="1235.1764906358653" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2958" cy="1203.1764906358653" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3168" cy="1194.6817835841512" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3160" cy="1182.6817835841512" r="88" fill="#5B7A48" />
+      <circle cx="3138" cy="1165.0817835841513" r="57.2" fill="#6E9256" />
+      <circle cx="3177.6" cy="1195.8817835841512" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="3168.8" cy="1156.281783584151" r="35.2" fill="#82A666" />
+      <circle cx="3151.2" cy="1204.6817835841512" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3146.8" cy="1169.4817835841511" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3358" cy="1229.9978426846994" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3350" cy="1217.9978426846994" r="82" fill="#5B7A48" />
+      <circle cx="3329.5" cy="1201.5978426846993" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="3366.4" cy="1230.2978426846994" r="45.1" fill="#4A6538" />
+      <circle cx="3358.2" cy="1193.3978426846995" r="32.800000000000004" fill="#82A666" />
+      <circle cx="3341.8" cy="1238.4978426846994" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3337.7" cy="1205.6978426846995" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3548" cy="1194.842008362062" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3540" cy="1182.842008362062" r="90" fill="#5B7A48" />
+      <circle cx="3517.5" cy="1164.842008362062" r="58.5" fill="#6E9256" />
+      <circle cx="3558" cy="1196.342008362062" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="3549" cy="1155.842008362062" r="36" fill="#82A666" />
+      <circle cx="3531" cy="1205.342008362062" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3526.5" cy="1169.342008362062" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3738" cy="1226.86956814102" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3730" cy="1214.86956814102" r="84" fill="#5B7A48" />
+      <circle cx="3709" cy="1198.06956814102" r="54.6" fill="#6E9256" />
+      <circle cx="3746.8" cy="1227.4695681410199" r="46.2" fill="#4A6538" />
+      <circle cx="3738.4" cy="1189.66956814102" r="33.6" fill="#82A666" />
+      <circle cx="3721.6" cy="1235.86956814102" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3717.4" cy="1202.26956814102" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3928" cy="1200.6742264511481" rx="74.1" ry="66.3" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3920" cy="1188.6742264511481" r="78" fill="#5B7A48" />
+      <circle cx="3900.5" cy="1173.0742264511482" r="50.7" fill="#6E9256" />
+      <circle cx="3935.6" cy="1200.3742264511482" r="42.900000000000006" fill="#4A6538" />
+      <circle cx="3927.8" cy="1165.274226451148" r="31.200000000000003" fill="#82A666" />
+      <circle cx="3912.2" cy="1208.1742264511481" r="27.299999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3908.3" cy="1176.974226451148" r="17.16" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4118" cy="1218.8257945799935" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4110" cy="1206.8257945799935" r="86" fill="#5B7A48" />
+      <circle cx="4088.5" cy="1189.6257945799935" r="55.9" fill="#6E9256" />
+      <circle cx="4127.2" cy="1219.7257945799936" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="4118.6" cy="1181.0257945799935" r="34.4" fill="#82A666" />
+      <circle cx="4101.4" cy="1228.3257945799935" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4097.1" cy="1193.9257945799934" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4308" cy="1210.2504556790984" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4300" cy="1198.2504556790984" r="80" fill="#5B7A48" />
+      <circle cx="4280" cy="1182.2504556790984" r="52" fill="#6E9256" />
+      <circle cx="4316" cy="1210.2504556790984" r="44" fill="#4A6538" />
+      <circle cx="4308" cy="1174.2504556790984" r="32" fill="#82A666" />
+      <circle cx="4292" cy="1218.2504556790984" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4288" cy="1186.2504556790984" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4498" cy="1208.5255878641926" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4490" cy="1196.5255878641926" r="88" fill="#5B7A48" />
+      <circle cx="4468" cy="1178.9255878641927" r="57.2" fill="#6E9256" />
+      <circle cx="4507.6" cy="1209.7255878641927" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="4498.8" cy="1170.1255878641925" r="35.2" fill="#82A666" />
+      <circle cx="4481.2" cy="1218.5255878641926" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4476.8" cy="1183.3255878641926" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4688" cy="1220.4050395242532" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4680" cy="1208.4050395242532" r="82" fill="#5B7A48" />
+      <circle cx="4659.5" cy="1192.005039524253" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="4696.4" cy="1220.7050395242532" r="45.1" fill="#4A6538" />
+      <circle cx="4688.2" cy="1183.8050395242533" r="32.800000000000004" fill="#82A666" />
+      <circle cx="4671.8" cy="1228.9050395242532" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4667.7" cy="1196.1050395242532" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4878" cy="1199.373932960889" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4870" cy="1187.373932960889" r="90" fill="#5B7A48" />
+      <circle cx="4847.5" cy="1169.373932960889" r="58.5" fill="#6E9256" />
+      <circle cx="4888" cy="1200.873932960889" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="4879" cy="1160.373932960889" r="36" fill="#82A666" />
+      <circle cx="4861" cy="1209.873932960889" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4856.5" cy="1173.873932960889" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5068" cy="1227.781132216847" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5060" cy="1215.781132216847" r="84" fill="#5B7A48" />
+      <circle cx="5039" cy="1198.981132216847" r="54.6" fill="#6E9256" />
+      <circle cx="5076.8" cy="1228.381132216847" r="46.2" fill="#4A6538" />
+      <circle cx="5068.4" cy="1190.581132216847" r="33.6" fill="#82A666" />
+      <circle cx="5051.6" cy="1236.781132216847" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5047.4" cy="1203.1811322168471" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5258" cy="1194.396132976243" rx="74.1" ry="66.3" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5250" cy="1182.396132976243" r="78" fill="#5B7A48" />
+      <circle cx="5230.5" cy="1166.7961329762431" r="50.7" fill="#6E9256" />
+      <circle cx="5265.6" cy="1194.096132976243" r="42.900000000000006" fill="#4A6538" />
+      <circle cx="5257.8" cy="1158.996132976243" r="31.200000000000003" fill="#82A666" />
+      <circle cx="5242.2" cy="1201.896132976243" r="27.299999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5238.3" cy="1170.696132976243" r="17.16" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5448" cy="1229.9403861170254" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5440" cy="1217.9403861170254" r="86" fill="#5B7A48" />
+      <circle cx="5418.5" cy="1200.7403861170253" r="55.9" fill="#6E9256" />
+      <circle cx="5457.2" cy="1230.8403861170254" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="5448.6" cy="1192.1403861170254" r="34.4" fill="#82A666" />
+      <circle cx="5431.4" cy="1239.4403861170254" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5427.1" cy="1205.0403861170253" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5638" cy="1195.237721304434" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5630" cy="1183.237721304434" r="80" fill="#5B7A48" />
+      <circle cx="5610" cy="1167.237721304434" r="52" fill="#6E9256" />
+      <circle cx="5646" cy="1195.237721304434" r="44" fill="#4A6538" />
+      <circle cx="5638" cy="1159.237721304434" r="32" fill="#82A666" />
+      <circle cx="5622" cy="1203.237721304434" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5618" cy="1171.237721304434" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5828" cy="1226.169007096817" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5820" cy="1214.169007096817" r="88" fill="#5B7A48" />
+      <circle cx="5798" cy="1196.5690070968171" r="57.2" fill="#6E9256" />
+      <circle cx="5837.6" cy="1227.369007096817" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="5828.8" cy="1187.769007096817" r="35.2" fill="#82A666" />
+      <circle cx="5811.2" cy="1236.169007096817" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5806.8" cy="1200.969007096817" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6018" cy="1201.6204903633052" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6010" cy="1189.6204903633052" r="82" fill="#5B7A48" />
+      <circle cx="5989.5" cy="1173.220490363305" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="6026.4" cy="1201.9204903633051" r="45.1" fill="#4A6538" />
+      <circle cx="6018.2" cy="1165.0204903633053" r="32.800000000000004" fill="#82A666" />
+      <circle cx="6001.8" cy="1210.1204903633052" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5997.7" cy="1177.3204903633052" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6208" cy="1217.7137166273546" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6200" cy="1205.7137166273546" r="90" fill="#5B7A48" />
+      <circle cx="6177.5" cy="1187.7137166273546" r="58.5" fill="#6E9256" />
+      <circle cx="6218" cy="1219.2137166273546" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="6209" cy="1178.7137166273546" r="36" fill="#82A666" />
+      <circle cx="6191" cy="1228.2137166273546" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6186.5" cy="1192.2137166273546" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6398" cy="1211.434459907345" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6390" cy="1199.434459907345" r="84" fill="#5B7A48" />
+      <circle cx="6369" cy="1182.634459907345" r="54.6" fill="#6E9256" />
+      <circle cx="6406.8" cy="1212.0344599073449" r="46.2" fill="#4A6538" />
+      <circle cx="6398.4" cy="1174.234459907345" r="33.6" fill="#82A666" />
+      <circle cx="6381.6" cy="1220.434459907345" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6377.4" cy="1186.834459907345" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6588" cy="1207.369617538785" rx="74.1" ry="66.3" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6580" cy="1195.369617538785" r="78" fill="#5B7A48" />
+      <circle cx="6560.5" cy="1179.769617538785" r="50.7" fill="#6E9256" />
+      <circle cx="6595.6" cy="1207.069617538785" r="42.900000000000006" fill="#4A6538" />
+      <circle cx="6587.8" cy="1171.9696175387849" r="31.200000000000003" fill="#82A666" />
+      <circle cx="6572.2" cy="1214.869617538785" r="27.299999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6568.3" cy="1183.669617538785" r="17.16" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6778" cy="1221.4353825453381" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6770" cy="1209.4353825453381" r="86" fill="#5B7A48" />
+      <circle cx="6748.5" cy="1192.235382545338" r="55.9" fill="#6E9256" />
+      <circle cx="6787.2" cy="1222.3353825453382" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="6778.6" cy="1183.6353825453382" r="34.4" fill="#82A666" />
+      <circle cx="6761.4" cy="1230.9353825453381" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6757.1" cy="1196.535382545338" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6968" cy="1198.556204494503" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6960" cy="1186.556204494503" r="80" fill="#5B7A48" />
+      <circle cx="6940" cy="1170.556204494503" r="52" fill="#6E9256" />
+      <circle cx="6976" cy="1198.556204494503" r="44" fill="#4A6538" />
+      <circle cx="6968" cy="1162.556204494503" r="32" fill="#82A666" />
+      <circle cx="6952" cy="1206.556204494503" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6948" cy="1174.556204494503" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7158" cy="1228.3172089735392" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7150" cy="1216.3172089735392" r="88" fill="#5B7A48" />
+      <circle cx="7128" cy="1198.7172089735393" r="57.2" fill="#6E9256" />
+      <circle cx="7167.6" cy="1229.5172089735393" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="7158.8" cy="1189.9172089735391" r="35.2" fill="#82A666" />
+      <circle cx="7141.2" cy="1238.3172089735392" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7136.8" cy="1203.1172089735392" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7348" cy="1194.1869664908118" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7340" cy="1182.1869664908118" r="82" fill="#5B7A48" />
+      <circle cx="7319.5" cy="1165.7869664908117" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="7356.4" cy="1194.4869664908117" r="45.1" fill="#4A6538" />
+      <circle cx="7348.2" cy="1157.5869664908118" r="32.800000000000004" fill="#82A666" />
+      <circle cx="7331.8" cy="1202.6869664908118" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7327.7" cy="1169.8869664908118" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7538" cy="1229.8049833408727" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7530" cy="1217.8049833408727" r="90" fill="#5B7A48" />
+      <circle cx="7507.5" cy="1199.8049833408727" r="58.5" fill="#6E9256" />
+      <circle cx="7548" cy="1231.3049833408727" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="7539" cy="1190.8049833408727" r="36" fill="#82A666" />
+      <circle cx="7521" cy="1240.3049833408727" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7516.5" cy="1204.3049833408727" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7861.582271860444" cy="1462" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7853.582271860444" cy="1450" r="90" fill="#5B7A48" />
+      <circle cx="7831.082271860444" cy="1432" r="58.5" fill="#6E9256" />
+      <circle cx="7871.582271860444" cy="1463.5" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="7862.582271860444" cy="1423" r="36" fill="#82A666" />
+      <circle cx="7844.582271860444" cy="1472.5" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7840.082271860444" cy="1436.5" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7850.381551144141" cy="1652" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7842.381551144141" cy="1640" r="88" fill="#5B7A48" />
+      <circle cx="7820.381551144141" cy="1622.4" r="57.2" fill="#6E9256" />
+      <circle cx="7859.981551144141" cy="1653.2" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="7851.181551144141" cy="1613.6" r="35.2" fill="#82A666" />
+      <circle cx="7833.581551144141" cy="1662" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7829.181551144141" cy="1626.8" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7869.011434307742" cy="1842" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7861.011434307742" cy="1830" r="86" fill="#5B7A48" />
+      <circle cx="7839.511434307742" cy="1812.8" r="55.9" fill="#6E9256" />
+      <circle cx="7878.211434307742" cy="1842.9" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="7869.6114343077425" cy="1804.2" r="34.4" fill="#82A666" />
+      <circle cx="7852.411434307742" cy="1851.5" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7848.1114343077425" cy="1817.1" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7844.525226361639" cy="2032" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7836.525226361639" cy="2020" r="84" fill="#5B7A48" />
+      <circle cx="7815.525226361639" cy="2003.2" r="54.6" fill="#6E9256" />
+      <circle cx="7853.32522636164" cy="2032.6" r="46.2" fill="#4A6538" />
+      <circle cx="7844.925226361639" cy="1994.8" r="33.6" fill="#82A666" />
+      <circle cx="7828.12522636164" cy="2041" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7823.925226361639" cy="2007.4" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7872.8004981317345" cy="2222" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7864.8004981317345" cy="2210" r="82" fill="#5B7A48" />
+      <circle cx="7844.3004981317345" cy="2193.6" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="7881.200498131734" cy="2222.3" r="45.1" fill="#4A6538" />
+      <circle cx="7873.000498131734" cy="2185.4" r="32.800000000000004" fill="#82A666" />
+      <circle cx="7856.600498131735" cy="2230.5" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7852.500498131734" cy="2197.7" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7843.123317198353" cy="2412" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7835.123317198353" cy="2400" r="80" fill="#5B7A48" />
+      <circle cx="7815.123317198353" cy="2384" r="52" fill="#6E9256" />
+      <circle cx="7851.123317198353" cy="2412" r="44" fill="#4A6538" />
+      <circle cx="7843.123317198353" cy="2376" r="32" fill="#82A666" />
+      <circle cx="7827.123317198353" cy="2420" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7823.123317198353" cy="2388" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7871.696895717351" cy="2602" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7863.696895717351" cy="2590" r="90" fill="#5B7A48" />
+      <circle cx="7841.196895717351" cy="2572" r="58.5" fill="#6E9256" />
+      <circle cx="7881.696895717351" cy="2603.5" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="7872.696895717351" cy="2563" r="36" fill="#82A666" />
+      <circle cx="7854.696895717351" cy="2612.5" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7850.196895717351" cy="2576.5" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7846.639258977298" cy="2792" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7838.639258977298" cy="2780" r="88" fill="#5B7A48" />
+      <circle cx="7816.639258977298" cy="2762.4" r="57.2" fill="#6E9256" />
+      <circle cx="7856.239258977298" cy="2793.2" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="7847.439258977298" cy="2753.6" r="35.2" fill="#82A666" />
+      <circle cx="7829.8392589772975" cy="2802" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7825.439258977298" cy="2766.8" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7866.065449804029" cy="2982" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7858.065449804029" cy="2970" r="86" fill="#5B7A48" />
+      <circle cx="7836.565449804029" cy="2952.8" r="55.9" fill="#6E9256" />
+      <circle cx="7875.265449804029" cy="2982.9" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="7866.66544980403" cy="2944.2" r="34.4" fill="#82A666" />
+      <circle cx="7849.465449804029" cy="2991.5" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7845.16544980403" cy="2957.1" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7853.9107712478535" cy="3172" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7845.9107712478535" cy="3160" r="84" fill="#5B7A48" />
+      <circle cx="7824.9107712478535" cy="3143.2" r="54.6" fill="#6E9256" />
+      <circle cx="7862.710771247854" cy="3172.6" r="46.2" fill="#4A6538" />
+      <circle cx="7854.310771247853" cy="3134.8" r="33.6" fill="#82A666" />
+      <circle cx="7837.510771247854" cy="3181" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7833.310771247853" cy="3147.4" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7857.767772416452" cy="3362" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7849.767772416452" cy="3350" r="82" fill="#5B7A48" />
+      <circle cx="7829.267772416452" cy="3333.6" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="7866.167772416452" cy="3362.3" r="45.1" fill="#4A6538" />
+      <circle cx="7857.967772416452" cy="3325.4" r="32.800000000000004" fill="#82A666" />
+      <circle cx="7841.5677724164525" cy="3370.5" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7837.467772416452" cy="3337.7" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7862.534077983606" cy="3552" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7854.534077983606" cy="3540" r="80" fill="#5B7A48" />
+      <circle cx="7834.534077983606" cy="3524" r="52" fill="#6E9256" />
+      <circle cx="7870.534077983606" cy="3552" r="44" fill="#4A6538" />
+      <circle cx="7862.534077983606" cy="3516" r="32" fill="#82A666" />
+      <circle cx="7846.534077983606" cy="3560" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7842.534077983606" cy="3528" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7849.546863530011" cy="3742" rx="85.5" ry="76.5" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7841.546863530011" cy="3730" r="90" fill="#5B7A48" />
+      <circle cx="7819.046863530011" cy="3712" r="58.5" fill="#6E9256" />
+      <circle cx="7859.546863530011" cy="3743.5" r="49.50000000000001" fill="#4A6538" />
+      <circle cx="7850.546863530011" cy="3703" r="36" fill="#82A666" />
+      <circle cx="7832.546863530011" cy="3752.5" r="31.499999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7828.046863530011" cy="3716.5" r="19.8" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7869.658534472894" cy="3932" rx="83.6" ry="74.8" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7861.658534472894" cy="3920" r="88" fill="#5B7A48" />
+      <circle cx="7839.658534472894" cy="3902.4" r="57.2" fill="#6E9256" />
+      <circle cx="7879.258534472894" cy="3933.2" r="48.400000000000006" fill="#4A6538" />
+      <circle cx="7870.458534472894" cy="3893.6" r="35.2" fill="#82A666" />
+      <circle cx="7852.858534472894" cy="3942" r="30.799999999999997" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7848.458534472894" cy="3906.8" r="19.36" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7844.120345416569" cy="4122" rx="81.7" ry="73.1" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7836.120345416569" cy="4110" r="86" fill="#5B7A48" />
+      <circle cx="7814.620345416569" cy="4092.8" r="55.9" fill="#6E9256" />
+      <circle cx="7853.320345416569" cy="4122.9" r="47.300000000000004" fill="#4A6538" />
+      <circle cx="7844.720345416569" cy="4084.2" r="34.4" fill="#82A666" />
+      <circle cx="7827.5203454165685" cy="4131.5" r="30.099999999999998" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7823.220345416569" cy="4097.1" r="18.92" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7872.928977570418" cy="4312" rx="79.8" ry="71.39999999999999" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7864.928977570418" cy="4300" r="84" fill="#5B7A48" />
+      <circle cx="7843.928977570418" cy="4283.2" r="54.6" fill="#6E9256" />
+      <circle cx="7881.7289775704185" cy="4312.6" r="46.2" fill="#4A6538" />
+      <circle cx="7873.328977570418" cy="4274.8" r="33.6" fill="#82A666" />
+      <circle cx="7856.528977570419" cy="4321" r="29.4" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7852.328977570418" cy="4287.4" r="18.48" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7843.282086210105" cy="4502" rx="77.89999999999999" ry="69.7" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7835.282086210105" cy="4490" r="82" fill="#5B7A48" />
+      <circle cx="7814.782086210105" cy="4473.6" r="53.300000000000004" fill="#6E9256" />
+      <circle cx="7851.682086210105" cy="4502.3" r="45.1" fill="#4A6538" />
+      <circle cx="7843.482086210105" cy="4465.4" r="32.800000000000004" fill="#82A666" />
+      <circle cx="7827.082086210105" cy="4510.5" r="28.7" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7822.982086210105" cy="4477.7" r="18.04" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7871.264282412318" cy="4692" rx="76" ry="68" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7863.264282412318" cy="4680" r="80" fill="#5B7A48" />
+      <circle cx="7843.264282412318" cy="4664" r="52" fill="#6E9256" />
+      <circle cx="7879.264282412318" cy="4692" r="44" fill="#4A6538" />
+      <circle cx="7871.264282412318" cy="4656" r="32" fill="#82A666" />
+      <circle cx="7855.264282412318" cy="4700" r="28" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7851.264282412318" cy="4668" r="17.6" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2508" cy="4279.644367534582" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2500" cy="4267.644367534582" r="85" fill="#5B7A48" />
+      <circle cx="2478.75" cy="4250.644367534582" r="55.25" fill="#6E9256" />
+      <circle cx="2517" cy="4280.394367534582" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="2508.5" cy="4242.144367534582" r="34" fill="#82A666" />
+      <circle cx="2491.5" cy="4288.894367534582" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2487.25" cy="4254.894367534582" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2718" cy="4244.326323062464" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2710" cy="4232.326323062464" r="85" fill="#5B7A48" />
+      <circle cx="2688.75" cy="4215.326323062464" r="55.25" fill="#6E9256" />
+      <circle cx="2727" cy="4245.076323062464" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="2718.5" cy="4206.826323062464" r="34" fill="#82A666" />
+      <circle cx="2701.5" cy="4253.576323062464" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2697.25" cy="4219.576323062464" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="2928" cy="4279.701737110969" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="2920" cy="4267.701737110969" r="85" fill="#5B7A48" />
+      <circle cx="2898.75" cy="4250.701737110969" r="55.25" fill="#6E9256" />
+      <circle cx="2937" cy="4280.451737110969" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="2928.5" cy="4242.201737110969" r="34" fill="#82A666" />
+      <circle cx="2911.5" cy="4288.951737110969" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="2907.25" cy="4254.951737110969" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3138" cy="4244.271453928496" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3130" cy="4232.271453928496" r="85" fill="#5B7A48" />
+      <circle cx="3108.75" cy="4215.271453928496" r="55.25" fill="#6E9256" />
+      <circle cx="3147" cy="4245.021453928496" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="3138.5" cy="4206.771453928496" r="34" fill="#82A666" />
+      <circle cx="3121.5" cy="4253.521453928496" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3117.25" cy="4219.521453928496" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3348" cy="4279.754101924201" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3340" cy="4267.754101924201" r="85" fill="#5B7A48" />
+      <circle cx="3318.75" cy="4250.754101924201" r="55.25" fill="#6E9256" />
+      <circle cx="3357" cy="4280.504101924201" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="3348.5" cy="4242.254101924201" r="34" fill="#82A666" />
+      <circle cx="3331.5" cy="4289.004101924201" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3327.25" cy="4255.004101924201" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3558" cy="4244.221597137307" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3550" cy="4232.221597137307" r="85" fill="#5B7A48" />
+      <circle cx="3528.75" cy="4215.221597137307" r="55.25" fill="#6E9256" />
+      <circle cx="3567" cy="4244.971597137307" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="3558.5" cy="4206.721597137307" r="34" fill="#82A666" />
+      <circle cx="3541.5" cy="4253.471597137307" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3537.25" cy="4219.471597137307" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3768" cy="4279.801447169318" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3760" cy="4267.801447169318" r="85" fill="#5B7A48" />
+      <circle cx="3738.75" cy="4250.801447169318" r="55.25" fill="#6E9256" />
+      <circle cx="3777" cy="4280.551447169318" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="3768.5" cy="4242.301447169318" r="34" fill="#82A666" />
+      <circle cx="3751.5" cy="4289.051447169318" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3747.25" cy="4255.051447169318" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="3978" cy="4244.176766784769" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="3970" cy="4232.176766784769" r="85" fill="#5B7A48" />
+      <circle cx="3948.75" cy="4215.176766784769" r="55.25" fill="#6E9256" />
+      <circle cx="3987" cy="4244.926766784769" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="3978.5" cy="4206.676766784769" r="34" fill="#82A666" />
+      <circle cx="3961.5" cy="4253.426766784769" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="3957.25" cy="4219.426766784769" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4188" cy="4279.84375946053" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4180" cy="4267.84375946053" r="85" fill="#5B7A48" />
+      <circle cx="4158.75" cy="4250.84375946053" r="55.25" fill="#6E9256" />
+      <circle cx="4197" cy="4280.59375946053" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="4188.5" cy="4242.34375946053" r="34" fill="#82A666" />
+      <circle cx="4171.5" cy="4289.09375946053" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4167.25" cy="4255.09375946053" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4398" cy="4244.1369755456435" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4390" cy="4232.1369755456435" r="85" fill="#5B7A48" />
+      <circle cx="4368.75" cy="4215.1369755456435" r="55.25" fill="#6E9256" />
+      <circle cx="4407" cy="4244.8869755456435" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="4398.5" cy="4206.6369755456435" r="34" fill="#82A666" />
+      <circle cx="4381.5" cy="4253.3869755456435" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4377.25" cy="4219.3869755456435" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4608" cy="4279.881026835001" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4600" cy="4267.881026835001" r="85" fill="#5B7A48" />
+      <circle cx="4578.75" cy="4250.881026835001" r="55.25" fill="#6E9256" />
+      <circle cx="4617" cy="4280.631026835001" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="4608.5" cy="4242.381026835001" r="34" fill="#82A666" />
+      <circle cx="4591.5" cy="4289.131026835001" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4587.25" cy="4255.131026835001" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="4818" cy="4244.102234669999" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="4810" cy="4232.102234669999" r="85" fill="#5B7A48" />
+      <circle cx="4788.75" cy="4215.102234669999" r="55.25" fill="#6E9256" />
+      <circle cx="4827" cy="4244.852234669999" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="4818.5" cy="4206.602234669999" r="34" fill="#82A666" />
+      <circle cx="4801.5" cy="4253.352234669999" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="4797.25" cy="4219.352234669999" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5028" cy="4279.913238756229" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5020" cy="4267.913238756229" r="85" fill="#5B7A48" />
+      <circle cx="4998.75" cy="4250.913238756229" r="55.25" fill="#6E9256" />
+      <circle cx="5037" cy="4280.663238756229" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="5028.5" cy="4242.413238756229" r="34" fill="#82A666" />
+      <circle cx="5011.5" cy="4289.163238756229" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5007.25" cy="4255.163238756229" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5238" cy="4244.072553980026" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5230" cy="4232.072553980026" r="85" fill="#5B7A48" />
+      <circle cx="5208.75" cy="4215.072553980026" r="55.25" fill="#6E9256" />
+      <circle cx="5247" cy="4244.822553980026" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="5238.5" cy="4206.572553980026" r="34" fill="#82A666" />
+      <circle cx="5221.5" cy="4253.322553980026" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5217.25" cy="4219.322553980026" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5448" cy="4279.940386117025" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5440" cy="4267.940386117025" r="85" fill="#5B7A48" />
+      <circle cx="5418.75" cy="4250.940386117025" r="55.25" fill="#6E9256" />
+      <circle cx="5457" cy="4280.690386117025" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="5448.5" cy="4242.440386117025" r="34" fill="#82A666" />
+      <circle cx="5431.5" cy="4289.190386117025" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5427.25" cy="4255.190386117025" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5658" cy="4244.047941867264" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5650" cy="4232.047941867264" r="85" fill="#5B7A48" />
+      <circle cx="5628.75" cy="4215.047941867264" r="55.25" fill="#6E9256" />
+      <circle cx="5667" cy="4244.797941867264" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="5658.5" cy="4206.547941867264" r="34" fill="#82A666" />
+      <circle cx="5641.5" cy="4253.297941867264" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5637.25" cy="4219.297941867264" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="5868" cy="4279.962461242093" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="5860" cy="4267.962461242093" r="85" fill="#5B7A48" />
+      <circle cx="5838.75" cy="4250.962461242093" r="55.25" fill="#6E9256" />
+      <circle cx="5877" cy="4280.712461242093" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="5868.5" cy="4242.462461242093" r="34" fill="#82A666" />
+      <circle cx="5851.5" cy="4289.212461242093" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="5847.25" cy="4255.212461242093" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6078" cy="4244.028405290227" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6070" cy="4232.028405290227" r="85" fill="#5B7A48" />
+      <circle cx="6048.75" cy="4215.028405290227" r="55.25" fill="#6E9256" />
+      <circle cx="6087" cy="4244.778405290227" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="6078.5" cy="4206.528405290227" r="34" fill="#82A666" />
+      <circle cx="6061.5" cy="4253.278405290227" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6057.25" cy="4219.278405290227" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6288" cy="4279.979457890194" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6280" cy="4267.979457890194" r="85" fill="#5B7A48" />
+      <circle cx="6258.75" cy="4250.979457890194" r="55.25" fill="#6E9256" />
+      <circle cx="6297" cy="4280.729457890194" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="6288.5" cy="4242.479457890194" r="34" fill="#82A666" />
+      <circle cx="6271.5" cy="4289.229457890194" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6267.25" cy="4255.229457890194" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6498" cy="4244.0139497724385" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6490" cy="4232.0139497724385" r="85" fill="#5B7A48" />
+      <circle cx="6468.75" cy="4215.0139497724385" r="55.25" fill="#6E9256" />
+      <circle cx="6507" cy="4244.7639497724385" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="6498.5" cy="4206.5139497724385" r="34" fill="#82A666" />
+      <circle cx="6481.5" cy="4253.2639497724385" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6477.25" cy="4219.2639497724385" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6708" cy="4279.99137125591" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6700" cy="4267.99137125591" r="85" fill="#5B7A48" />
+      <circle cx="6678.75" cy="4250.99137125591" r="55.25" fill="#6E9256" />
+      <circle cx="6717" cy="4280.74137125591" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="6708.5" cy="4242.49137125591" r="34" fill="#82A666" />
+      <circle cx="6691.5" cy="4289.24137125591" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6687.25" cy="4255.24137125591" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="6918" cy="4244.0045794008665" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="6910" cy="4232.0045794008665" r="85" fill="#5B7A48" />
+      <circle cx="6888.75" cy="4215.0045794008665" r="55.25" fill="#6E9256" />
+      <circle cx="6927" cy="4244.7545794008665" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="6918.5" cy="4206.5045794008665" r="34" fill="#82A666" />
+      <circle cx="6901.5" cy="4253.2545794008665" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="6897.25" cy="4219.2545794008665" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7128" cy="4279.998197971011" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7120" cy="4267.998197971011" r="85" fill="#5B7A48" />
+      <circle cx="7098.75" cy="4250.998197971011" r="55.25" fill="#6E9256" />
+      <circle cx="7137" cy="4280.748197971011" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="7128.5" cy="4242.498197971011" r="34" fill="#82A666" />
+      <circle cx="7111.5" cy="4289.248197971011" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7107.25" cy="4255.248197971011" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7338" cy="4244.00029682477" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7330" cy="4232.00029682477" r="85" fill="#5B7A48" />
+      <circle cx="7308.75" cy="4215.00029682477" r="55.25" fill="#6E9256" />
+      <circle cx="7347" cy="4244.75029682477" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="7338.5" cy="4206.50029682477" r="34" fill="#82A666" />
+      <circle cx="7321.5" cy="4253.25029682477" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7317.25" cy="4219.25029682477" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+    <g class="cad-tree" opacity="0.92">
+      <!-- Tree soft drop shadow -->
+      <ellipse cx="7548" cy="4279.999936105398" rx="80.75" ry="72.25" fill="rgba(40, 50, 30, 0.22)" filter="blur(6px)" />
+      <!-- Outer canopy -->
+      <circle cx="7540" cy="4267.999936105398" r="85" fill="#5B7A48" />
+      <circle cx="7518.75" cy="4250.999936105398" r="55.25" fill="#6E9256" />
+      <circle cx="7557" cy="4280.749936105398" r="46.75000000000001" fill="#4A6538" />
+      <circle cx="7548.5" cy="4242.499936105398" r="34" fill="#82A666" />
+      <circle cx="7531.5" cy="4289.249936105398" r="29.749999999999996" fill="#3C532C" />
+      <!-- Tree center highlight -->
+      <circle cx="7527.25" cy="4255.249936105398" r="18.7" fill="#97BD78" opacity="0.8" />
+    </g>
+  
+
+  <!-- ================= TOP LEFT: LUXURY ARCHITECTURAL BRANDING ================= -->
+  <g transform="translate(420, 360)">
+    <!-- 3 Pillars Logo Icon -->
+    <rect x="0" y="20" width="16" height="80" rx="4" fill="#0A0A0A" />
+    <rect x="28" y="0" width="16" height="100" rx="4" fill="#0A0A0A" />
+    <rect x="56" y="20" width="16" height="80" rx="4" fill="#0A0A0A" />
+    
+    <text x="100" y="55" font-size="62" font-weight="900" fill="#0A0A0A" letter-spacing="18">AKSHARA</text>
+    <text x="100" y="98" font-size="32" font-weight="700" fill="#4B5563" letter-spacing="16">— GREEN ACRES —</text>
+    
+    <line x1="0" y1="135" x2="880" y2="135" stroke="#111827" stroke-width="4"/>
+    <text x="0" y="180" font-size="26" font-weight="700" fill="#6B7280" letter-spacing="6">DTCP APPROVED RESIDENTIAL &amp; COMMERCIAL MASTERPLAN</text>
+    <text x="0" y="220" font-size="24" font-weight="600" fill="#9CA3AF" letter-spacing="4">KATPADI EXTENSION, VELLORE • OPTION-A LAYOUT</text>
+  </g>
+
+  <!-- ================= TOP RIGHT: TECHNICAL NORTH COMPASS ROSE ================= -->
+  <g transform="translate(8050, 480)">
+    <circle cx="0" cy="0" r="160" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="8,6"/>
+    <circle cx="0" cy="0" r="130" fill="none" stroke="#D1D5DB" stroke-width="1.5"/>
+    <circle cx="0" cy="0" r="8" fill="#111827"/>
+    
+    <!-- Compass Pointer Needles -->
+    <!-- North Point (Dark) -->
+    <polygon points="0,-165 24,-20 0,0" fill="#111827"/>
+    <polygon points="0,-165 -24,-20 0,0" fill="#4B5563"/>
+    <!-- South Point -->
+    <polygon points="0,130 18,15 0,0" fill="#9CA3AF"/>
+    <polygon points="0,130 -18,15 0,0" fill="#E5E7EB"/>
+    <!-- East Point -->
+    <polygon points="130,0 15,18 0,0" fill="#9CA3AF"/>
+    <polygon points="130,0 15,-18 0,0" fill="#E5E7EB"/>
+    <!-- West Point -->
+    <polygon points="-130,0 -15,18 0,0" fill="#9CA3AF"/>
+    <polygon points="-130,0 -15,-18 0,0" fill="#E5E7EB"/>
+    
+    <!-- Labels -->
+    <text x="0" y="-185" font-size="38" font-weight="900" fill="#111827" text-anchor="middle" letter-spacing="4">NORTH</text>
+    <text x="0" y="175" font-size="26" font-weight="800" fill="#4B5563" text-anchor="middle">S</text>
+    <text x="175" y="10" font-size="26" font-weight="800" fill="#4B5563" text-anchor="middle">E</text>
+    <text x="-175" y="10" font-size="26" font-weight="800" fill="#4B5563" text-anchor="middle">W</text>
+  </g>
+
+  <!-- ================= RIGHT SIDE: SCHEDULE OF PLOTS SPECIFICATION TABLE ================= -->
+  <g transform="translate(6920, 950)">
+    <text x="0" y="40" font-size="34" font-weight="900" fill="#111827" letter-spacing="6">SCHEDULE OF PLOTS &amp; AREAS</text>
+    <line x1="0" y1="65" x2="1480" y2="65" stroke="#111827" stroke-width="3"/>
+    
+    <!-- Table Header -->
+    <rect x="0" y="90" width="1480" height="75" fill="#E5E2D9" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="40" y="142" font-size="26" font-weight="900" fill="#111827">UNIT ID</text>
+    <text x="360" y="142" font-size="26" font-weight="900" fill="#111827">AREA SQ.FT</text>
+    <text x="740" y="142" font-size="26" font-weight="900" fill="#111827">DIMENSIONS</text>
+    <text x="1140" y="142" font-size="26" font-weight="900" fill="#111827">FACING</text>
+    
+    <!-- Row 1: Commercial -->
+    <rect x="0" y="165" width="1480" height="70" fill="#F4F2EC" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="210" font-size="24" font-weight="800" fill="#111827">COMMERCIAL</text>
+    <text x="360" y="210" font-size="24" font-weight="700" fill="#111827">14,111 sq.ft</text>
+    <text x="740" y="210" font-size="24" font-weight="600" fill="#4B5563">272'0" x 172'0"</text>
+    <text x="1140" y="210" font-size="22" font-weight="700" fill="#047857">Dual Highway</text>
+
+    <!-- Row 2: Plot 5 -->
+    <rect x="0" y="235" width="1480" height="70" fill="#FAF9F5" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="280" font-size="24" font-weight="800" fill="#111827">PLOT #5</text>
+    <text x="360" y="280" font-size="24" font-weight="700" fill="#111827">6,784 sq.ft</text>
+    <text x="740" y="280" font-size="24" font-weight="600" fill="#4B5563">113'0" x 60'0"</text>
+    <text x="1140" y="280" font-size="22" font-weight="700" fill="#047857">North-East</text>
+
+    <!-- Row 3: Plot 3 -->
+    <rect x="0" y="305" width="1480" height="70" fill="#F4F2EC" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="350" font-size="24" font-weight="800" fill="#111827">PLOT #3</text>
+    <text x="360" y="350" font-size="24" font-weight="700" fill="#111827">4,924 sq.ft</text>
+    <text x="740" y="350" font-size="24" font-weight="600" fill="#4B5563">87'4" x 52'3"</text>
+    <text x="1140" y="350" font-size="22" font-weight="700" fill="#047857">North Facing</text>
+
+    <!-- Row 4: Plot 4 -->
+    <rect x="0" y="375" width="1480" height="70" fill="#FAF9F5" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="420" font-size="24" font-weight="800" fill="#111827">PLOT #4</text>
+    <text x="360" y="420" font-size="24" font-weight="700" fill="#111827">4,543 sq.ft</text>
+    <text x="740" y="420" font-size="24" font-weight="600" fill="#4B5563">87'4" x 52'3"</text>
+    <text x="1140" y="420" font-size="22" font-weight="700" fill="#047857">South Facing</text>
+
+    <!-- Row 5: Plot 1 -->
+    <rect x="0" y="445" width="1480" height="70" fill="#F4F2EC" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="490" font-size="24" font-weight="800" fill="#111827">PLOT #1 (CORNER)</text>
+    <text x="360" y="490" font-size="24" font-weight="700" fill="#111827">5,700 sq.ft</text>
+    <text x="740" y="490" font-size="24" font-weight="600" fill="#4B5563">87'4" x 52'3"</text>
+    <text x="1140" y="490" font-size="22" font-weight="700" fill="#047857">East Facing</text>
+
+    <!-- Row 6: Plot 2 -->
+    <rect x="0" y="515" width="1480" height="70" fill="#FAF9F5" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="40" y="560" font-size="24" font-weight="800" fill="#111827">PLOT #2 (CORNER)</text>
+    <text x="360" y="560" font-size="24" font-weight="700" fill="#111827">4,454 sq.ft</text>
+    <text x="740" y="560" font-size="24" font-weight="600" fill="#4B5563">85'7" x 52'3"</text>
+    <text x="1140" y="560" font-size="22" font-weight="700" fill="#047857">East / South</text>
+  </g>
+
+  <!-- ================= BOTTOM LEFT: LEGEND & TECHNICAL METRICS ================= -->
+  <g transform="translate(420, 4800)">
+    <text x="0" y="40" font-size="44" font-weight="900" fill="#111827" letter-spacing="12">L E G E N D</text>
+    <line x1="0" y1="70" x2="800" y2="70" stroke="#111827" stroke-width="3"/>
+    
+    <!-- Legend Item 1 -->
+    <rect x="0" y="110" width="140" height="60" rx="8" fill="#D7D1C7" stroke="#1F2937" stroke-width="3"/>
+    <text x="180" y="152" font-size="34" font-weight="800" fill="#1F2937" letter-spacing="4">COMMERCIAL ZONE</text>
+
+    <!-- Legend Item 2 -->
+    <rect x="0" y="200" width="140" height="60" rx="8" fill="#E3DDD3" stroke="#1F2937" stroke-width="3"/>
+    <text x="180" y="242" font-size="34" font-weight="800" fill="#1F2937" letter-spacing="4">RESIDENTIAL PLOTS</text>
+
+    <!-- Legend Item 3 -->
+    <rect x="0" y="290" width="140" height="60" rx="8" fill="#43464A"/>
+    <text x="180" y="332" font-size="34" font-weight="800" fill="#1F2937" letter-spacing="4">ROADS &amp; INFRASTRUCTURE</text>
+
+    <!-- Legend Item 4 -->
+    <rect x="0" y="380" width="140" height="60" rx="8" fill="#5B7A48"/>
+    <text x="180" y="422" font-size="34" font-weight="800" fill="#1F2937" letter-spacing="4">LANDSCAPED TREE BUFFER</text>
+
+    <!-- Site Statistics -->
+    <g transform="translate(0, 520)">
+      <text x="0" y="40" font-size="28" font-weight="800" fill="#374151" letter-spacing="4">TOTAL AREA : 2.85 ACRES</text>
+      <text x="0" y="90" font-size="28" font-weight="800" fill="#374151" letter-spacing="4">ROAD NETWORKS : 28,640 SQ.FT</text>
+      <text x="0" y="140" font-size="28" font-weight="800" fill="#374151" letter-spacing="4">PLOTS DEVELOPED : 84,500 SQ.FT</text>
+    </g>
+  </g>
+
+  <!-- ================= BOTTOM RIGHT: TECHNICAL CERTIFICATION & LOCATION ================= -->
+  <g transform="translate(6800, 4850)">
+    <!-- QR Code Graphic Placeholder -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="180" height="180" fill="#FFFFFF" stroke="#000000" stroke-width="6"/>
+      <rect x="20" y="20" width="50" height="50" fill="#000000"/>
+      <rect x="110" y="20" width="50" height="50" fill="#000000"/>
+      <rect x="20" y="110" width="50" height="50" fill="#000000"/>
+      <rect x="90" y="90" width="30" height="30" fill="#000000"/>
+      <rect x="130" y="130" width="30" height="30" fill="#000000"/>
+      <rect x="35" y="35" width="20" height="20" fill="#FFFFFF"/>
+      <rect x="125" y="35" width="20" height="20" fill="#FFFFFF"/>
+      <rect x="35" y="125" width="20" height="20" fill="#FFFFFF"/>
+    </g>
+
+    <g transform="translate(230, 40)">
+      <text x="0" y="0" font-size="36" font-weight="900" fill="#111827" letter-spacing="8">LOCATION</text>
+      <text x="0" y="45" font-size="28" font-weight="700" fill="#374151" letter-spacing="3">12.981240, 79.158420</text>
+      <text x="0" y="90" font-size="26" font-weight="800" fill="#111827" letter-spacing="2">KATPADI EXTENSION, VELLORE, TAMIL NADU</text>
+      <text x="0" y="135" font-size="24" font-weight="700" fill="#047857" letter-spacing="2">DTCP APPROVAL NO: 42/2024 (VELLORE REGION)</text>
+      <text x="0" y="175" font-size="22" font-weight="600" fill="#6B7280" letter-spacing="1">RERA REGISTERED: TN/05/Layout/0182/2024</text>
+    </g>
+  </g>
+</svg>

@@ -131,6 +131,9 @@ class App {
           if (window.publicComponents.initProcessScroll) {
             window.publicComponents.initProcessScroll();
           }
+          if (window.publicComponents.initProjectsGooeyNav) {
+            window.publicComponents.initProjectsGooeyNav();
+          }
         }, 0);
       }
     }
@@ -159,6 +162,9 @@ class App {
           window.trackEvent('route_view', { route: newRoute, param: param || '' });
         }
         window.scrollTo({ top: 0, behavior: 'smooth' });
+        setTimeout(() => {
+          window.dispatchEvent(new Event('scroll'));
+        }, 50);
       }
     });
 
@@ -169,9 +175,11 @@ class App {
       }
     });
 
-    // Handle scroll for back-to-top button & VoiceOS navbar liquid glass (RAF throttled & state-cached)
+    // Handle scroll for back-to-top button & dynamic contrast header (Zero-lag RAF sync)
     let navTicking = false;
-    let lastScrolled = false;
+    let lastScrolled = null;
+    let lastTheme = null;
+
     const handleScroll = () => {
       if (!navTicking) {
         window.requestAnimationFrame(() => {
@@ -186,18 +194,79 @@ class App {
             }
           }
 
-          const isScrolled = scrollY > 20 || (window.app && window.app.currentRoute !== 'home');
-          if (isScrolled !== lastScrolled) {
-            lastScrolled = isScrolled;
-            const header = document.querySelector('.header-pill-style');
-            if (header) {
-              if (isScrolled) {
-                header.classList.add('scrolled');
+          const header = document.querySelector('.header-pill-style');
+          if (header) {
+            const isScrolled = scrollY > 20 || (window.app && window.app.currentRoute !== 'home');
+            if (isScrolled !== lastScrolled) {
+              lastScrolled = isScrolled;
+              header.classList.toggle('scrolled', isScrolled);
+            }
+
+            // Zero-Lag Background Theme Detection:
+            // Check if floating header is currently over a dark background
+            let isDark = false;
+            const route = window.app ? window.app.currentRoute : 'home';
+
+            if (route === 'contact' || route === '404') {
+              isDark = true;
+            } else if (!isScrolled) {
+              // Over Hero section (dark overlay/video)
+              isDark = true;
+            } else {
+              const triggerY = 34; // exact vertical center of the floating pill header
+
+              // 1. Direct bounding box check on all dark sections for maximum speed (O(1))
+              const darkSections = document.querySelectorAll(
+                '#leadership, .board-leadership-cad-section, .footer-dark-box, .contact-page-wrapper, .page-404-container, [data-theme="dark"], .dark-section, .hero-section'
+              );
+
+              for (let i = 0; i < darkSections.length; i++) {
+                const rect = darkSections[i].getBoundingClientRect();
+                if (rect.top <= 58 && rect.bottom >= 10) {
+                  isDark = true;
+                  break;
+                }
+              }
+
+              // 2. Fallback element inspection check for any custom dark cards or backgrounds
+              if (!isDark && typeof document.elementsFromPoint === 'function') {
+                const elements = document.elementsFromPoint(window.innerWidth / 2, triggerY);
+                for (let i = 0; i < elements.length; i++) {
+                  const el = elements[i];
+                  if (el.closest('.header') || el.closest('#initialPageLoader') || el.closest('.modal-overlay')) {
+                    continue;
+                  }
+                  const bg = window.getComputedStyle(el).backgroundColor;
+                  if (bg && bg !== 'transparent' && bg !== 'rgba(0, 0, 0, 0)') {
+                    const match = bg.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+                    if (match) {
+                      const r = parseInt(match[1]);
+                      const g = parseInt(match[2]);
+                      const b = parseInt(match[3]);
+                      const lum = (r * 299 + g * 587 + b * 114) / 1000;
+                      if (lum < 110) {
+                        isDark = true;
+                      }
+                    }
+                    break;
+                  }
+                }
+              }
+            }
+
+            const currentTheme = isDark ? 'dark' : 'light';
+            if (currentTheme !== lastTheme) {
+              lastTheme = currentTheme;
+              if (isDark) {
+                header.classList.add('theme-on-dark');
+                header.classList.remove('theme-on-light');
               } else {
-                header.classList.remove('scrolled');
+                header.classList.add('theme-on-light');
+                header.classList.remove('theme-on-dark');
               }
             }
           }
+
           navTicking = false;
         });
         navTicking = true;

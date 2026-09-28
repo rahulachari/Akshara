@@ -126,12 +126,12 @@ const DEFAULT_BOARD = [
 // Interactive Blueprint Plot Data
 const PLOT_DATA = {
   // Vellore (Option A) Exact CAD Units
-  'vellore-commercial': { id: 'Commercial Space', name: 'Commercial Space', areaSqFt: 14111, status: 'Available', boundaryDims: '272\'0" x 172\'0" (Irregular)', facing: 'Dual Highway / Road Facing', phase: 'commercial' },
-  'vellore-plot-5': { id: 'Plot 5', name: 'Plot 5', areaSqFt: 6784, status: 'Available', boundaryDims: '113\'0" x 60\'0"', facing: 'North-East Facing', phase: 'residential' },
-  'vellore-plot-3': { id: 'Plot 3', name: 'Plot 3', areaSqFt: 4924, status: 'Available', boundaryDims: '87\'4" x 52\'3"', facing: 'North Facing', phase: 'residential' },
-  'vellore-plot-4': { id: 'Plot 4', name: 'Plot 4', areaSqFt: 4543, status: 'Available', boundaryDims: '87\'4" x 52\'3"', facing: 'South Facing', phase: 'residential' },
-  'vellore-plot-1': { id: 'Plot 1', name: 'Plot 1 (Prime Corner)', areaSqFt: 5700, status: 'Available', boundaryDims: '87\'4" x 52\'3"', facing: 'East Facing (Prime Corner)', phase: 'residential' },
-  'vellore-plot-2': { id: 'Plot 2', name: 'Plot 2', areaSqFt: 4454, status: 'Available', boundaryDims: '85\'7" x 52\'3"', facing: 'East / South Road Facing', phase: 'residential' },
+  'vellore-commercial': { id: 'Commercial Space', name: 'Commercial Space', areaSqFt: 14111, status: 'Available', boundaryDims: '272\'0" x 172\'0"', dimensions: '272\'0" x 172\'0"', facing: 'Dual Highway / Road Facing', phase: 'commercial', surveyNo: 'DTCP No: 42/2024', roadConnectivity: 'Vellore - Chittoor State Highway & 23ft Road' },
+  'vellore-plot-5': { id: 'Plot #5', name: 'Plot #5', areaSqFt: 6784, status: 'Available', boundaryDims: '113\'0" x 60\'0"', dimensions: '113\'0" x 60\'0"', facing: 'North-East Facing (40ft Avenue)', phase: 'residential', surveyNo: 'DTCP No: 42/2024', roadConnectivity: '40ft Blacktop Asphalt Avenue' },
+  'vellore-plot-3': { id: 'Plot #3', name: 'Plot #3', areaSqFt: 4924, status: 'Available', boundaryDims: '87\'4" x 52\'3"', dimensions: '87\'4" x 52\'3"', facing: 'North Facing (40ft Avenue)', phase: 'residential', surveyNo: 'DTCP No: 42/2024', roadConnectivity: '40ft Blacktop Asphalt Avenue' },
+  'vellore-plot-4': { id: 'Plot #4', name: 'Plot #4', areaSqFt: 4543, status: 'Available', boundaryDims: '87\'4" x 52\'3"', dimensions: '87\'4" x 52\'3"', facing: 'South Facing (40ft Avenue)', phase: 'residential', surveyNo: 'DTCP No: 42/2024', roadConnectivity: '40ft Blacktop Asphalt Avenue' },
+  'vellore-plot-1': { id: 'Plot #1', name: 'Plot #1 (Prime Corner)', areaSqFt: 5700, status: 'Available', boundaryDims: '87\'4" x 52\'3"', dimensions: '87\'4" x 52\'3"', facing: 'East Facing (Prime Corner)', phase: 'residential', surveyNo: 'DTCP No: 42/2024', roadConnectivity: '40ft & 30ft Blacktop Asphalt Avenue' },
+  'vellore-plot-2': { id: 'Plot #2', name: 'Plot #2', areaSqFt: 4454, status: 'Available', boundaryDims: '85\'7" x 52\'3"', dimensions: '85\'7" x 52\'3"', facing: 'East / South Road Facing', phase: 'residential', surveyNo: 'DTCP No: 42/2024', roadConnectivity: '30ft Blacktop Asphalt Avenue' },
 
   // Chittoor Masterplan (Exact CAD Numbers 1 to 83)
   'chittoor-plot-71': {"id":71,"name":"Plot #71","areaSqFt":1150,"status":"Available","boundaryDims":"Irregular (1150 sq.ft)","facing":"East Facing (25ft Road)","phase":"residential","dimensions":"Irregular (1150 sq.ft)"},
@@ -209,6 +209,80 @@ const PLOT_DATA = {
   'chittoor-plot-3': {"id":3,"name":"Plot #3","areaSqFt":1322,"status":"Available","boundaryDims":"Irregular (1322 sq.ft)","facing":"East Facing (Park & Buffer Road)","phase":"residential","dimensions":"Irregular (1322 sq.ft)"},
   'chittoor-plot-2': {"id":2,"name":"Plot #2","areaSqFt":1089,"status":"Available","boundaryDims":"Irregular (1089 sq.ft)","facing":"East Facing (Park & Buffer Road)","phase":"residential","dimensions":"Irregular (1089 sq.ft)"},
   'chittoor-plot-1': {"id":1,"name":"Plot #1","areaSqFt":810,"status":"Available","boundaryDims":"Irregular (810 sq.ft)","facing":"East Facing (Park & Buffer Road)","phase":"residential","dimensions":"Irregular (810 sq.ft)"},
+
+  // === VELLORE (OPTION-A) PLOTS ===
+  'vellore-commercial': {
+    id: 'commercial',
+    name: 'Commercial Space',
+    areaSqFt: 14111,
+    status: 'Available',
+    boundaryDims: "128'0\" x 110'0\"",
+    facing: 'Highway Facing (State Highway)',
+    phase: 'commercial',
+    dimensions: "128'0\" x 110'0\"",
+    surveyNo: 'DTCP & Commercial Approved',
+    roadConnectivity: 'Vellore - Chittoor State Highway & 23ft Road'
+  },
+  'vellore-plot-5': {
+    id: 5,
+    name: 'Plot #5',
+    areaSqFt: 6784,
+    status: 'Available',
+    boundaryDims: "58'0\" x 117'0\"",
+    facing: 'North-East Facing',
+    phase: 'residential',
+    dimensions: "58'0\" x 117'0\"",
+    surveyNo: 'DTCP Approved Masterplan',
+    roadConnectivity: '23ft Wide Concrete Internal Road'
+  },
+  'vellore-plot-3': {
+    id: 3,
+    name: 'Plot #3',
+    areaSqFt: 4924,
+    status: 'Available',
+    boundaryDims: "64'0\" x 77'0\"",
+    facing: 'North Facing',
+    phase: 'residential',
+    dimensions: "64'0\" x 77'0\"",
+    surveyNo: 'DTCP Approved Masterplan',
+    roadConnectivity: '23ft Wide Concrete Internal Road'
+  },
+  'vellore-plot-4': {
+    id: 4,
+    name: 'Plot #4',
+    areaSqFt: 4543,
+    status: 'Available',
+    boundaryDims: "64'0\" x 71'0\"",
+    facing: 'South-East Facing',
+    phase: 'residential',
+    dimensions: "64'0\" x 71'0\"",
+    surveyNo: 'DTCP Approved Masterplan',
+    roadConnectivity: '23ft Wide Concrete Internal Road'
+  },
+  'vellore-plot-1': {
+    id: 1,
+    name: 'Plot #1',
+    areaSqFt: 5700,
+    status: 'Available',
+    boundaryDims: "64'0\" x 89'0\"",
+    facing: 'East Facing (Prime Corner)',
+    phase: 'residential',
+    dimensions: "64'0\" x 89'0\"",
+    surveyNo: 'DTCP Approved Masterplan',
+    roadConnectivity: '23ft Wide Concrete Corner Avenue'
+  },
+  'vellore-plot-2': {
+    id: 2,
+    name: 'Plot #2',
+    areaSqFt: 4454,
+    status: 'Available',
+    boundaryDims: "64'0\" x 70'0\"",
+    facing: 'South-East Facing (Corner)',
+    phase: 'residential',
+    dimensions: "64'0\" x 70'0\"",
+    surveyNo: 'DTCP Approved Masterplan',
+    roadConnectivity: '23ft Wide Concrete Corner Avenue'
+  }
 };
 
 const DEFAULT_LEADS = [
