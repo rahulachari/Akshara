@@ -41,48 +41,25 @@ class App {
       publicApp.style.display = 'block';
 
       if (this.currentRoute === 'contact') {
+        document.body.style.backgroundColor = '#0d0f12';
         publicApp.innerHTML = `
-          ${window.publicComponents.renderHeader()}
+          ${window.publicComponents.renderHeader({ isDark: true })}
           <main>
             ${window.publicComponents.renderContactPage()}
           </main>
           ${window.publicComponents.renderFooter({ isDark: true, hideGiantText: true })}
         `;
-        const audio = document.getElementById('bgMusic');
-        const iconUnmuted = document.getElementById('iconUnmuted');
-        const iconMuted = document.getElementById('iconMuted');
-        if (audio && iconUnmuted && iconMuted) {
-          audio.play().then(() => {
-            iconUnmuted.style.display = 'block';
-            iconMuted.style.display = 'none';
-          }).catch(e => {
-            console.log('Autoplay blocked by browser. User must click to play.');
-            iconUnmuted.style.display = 'none';
-            iconMuted.style.display = 'block';
-            
-            const forcePlay = () => {
-              if (audio.paused) {
-                audio.play().then(() => {
-                  iconUnmuted.style.display = 'block';
-                  iconMuted.style.display = 'none';
-                }).catch(err => console.log('Forced play prevented:', err));
-              }
-              document.removeEventListener('click', forcePlay);
-              document.removeEventListener('scroll', forcePlay);
-              document.removeEventListener('touchstart', forcePlay);
-            };
-            document.addEventListener('click', forcePlay, { once: true });
-            document.addEventListener('scroll', forcePlay, { once: true });
-            document.addEventListener('touchstart', forcePlay, { once: true });
-          });
-        }
+
+        this.startContactAudio();
 
         setTimeout(() => {
           if (window.publicComponents.initSwipeButton) {
             window.publicComponents.initSwipeButton();
           }
         }, 0);
-      } else if (this.currentRoute === 'blueprint') {
+      } else {
+        // Stop and clean up any contact audio immediately when on any other page
+        this.stopContactAudio();
         const proj = window.store.getProjects().find(p => p.name === this.routeParam);
         if (!proj) {
           document.body.style.backgroundColor = '#F8F9FA';
@@ -155,6 +132,9 @@ class App {
       }
 
       if (this.currentRoute !== newRoute || this.routeParam !== param) {
+        if (this.currentRoute === 'contact' && newRoute !== 'contact') {
+          this.stopContactAudio();
+        }
         this.currentRoute = newRoute;
         this.routeParam = param;
         this.renderApp();
@@ -165,6 +145,13 @@ class App {
         setTimeout(() => {
           window.dispatchEvent(new Event('scroll'));
         }, 50);
+      }
+    });
+
+    // Ensure audio stops if user navigates with back/forward history buttons away from contact
+    window.addEventListener('popstate', () => {
+      if (window.location.hash !== '#contact') {
+        this.stopContactAudio();
       }
     });
 
@@ -313,6 +300,127 @@ class App {
       toast.style.transition = 'opacity 0.3s ease';
       setTimeout(() => toast.remove(), 300);
     }, 4000);
+  }
+
+  // Contact page audio manager - strictly confined to #contact
+  stopContactAudio() {
+    // 1. Remove any pending fallback interaction listeners
+    if (this._contactAudioInteractionHandler) {
+      document.removeEventListener('click', this._contactAudioInteractionHandler, true);
+      document.removeEventListener('touchstart', this._contactAudioInteractionHandler, true);
+      document.removeEventListener('scroll', this._contactAudioInteractionHandler, true);
+      this._contactAudioInteractionHandler = null;
+    }
+    // 2. Pause and reset active audio reference
+    if (this.activeContactAudio) {
+      try {
+        this.activeContactAudio.pause();
+        this.activeContactAudio.currentTime = 0;
+      } catch (e) {}
+      this.activeContactAudio = null;
+    }
+    // 3. Pause any existing audio element in DOM
+    const audio = document.getElementById('bgMusic');
+    if (audio) {
+      try {
+        audio.pause();
+        audio.currentTime = 0;
+      } catch (e) {}
+    }
+  }
+
+  startContactAudio() {
+    // ONLY allow playback if currently on the contact page
+    if (this.currentRoute !== 'contact') {
+      this.stopContactAudio();
+      return;
+    }
+
+    const audio = document.getElementById('bgMusic');
+    if (!audio) return;
+    this.activeContactAudio = audio;
+
+    const setIcons = (playing) => {
+      const u = document.getElementById('iconUnmuted');
+      const m = document.getElementById('iconMuted');
+      if (u) u.style.display = playing ? 'block' : 'none';
+      if (m) m.style.display = playing ? 'none' : 'block';
+    };
+
+    const playPromise = audio.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => {
+        if (this.currentRoute !== 'contact') {
+          this.stopContactAudio();
+        } else {
+          setIcons(true);
+        }
+      }).catch(() => {
+        // Autoplay policy prevented playback until user interaction
+        setIcons(false);
+
+        if (this._contactAudioInteractionHandler) {
+          document.removeEventListener('click', this._contactAudioInteractionHandler, true);
+          document.removeEventListener('touchstart', this._contactAudioInteractionHandler, true);
+          document.removeEventListener('scroll', this._contactAudioInteractionHandler, true);
+        }
+
+        this._contactAudioInteractionHandler = (e) => {
+          // If user clicked any anchor link away from contact, abort immediately
+          const link = e.target && e.target.closest ? e.target.closest('a') : null;
+          if (link) {
+            const href = link.getAttribute('href') || '';
+            if (href && href !== '#contact' && href.startsWith('#')) {
+              this.stopContactAudio();
+              return;
+            }
+          }
+
+          if (this.currentRoute === 'contact' && this.activeContactAudio && this.activeContactAudio.paused) {
+            this.activeContactAudio.play().then(() => {
+              if (this.currentRoute === 'contact') {
+                setIcons(true);
+              } else {
+                this.stopContactAudio();
+              }
+            }).catch(() => {});
+          }
+
+          if (this._contactAudioInteractionHandler) {
+            document.removeEventListener('click', this._contactAudioInteractionHandler, true);
+            document.removeEventListener('touchstart', this._contactAudioInteractionHandler, true);
+            document.removeEventListener('scroll', this._contactAudioInteractionHandler, true);
+            this._contactAudioInteractionHandler = null;
+          }
+        };
+
+        document.addEventListener('click', this._contactAudioInteractionHandler, true);
+        document.addEventListener('touchstart', this._contactAudioInteractionHandler, true);
+        document.addEventListener('scroll', this._contactAudioInteractionHandler, true);
+      });
+    }
+  }
+
+  toggleContactAudio() {
+    if (this.currentRoute !== 'contact') {
+      this.stopContactAudio();
+      return;
+    }
+    const audio = document.getElementById('bgMusic') || this.activeContactAudio;
+    const iconUnmuted = document.getElementById('iconUnmuted');
+    const iconMuted = document.getElementById('iconMuted');
+    if (!audio) return;
+
+    if (audio.paused) {
+      audio.play().then(() => {
+        if (iconUnmuted) iconUnmuted.style.display = 'block';
+        if (iconMuted) iconMuted.style.display = 'none';
+      }).catch(e => console.log('Audio play prevented:', e));
+    } else {
+      audio.pause();
+      if (iconUnmuted) iconUnmuted.style.display = 'none';
+      if (iconMuted) iconMuted.style.display = 'block';
+    }
   }
 }
 

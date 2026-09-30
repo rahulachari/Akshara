@@ -5,9 +5,10 @@
 window.publicComponents = {
   currentCityFilter: 'All',
 
-  renderHeader() {
+  renderHeader(options = {}) {
+    const isDark = options?.isDark || (window.app && window.app.currentRoute === 'contact');
     return `
-      <header class="header header-pill-style card-nav-container" id="mobileCardNav">
+      <header class="header header-pill-style card-nav-container ${isDark ? 'theme-on-dark scrolled' : ''}" id="mobileCardNav">
         <div class="nav-shell">
           <div class="glass-filter"></div>
           <div class="glass-overlay"></div>
@@ -115,9 +116,10 @@ window.publicComponents = {
                       </div>
                     </div>
 
-                    <!-- Minimal Audio Player -->
-                    <div class="audio-control" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(255,255,255,0.05); border-radius: 50%; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; transition: background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.15)'" onmouseout="this.style.background='rgba(255,255,255,0.05)'" onclick="publicComponents.toggleMusic()" title="Toggle Music">
+                    <!-- Minimal Audio Player (Only on Contact Page) -->
+                    <div class="audio-control" style="cursor: pointer; display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; background: rgba(255,255,255,0.08); border-radius: 50%; border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; transition: all 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.2)'" onmouseout="this.style.background='rgba(255,255,255,0.08)'" onclick="publicComponents.toggleMusic()" title="Toggle Music">
                       <audio id="bgMusic" loop preload="auto">
+                        <source src="assets/barely_there.mp3" type="audio/mpeg">
                         <source src="/assets/barely_there.mp3" type="audio/mpeg">
                       </audio>
                       <svg id="iconUnmuted" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
@@ -250,9 +252,9 @@ window.publicComponents = {
             <div class="grounded-hero-scroll-dim" id="heroScrollDim"></div>
           </div>
 
-          <!-- Grounded Progressive Side & Edge Blur Layers -->
+          <!-- Grounded Progressive Side Blur Layers (Thin Subtle Edges) -->
           <div class="blur-wrapper">
-            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-left">
+            <div style="--blur: 0.75rem; --ratio: 1.5;" class="progressive-blur_wrap-2 blur-edge-left">
               <div class="progressive-blur_panel is-1 left-blur"></div>
               <div class="progressive-blur_panel is-2 left-blur"></div>
               <div class="progressive-blur_panel is-3 left-blur"></div>
@@ -264,7 +266,7 @@ window.publicComponents = {
               <div class="progressive-blur_panel is-9 left-blur"></div>
               <div class="progressive-blur_panel is-10 left-blur"></div>
             </div>
-            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-right">
+            <div style="--blur: 0.75rem; --ratio: 1.5;" class="progressive-blur_wrap-2 blur-edge-right">
               <div class="progressive-blur_panel is-1 right-blur"></div>
               <div class="progressive-blur_panel is-2 right-blur"></div>
               <div class="progressive-blur_panel is-3 right-blur"></div>
@@ -275,18 +277,6 @@ window.publicComponents = {
               <div class="progressive-blur_panel is-8 right-blur"></div>
               <div class="progressive-blur_panel is-9 right-blur"></div>
               <div class="progressive-blur_panel is-10 right-blur"></div>
-            </div>
-            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-bottom">
-              <div class="progressive-blur_panel is-1 bottom-blur"></div>
-              <div class="progressive-blur_panel is-2 bottom-blur"></div>
-              <div class="progressive-blur_panel is-3 bottom-blur"></div>
-              <div class="progressive-blur_panel is-4 bottom-blur"></div>
-              <div class="progressive-blur_panel is-5 bottom-blur"></div>
-              <div class="progressive-blur_panel is-6 bottom-blur"></div>
-              <div class="progressive-blur_panel is-7 bottom-blur"></div>
-              <div class="progressive-blur_panel is-8 bottom-blur"></div>
-              <div class="progressive-blur_panel is-9 bottom-blur"></div>
-              <div class="progressive-blur_panel is-10 bottom-blur"></div>
             </div>
           </div>
 
@@ -1148,6 +1138,10 @@ window.publicComponents = {
     window.location.href = waUrl;
   },
   toggleMusic() {
+    if (window.app && window.app.toggleContactAudio) {
+      window.app.toggleContactAudio();
+      return;
+    }
     const audio = document.getElementById('bgMusic');
     const iconUnmuted = document.getElementById('iconUnmuted');
     const iconMuted = document.getElementById('iconMuted');
