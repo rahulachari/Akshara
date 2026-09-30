@@ -5251,7 +5251,7 @@ textarea.form-control {
 }
 
 .progressive-blur_wrap-2.blur-edge-left {
-  width: clamp(12px, 1.8vw, 28px);
+  width: clamp(38px, 4.5vw, 75px);
   height: 100%;
   top: 0;
   bottom: 0;
@@ -5259,7 +5259,7 @@ textarea.form-control {
 }
 
 .progressive-blur_wrap-2.blur-edge-right {
-  width: clamp(12px, 1.8vw, 28px);
+  width: clamp(38px, 4.5vw, 75px);
   height: 100%;
   top: 0;
   bottom: 0;
@@ -5279,20 +5279,65 @@ textarea.form-control {
   pointer-events: none;
 }
 
-.progressive-blur_panel.is-1 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.1)); backdrop-filter: blur(calc(var(--blur) * 0.1)); }
-.progressive-blur_panel.is-2 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.2)); backdrop-filter: blur(calc(var(--blur) * 0.2)); }
-.progressive-blur_panel.is-3 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.3)); backdrop-filter: blur(calc(var(--blur) * 0.3)); }
-.progressive-blur_panel.is-4 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.4)); backdrop-filter: blur(calc(var(--blur) * 0.4)); }
-.progressive-blur_panel.is-5 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.5)); backdrop-filter: blur(calc(var(--blur) * 0.5)); }
-.progressive-blur_panel.is-6 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.6)); backdrop-filter: blur(calc(var(--blur) * 0.6)); }
-.progressive-blur_panel.is-7 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.7)); backdrop-filter: blur(calc(var(--blur) * 0.7)); }
-.progressive-blur_panel.is-8 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.8)); backdrop-filter: blur(calc(var(--blur) * 0.8)); }
-.progressive-blur_panel.is-9 { -webkit-backdrop-filter: blur(calc(var(--blur) * 0.9)); backdrop-filter: blur(calc(var(--blur) * 0.9)); }
-.progressive-blur_panel.is-10 { -webkit-backdrop-filter: blur(var(--blur)); backdrop-filter: blur(var(--blur)); }
+/* Staggered progressive lens blur layers */
+.progressive-blur_panel.is-1 { -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+.progressive-blur_panel.is-2 { -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.progressive-blur_panel.is-3 { -webkit-backdrop-filter: blur(7px); backdrop-filter: blur(7px); }
+.progressive-blur_panel.is-4 { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+.progressive-blur_panel.is-5 { -webkit-backdrop-filter: blur(2px); backdrop-filter: blur(2px); }
+.progressive-blur_panel.is-6 { -webkit-backdrop-filter: blur(1px); backdrop-filter: blur(1px); }
 
-.left-blur { -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); }
-.right-blur { -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); }
-.bottom-blur { -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%); }
+/* Left side progressive feathering into zero opacity - No hard straight line */
+.progressive-blur_panel.is-1.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%);
+}
+.progressive-blur_panel.is-2.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 18%, rgba(0,0,0,0) 50%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 18%, rgba(0,0,0,0) 50%);
+}
+.progressive-blur_panel.is-3.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70%);
+}
+.progressive-blur_panel.is-4.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 88%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 88%);
+}
+.progressive-blur_panel.is-5.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.08) 72%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.08) 72%, rgba(0,0,0,0) 100%);
+}
+.progressive-blur_panel.is-6.left-blur {
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to right, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%);
+}
+
+/* Right side progressive feathering into zero opacity - No hard straight line */
+.progressive-blur_panel.is-1.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 30%);
+}
+.progressive-blur_panel.is-2.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 18%, rgba(0,0,0,0) 50%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.7) 18%, rgba(0,0,0,0) 50%);
+}
+.progressive-blur_panel.is-3.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.65) 10%, rgba(0,0,0,0.45) 35%, rgba(0,0,0,0) 70%);
+}
+.progressive-blur_panel.is-4.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 88%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.45) 20%, rgba(0,0,0,0.2) 55%, rgba(0,0,0,0) 88%);
+}
+.progressive-blur_panel.is-5.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.08) 72%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.25) 35%, rgba(0,0,0,0.08) 72%, rgba(0,0,0,0) 100%);
+}
+.progressive-blur_panel.is-6.right-blur {
+  -webkit-mask-image: linear-gradient(to left, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(to left, rgba(0,0,0,0.15) 50%, rgba(0,0,0,0) 100%);
+}
 
 /* Left Side Down Big Naming Akshara (Exact Logo Font Style) */
 .grounded-hero-content-left {

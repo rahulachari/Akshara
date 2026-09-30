@@ -252,31 +252,23 @@ window.publicComponents = {
             <div class="grounded-hero-scroll-dim" id="heroScrollDim"></div>
           </div>
 
-          <!-- Grounded Progressive Side Blur Layers (Thin Subtle Edges) -->
+          <!-- Grounded Progressive Side Blur Layers (Pure Feathered Optical Blur) -->
           <div class="blur-wrapper">
-            <div style="--blur: 0.75rem; --ratio: 1.5;" class="progressive-blur_wrap-2 blur-edge-left">
+            <div class="progressive-blur_wrap-2 blur-edge-left">
               <div class="progressive-blur_panel is-1 left-blur"></div>
               <div class="progressive-blur_panel is-2 left-blur"></div>
               <div class="progressive-blur_panel is-3 left-blur"></div>
               <div class="progressive-blur_panel is-4 left-blur"></div>
               <div class="progressive-blur_panel is-5 left-blur"></div>
               <div class="progressive-blur_panel is-6 left-blur"></div>
-              <div class="progressive-blur_panel is-7 left-blur"></div>
-              <div class="progressive-blur_panel is-8 left-blur"></div>
-              <div class="progressive-blur_panel is-9 left-blur"></div>
-              <div class="progressive-blur_panel is-10 left-blur"></div>
             </div>
-            <div style="--blur: 0.75rem; --ratio: 1.5;" class="progressive-blur_wrap-2 blur-edge-right">
+            <div class="progressive-blur_wrap-2 blur-edge-right">
               <div class="progressive-blur_panel is-1 right-blur"></div>
               <div class="progressive-blur_panel is-2 right-blur"></div>
               <div class="progressive-blur_panel is-3 right-blur"></div>
               <div class="progressive-blur_panel is-4 right-blur"></div>
               <div class="progressive-blur_panel is-5 right-blur"></div>
               <div class="progressive-blur_panel is-6 right-blur"></div>
-              <div class="progressive-blur_panel is-7 right-blur"></div>
-              <div class="progressive-blur_panel is-8 right-blur"></div>
-              <div class="progressive-blur_panel is-9 right-blur"></div>
-              <div class="progressive-blur_panel is-10 right-blur"></div>
             </div>
           </div>
 
@@ -320,67 +312,13 @@ window.publicComponents = {
 
     if (!heroImage) return;
 
-    // 1. Initial Page Load Cinematic Reveal (Grounded-style scale & mask slide)
-    const runEntranceAnimation = () => {
-      if (typeof gsap !== 'undefined') {
-        gsap.set(heroImage, { scale: 1.15, filter: 'blur(6px)', willChange: 'transform, filter' });
-        gsap.to(heroImage, {
-          scale: 1.0,
-          filter: 'blur(0px)',
-          duration: 1.6,
-          ease: 'power3.out',
-          clearProps: 'filter'
-        });
+    // Keep hero elements in their pristine resting state (prevent re-running entrance animations)
+    heroImage.style.filter = 'none';
+    if (heroTitle) { heroTitle.style.transform = 'none'; }
+    if (heroSub) { heroSub.style.transform = 'none'; heroSub.style.opacity = '1'; }
+    if (scrollCue) { scrollCue.style.opacity = '1'; }
 
-        if (heroTitle) {
-          gsap.set(heroTitle, { y: '115%', willChange: 'transform' });
-          gsap.to(heroTitle, {
-            y: '0%',
-            duration: 1.1,
-            delay: 0.25,
-            ease: 'power3.out'
-          });
-        }
-
-        if (heroSub) {
-          gsap.set(heroSub, { y: '115%', opacity: 0, willChange: 'transform, opacity' });
-          gsap.to(heroSub, {
-            y: '0%',
-            opacity: 1,
-            duration: 0.9,
-            delay: 0.45,
-            ease: 'power3.out'
-          });
-        }
-
-        if (scrollCue) {
-          gsap.set(scrollCue, { opacity: 0, y: 15 });
-          gsap.to(scrollCue, {
-            opacity: 1,
-            y: 0,
-            duration: 0.8,
-            delay: 0.7,
-            ease: 'power2.out'
-          });
-        }
-      }
-    };
-
-    // If initial page loader is running, wait until it finishes
-    const loader = document.getElementById('initialPageLoader');
-    if (loader && loader.style.display !== 'none' && !loader.classList.contains('loader-done')) {
-      const observer = new MutationObserver(() => {
-        if (loader.style.display === 'none' || loader.classList.contains('loader-done') || loader.style.opacity === '0') {
-          observer.disconnect();
-          setTimeout(runEntranceAnimation, 80);
-        }
-      });
-      observer.observe(loader, { attributes: true, attributeFilter: ['style', 'class'] });
-    } else {
-      runEntranceAnimation();
-    }
-
-    // 2. Grounded Continuous Scroll Physics
+    // Grounded Continuous Scroll Physics
     if (this._onHeroScroll) {
       window.removeEventListener('scroll', this._onHeroScroll);
     }
