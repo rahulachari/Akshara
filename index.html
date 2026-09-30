@@ -125,6 +125,17 @@
           <span class="willem__letter-wrap"><span class="willem__letter">Λ</span></span>
         </span>
       </h1>
+      <!-- Interactive Audio / Explore Pill (Apple-Style Minimalist) -->
+      <button class="willem-audio-pill" id="willemAudioPill" aria-label="Explore with Audio" title="Tap to explore with sound">
+        <span class="willem-audio-icon">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+        </span>
+        <span class="willem-audio-text">Click anywhere to explore</span>
+      </button>
     </div>
   </div>
 
@@ -157,9 +168,225 @@
   <script src="js/components/admin.js"></script>
   <script src="js/app.js"></script>
 
-  <!-- NBNZIA-Style Willem Aperture Opening Sequence Animation -->
+  <!-- NBNZIA-Style Willem Aperture Opening Sequence with Apple/Meta Sound Engine -->
   <script>
     (function() {
+      // Premium Studio-Grade Audio Engine (Pure Web Audio Synthesis - Zero Latency)
+      class AksharaSoundEngine {
+        constructor() {
+          this.ctx = null;
+        }
+
+        init() {
+          try {
+            if (!this.ctx) {
+              const AudioCtx = window.AudioContext || window.webkitAudioContext;
+              if (AudioCtx) {
+                this.ctx = new AudioCtx();
+              }
+            }
+            if (this.ctx && this.ctx.state === 'suspended') {
+              this.ctx.resume();
+            }
+          } catch(e) {}
+        }
+
+        // Apple Trackpad / iPhone Taptic UI Click
+        playHapticClick(pitchMultiplier = 1.0) {
+          this.init();
+          if (!this.ctx) return;
+          const t = this.ctx.currentTime;
+
+          // 1. High-frequency tactile crisp transient
+          const osc1 = this.ctx.createOscillator();
+          const gain1 = this.ctx.createGain();
+          const filter1 = this.ctx.createBiquadFilter();
+
+          osc1.type = 'sine';
+          osc1.frequency.setValueAtTime(1400 * pitchMultiplier, t);
+          osc1.frequency.exponentialRampToValueAtTime(300 * pitchMultiplier, t + 0.025);
+
+          filter1.type = 'bandpass';
+          filter1.frequency.setValueAtTime(1200 * pitchMultiplier, t);
+          filter1.Q.setValueAtTime(3.2, t);
+
+          gain1.gain.setValueAtTime(0.38, t);
+          gain1.gain.exponentialRampToValueAtTime(0.001, t + 0.035);
+
+          osc1.connect(filter1);
+          filter1.connect(gain1);
+          gain1.connect(this.ctx.destination);
+
+          osc1.start(t);
+          osc1.stop(t + 0.04);
+
+          // 2. Low-frequency grounded haptic pop (140Hz -> 45Hz)
+          const osc2 = this.ctx.createOscillator();
+          const gain2 = this.ctx.createGain();
+          osc2.type = 'triangle';
+          osc2.frequency.setValueAtTime(160 * pitchMultiplier, t);
+          osc2.frequency.exponentialRampToValueAtTime(45 * pitchMultiplier, t + 0.045);
+
+          gain2.gain.setValueAtTime(0.32, t);
+          gain2.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
+
+          osc2.connect(gain2);
+          gain2.connect(this.ctx.destination);
+
+          osc2.start(t);
+          osc2.stop(t + 0.055);
+        }
+
+        // Apple / Meta Commercial Sonic Brand Chime
+        playBrandChime() {
+          this.init();
+          if (!this.ctx) return;
+          const t = this.ctx.currentTime;
+
+          const chord = [130.81, 196.00, 329.63, 493.88, 659.25];
+          const masterGain = this.ctx.createGain();
+          masterGain.gain.setValueAtTime(0.24, t);
+          masterGain.gain.exponentialRampToValueAtTime(0.001, t + 1.8);
+          masterGain.connect(this.ctx.destination);
+
+          chord.forEach((freq, idx) => {
+            const osc = this.ctx.createOscillator();
+            const gain = this.ctx.createGain();
+            const delay = idx * 0.032;
+
+            osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+            osc.frequency.setValueAtTime(freq, t + delay);
+
+            gain.gain.setValueAtTime(0.0001, t + delay);
+            gain.gain.exponentialRampToValueAtTime(0.28 / (idx + 1), t + delay + 0.05);
+            gain.gain.exponentialRampToValueAtTime(0.0001, t + delay + 1.35);
+
+            osc.connect(gain);
+            gain.connect(masterGain);
+
+            osc.start(t + delay);
+            osc.stop(t + delay + 1.45);
+          });
+        }
+
+        // Camera Aperture Shutter / Aerodynamic Slide (Opens between H and A)
+        playApertureOpen() {
+          this.init();
+          if (!this.ctx) return;
+          const t = this.ctx.currentTime;
+
+          const bufferSize = Math.floor(this.ctx.sampleRate * 0.16);
+          const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+          const data = buffer.getChannelData(0);
+          for (let i = 0; i < bufferSize; i++) {
+            data[i] = Math.random() * 2 - 1;
+          }
+
+          const noise = this.ctx.createBufferSource();
+          noise.buffer = buffer;
+
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.setValueAtTime(550, t);
+          filter.frequency.exponentialRampToValueAtTime(2600, t + 0.14);
+          filter.Q.setValueAtTime(2.2, t);
+
+          const gain = this.ctx.createGain();
+          gain.gain.setValueAtTime(0.01, t);
+          gain.gain.linearRampToValueAtTime(0.20, t + 0.05);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
+
+          noise.connect(filter);
+          filter.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          noise.start(t);
+          noise.stop(t + 0.16);
+
+          // Subtle harmonic glide tone
+          const osc = this.ctx.createOscillator();
+          const oscGain = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(440, t);
+          osc.frequency.exponentialRampToValueAtTime(880, t + 0.12);
+          oscGain.gain.setValueAtTime(0.09, t);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, t + 0.13);
+
+          osc.connect(oscGain);
+          oscGain.connect(this.ctx.destination);
+          osc.start(t);
+          osc.stop(t + 0.14);
+        }
+
+        // Image Switch Tick (Vellore -> Chittoor -> Hero)
+        playSwitchTick(high = false) {
+          this.init();
+          if (!this.ctx) return;
+          const t = this.ctx.currentTime;
+
+          const osc = this.ctx.createOscillator();
+          const gain = this.ctx.createGain();
+          osc.type = 'sine';
+          const freq = high ? 1800 : 1350;
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.exponentialRampToValueAtTime(freq * 0.35, t + 0.035);
+
+          gain.gain.setValueAtTime(0.18, t);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+
+          osc.connect(gain);
+          gain.connect(this.ctx.destination);
+
+          osc.start(t);
+          osc.stop(t + 0.045);
+        }
+
+        // Fullscreen Expansion Cinematic Swell
+        playExpandSwell() {
+          this.init();
+          if (!this.ctx) return;
+          const t = this.ctx.currentTime;
+
+          const subOsc = this.ctx.createOscillator();
+          const subGain = this.ctx.createGain();
+          subOsc.type = 'sine';
+          subOsc.frequency.setValueAtTime(55, t);
+          subOsc.frequency.exponentialRampToValueAtTime(110, t + 0.65);
+
+          subGain.gain.setValueAtTime(0.001, t);
+          subGain.gain.linearRampToValueAtTime(0.28, t + 0.32);
+          subGain.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+
+          subOsc.connect(subGain);
+          subGain.connect(this.ctx.destination);
+          subOsc.start(t);
+          subOsc.stop(t + 0.95);
+
+          // Silky high-resolution shimmer
+          const shimmerOsc = this.ctx.createOscillator();
+          const shimmerGain = this.ctx.createGain();
+          shimmerOsc.type = 'triangle';
+          shimmerOsc.frequency.setValueAtTime(880, t + 0.15);
+          shimmerOsc.frequency.exponentialRampToValueAtTime(1760, t + 0.7);
+
+          shimmerGain.gain.setValueAtTime(0.001, t + 0.15);
+          shimmerGain.gain.linearRampToValueAtTime(0.14, t + 0.42);
+          shimmerGain.gain.exponentialRampToValueAtTime(0.001, t + 0.9);
+
+          shimmerOsc.connect(shimmerGain);
+          shimmerGain.connect(this.ctx.destination);
+          shimmerOsc.start(t + 0.15);
+          shimmerOsc.stop(t + 0.95);
+        }
+      }
+
+      const soundEngine = new AksharaSoundEngine();
+
+      // Unlock sound on earliest user interaction
+      ['click', 'pointerdown', 'keydown', 'touchstart'].forEach(evt => {
+        window.addEventListener(evt, () => soundEngine.init(), { once: true, passive: true });
+      });
+
       function startSequence() {
         const loader = document.getElementById('initialPageLoader');
         if (!loader) return;
@@ -171,6 +398,7 @@
         const cover2 = document.querySelector('.willem__cover-image-extra.is--2');
         const h1Start = document.querySelector('.willem__h1-start');
         const h1End = document.querySelector('.willem__h1-end');
+        const audioPill = document.getElementById('willemAudioPill');
 
         if (typeof gsap === 'undefined') {
           loader.classList.add('loaded');
@@ -192,6 +420,9 @@
           defaults: { ease: 'power3.out' }
         });
 
+        // Sound: Apple/Meta Intro Brand Chime
+        tl.call(() => soundEngine.playBrandChime(), null, 0.05);
+
         // Step 1: First show full AKSHARA name rising through masked baseline
         tl.to(letters, {
           yPercent: 0,
@@ -201,6 +432,9 @@
           ease: 'power3.out'
         });
 
+        // Sound: Camera aperture mechanical slide when box opens between H and A
+        tl.call(() => soundEngine.playApertureOpen(), null, '+=0.35');
+
         // Step 2: Now that AKSHARA name is clearly displayed, open image in between H and A
         tl.to(box, {
           width: targetWidth,
@@ -208,21 +442,30 @@
           marginRight: targetMargin,
           duration: 0.9,
           ease: 'power3.inOut'
-        }, '+=0.4');
+        }, '<');
+
+        // Sound: Tactile switch tick (Vellore -> Chittoor)
+        tl.call(() => soundEngine.playSwitchTick(false), null, '+=0.4');
 
         // Step 3: Hold Vellore cover, then smoothly cross-fade to Chittoor cover
         tl.to(cover1, {
           opacity: 0,
           duration: 0.45,
           ease: 'power2.inOut'
-        }, '+=0.4');
+        }, '<');
+
+        // Sound: Tactile switch tick (Chittoor -> Hero image)
+        tl.call(() => soundEngine.playSwitchTick(true), null, '+=0.4');
 
         // Step 4: Hold Chittoor cover, then smoothly cross-fade to Main Hero cover
         tl.to(cover2, {
           opacity: 0,
           duration: 0.45,
           ease: 'power2.inOut'
-        }, '+=0.4');
+        }, '<');
+
+        // Sound: Cinematic fullscreen expansion swell
+        tl.call(() => soundEngine.playExpandSwell(), null, '+=0.25');
 
         // Step 5: Climax - Hero image expands to full screen while letters glide outward
         tl.add(() => {
@@ -237,7 +480,7 @@
             borderRadius: isMobile ? '8px' : '12px',
             zIndex: 99999999
           });
-        }, '+=0.3');
+        }, '+=0.05');
 
         tl.to(growingImg, {
           top: 0,
@@ -263,6 +506,15 @@
           ease: 'power3.in'
         }, 'expand');
 
+        if (audioPill) {
+          tl.to(audioPill, {
+            opacity: 0,
+            y: 20,
+            duration: 0.4,
+            ease: 'power2.in'
+          }, 'expand');
+        }
+
         // Step 6: Seamlessly fade out loader overlay to live site
         tl.to(loader, {
           opacity: 0,
@@ -277,9 +529,14 @@
           }
         }, '+=0.1');
 
-        // Fast-forward on click
-        loader.addEventListener('click', () => {
-          tl.timeScale(2.5);
+        // Clickable Apple-style Haptic Sound & Fast-Forward on any click
+        loader.addEventListener('click', (e) => {
+          soundEngine.playHapticClick(1.05);
+          // If in early phase, speed up into expansion smoothly
+          if (tl.progress() < 0.7) {
+            tl.timeScale(2.6);
+            soundEngine.playExpandSwell();
+          }
         });
       }
 
