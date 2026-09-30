@@ -277,6 +277,15 @@
           }
         }, '+=0.1');
 
+        // Safeguard timeout to ensure page is always accessible even on slow networks
+        setTimeout(() => {
+          if (loader && loader.parentNode) {
+            loader.classList.add('loaded');
+            document.body.style.overflow = '';
+            loader.parentNode.removeChild(loader);
+          }
+        }, 5000);
+
         // Fast-Forward on click
         loader.addEventListener('click', () => {
           if (tl.progress() < 0.75) {

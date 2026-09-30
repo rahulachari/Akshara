@@ -57,8 +57,7 @@ class App {
             window.publicComponents.initSwipeButton();
           }
         }, 0);
-      } else {
-        // Stop and clean up any contact audio immediately when on any other page
+      } else if (this.currentRoute === 'blueprint') {
         this.stopContactAudio();
         const proj = window.store.getProjects().find(p => p.name === this.routeParam);
         if (!proj) {
@@ -77,6 +76,7 @@ class App {
           `;
         }
       } else if (this.currentRoute === '404') {
+        this.stopContactAudio();
         document.body.style.backgroundColor = '#000000';
         publicApp.innerHTML = `
           <main style="min-height: 100vh; background: #000000;">
@@ -84,6 +84,7 @@ class App {
           </main>
         `;
       } else {
+        this.stopContactAudio();
         document.body.style.backgroundColor = 'var(--bg-primary)';
         publicApp.innerHTML = `
           ${window.publicComponents.renderHeader()}
