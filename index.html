@@ -72,7 +72,8 @@
   <!-- Preload Critical Opening Sequence Assets -->
   <link rel="preload" as="image" href="assets/project_vellore.png" />
   <link rel="preload" as="image" href="assets/project_chittoor.png" />
-  <link rel="preload" as="image" href="assets/HEROO SECTIONN.png" />
+  <link rel="preload" as="image" href="assets/mobile%20version.png" media="(max-width: 768px)" />
+  <link rel="preload" as="image" href="assets/HEROO%20SECTIONN.png" media="(min-width: 769px)" />
 
   <!-- Main Design System Stylesheet -->
   <link rel="stylesheet" href="css/styles.css" />
@@ -108,10 +109,10 @@
                 />
                 <!-- Main Hero Cover Image (Desktop & Mobile) -->
                 <picture class="willem__cover-picture">
-                  <source media="(max-width: 768px)" srcset="assets/mobile version.png" />
+                  <source media="(max-width: 768px)" srcset="assets/mobile%20version.png" />
                   <img 
                     class="willem__cover-image" 
-                    src="assets/HEROO SECTIONN.png" 
+                    src="assets/HEROO%20SECTIONN.png" 
                     alt="Akshara Plotted Developments" 
                   />
                 </picture>
@@ -182,6 +183,12 @@
         document.body.style.overflow = 'hidden';
 
         const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+          const coverImg = document.querySelector('.willem__cover-image');
+          if (coverImg) {
+            coverImg.src = 'assets/mobile%20version.png';
+          }
+        }
         const targetWidth = isMobile ? Math.min(window.innerWidth * 0.32, 115) : Math.min(window.innerWidth * 0.165, 220);
         const targetMargin = isMobile ? 8 : 18;
 
