@@ -5384,33 +5384,3 @@ textarea.form-control {
   margin-bottom: 0;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.85);
 }
-
-/* Explore Scroll Cue */
-.grounded-hero-explore {
-  position: absolute;
-  bottom: clamp(2rem, 5vw, 4.5rem);
-  right: clamp(1.5rem, 4.5vw, 4rem);
-  z-index: 5;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 999px;
-  color: #FFFFFF;
-  font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.grounded-hero-explore:hover {
-  background: rgba(255, 255, 255, 0.22);
-  transform: translateY(-2px);
-}

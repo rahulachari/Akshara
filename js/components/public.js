@@ -281,15 +281,6 @@ window.publicComponents = {
               <p class="grounded-hero-subtitle">Architectural Plotted Developments</p>
             </div>
           </div>
-
-          <!-- Grounded Explore / Scroll Cue -->
-          <div class="grounded-hero-explore" id="heroScrollCue" onclick="publicComponents.scrollToContent()">
-            <span class="grounded-explore-text">Explore</span>
-            <svg class="grounded-explore-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="12" y1="5" x2="12" y2="19"></line>
-              <polyline points="19 12 12 19 5 12"></polyline>
-            </svg>
-          </div>
         </div>
       </section>
     `;
@@ -306,7 +297,6 @@ window.publicComponents = {
     const heroImage = document.getElementById('heroZoomImage');
     const heroContent = document.getElementById('heroContentLeft');
     const heroDim = document.getElementById('heroScrollDim');
-    const scrollCue = document.getElementById('heroScrollCue');
     const heroTitle = document.getElementById('groundedHeroTitle');
     const heroSub = document.querySelector('.grounded-hero-subtitle');
 
@@ -316,7 +306,6 @@ window.publicComponents = {
     heroImage.style.filter = 'none';
     if (heroTitle) { heroTitle.style.transform = 'none'; }
     if (heroSub) { heroSub.style.transform = 'none'; heroSub.style.opacity = '1'; }
-    if (scrollCue) { scrollCue.style.opacity = '1'; }
 
     // Grounded Continuous Scroll Physics
     if (this._onHeroScroll) {
@@ -355,11 +344,6 @@ window.publicComponents = {
             const textOpacity = Math.max(0, 1 - progress * 1.25);
             heroContent.style.transform = `translate3d(0, ${textTranslate}px, 0)`;
             heroContent.style.opacity = textOpacity.toFixed(3);
-          }
-
-          // Scroll explore button fades immediately as user scrolls
-          if (scrollCue) {
-            scrollCue.style.opacity = Math.max(0, 1 - progress * 3.5).toFixed(3);
           }
 
           ticking = false;
