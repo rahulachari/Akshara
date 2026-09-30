@@ -221,7 +221,11 @@ class App {
               );
 
               for (let i = 0; i < darkSections.length; i++) {
-                const rect = darkSections[i].getBoundingClientRect();
+                const el = darkSections[i];
+                if (el.classList.contains('hero-section') && (window.scrollY || window.pageYOffset || 0) >= (window.innerHeight - 60)) {
+                  continue;
+                }
+                const rect = el.getBoundingClientRect();
                 if (rect.top <= 58 && rect.bottom >= 10) {
                   isDark = true;
                   break;

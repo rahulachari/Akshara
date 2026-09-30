@@ -16,7 +16,7 @@ window.publicComponents = {
           <div class="container header-inner card-nav-top">
             <a href="#" class="brand-logo logo-container" onclick="if(window.app && window.app.currentRoute !== 'home') { window.location.hash = ''; } else { publicComponents.scrollToTop(event); }">
               <div class="brand-logo-mark">
-                <img src="assets/Akshara__logo.png" alt="Akshara Logo" />
+                <img src="assets/Akshara_LOGO.jpeg" alt="Akshara Logo" />
               </div>
               <div class="brand-logo-text">AKSHARA</div>
             </a>
@@ -139,34 +139,34 @@ window.publicComponents = {
     const thumb = document.getElementById('swipeBtnThumb');
     const container = document.getElementById('swipeBtnContainer');
     const track = document.querySelector('.swipe-button-track');
-    
+
     if (!thumb || !container || !track) return;
-    
+
     let isDragging = false;
     let startX = 0;
     let currentTranslate = 0;
-    
+
     const trackRect = track.getBoundingClientRect();
     const thumbRect = thumb.getBoundingClientRect();
     // Allow thumb to slide to the very end of the track minus some padding
     const padding = 8;
-    const maxDrag = trackRect.width - thumbRect.width - (padding * 2); 
-    
+    const maxDrag = trackRect.width - thumbRect.width - (padding * 2);
+
     const onMove = (e) => {
       if (!isDragging) return;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
       let currentX = clientX - startX;
-      
+
       if (currentX < 0) currentX = 0;
       if (currentX > maxDrag) currentX = maxDrag;
-      
+
       thumb.style.transform = `translateX(${currentX}px)`;
-      
+
       if (currentX >= maxDrag * 0.95) {
         // Trigger submit
         isDragging = false;
         thumb.style.transform = `translateX(${maxDrag}px)`;
-        
+
         const textEl = document.querySelector('.swipe-button-text');
         if (textEl) textEl.innerText = 'Redirecting to WhatsApp ✓';
 
@@ -182,13 +182,13 @@ window.publicComponents = {
         if (window.trackEvent) {
           window.trackEvent('lead_form_submitted', { cityPref, projectPref });
         }
-        
+
         const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCity: ${cityPref}\nProject: ${projectPref}\nMessage: ${message}`;
         const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
-        
+
         // Direct redirect without popup blocker on iOS/Mac/iPad
         window.location.href = waUrl;
-        
+
         // Reset after a delay
         setTimeout(() => {
           thumb.style.transform = 'translateX(0px)';
@@ -196,7 +196,7 @@ window.publicComponents = {
         }, 2000);
       }
     };
-    
+
     const onUp = () => {
       if (!isDragging) return;
       isDragging = false;
@@ -207,7 +207,7 @@ window.publicComponents = {
       document.removeEventListener('touchmove', onMove);
       document.removeEventListener('touchend', onUp);
     };
-    
+
     const onDown = (e) => {
       isDragging = true;
       const clientX = e.touches ? e.touches[0].clientX : e.clientX;
@@ -219,46 +219,178 @@ window.publicComponents = {
       }
       startX = clientX - currentX;
       thumb.style.transition = 'none';
-      
+
       document.addEventListener('mousemove', onMove);
       document.addEventListener('mouseup', onUp);
       document.addEventListener('touchmove', onMove);
       document.addEventListener('touchend', onUp);
     };
-    
+
     thumb.addEventListener('mousedown', onDown);
     thumb.addEventListener('touchstart', onDown);
   },
 
   renderHero() {
     return `
-      <section class="hero-section" id="hero">
-        <div class="hero-sticky">
-          <div class="hero-background">
-            <img src="assets/hero_visual.png" alt="Akshara Background" id="heroZoomImage" />
+      <section class="hero-section grounded-hero-section" id="hero">
+        <div class="hero-sticky grounded-hero-sticky">
+          <!-- Responsive Desktop & Mobile Grand Entrance Gate Visual -->
+          <div class="grounded-hero-media-wrapper" id="heroMediaWrapper">
+            <picture class="grounded-hero-picture">
+              <source media="(max-width: 768px)" srcset="assets/mobile%20version.png" />
+              <img 
+                src="assets/HEROO%20SECTIONN.png" 
+                alt="Akshara Plotted Developments Grand Entrance" 
+                id="heroZoomImage" 
+                class="grounded-hero-img" 
+                loading="eager"
+              />
+            </picture>
+            <div class="grounded-hero-overlay" id="heroOverlay"></div>
+            <div class="grounded-hero-scroll-dim" id="heroScrollDim"></div>
           </div>
 
-          <div class="hero-content cinematic-content">
-            <h1 class="impact akshara-hero-title">AKSHARA</h1>
-            <p class="hero-subtitle">Plotted Developments</p>
-            <div class="hero-ctas" style="justify-content: center; margin-top: 40px; margin-bottom: 0;">
-              <a href="#projects" class="btn btn-primary btn-lg btn-cinematic">
-                View Project Showcase
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-              </a>
+          <!-- Grounded Progressive Side & Edge Blur Layers -->
+          <div class="blur-wrapper">
+            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-left">
+              <div class="progressive-blur_panel is-1 left-blur"></div>
+              <div class="progressive-blur_panel is-2 left-blur"></div>
+              <div class="progressive-blur_panel is-3 left-blur"></div>
+              <div class="progressive-blur_panel is-4 left-blur"></div>
+              <div class="progressive-blur_panel is-5 left-blur"></div>
+              <div class="progressive-blur_panel is-6 left-blur"></div>
+              <div class="progressive-blur_panel is-7 left-blur"></div>
+              <div class="progressive-blur_panel is-8 left-blur"></div>
+              <div class="progressive-blur_panel is-9 left-blur"></div>
+              <div class="progressive-blur_panel is-10 left-blur"></div>
             </div>
+            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-right">
+              <div class="progressive-blur_panel is-1 right-blur"></div>
+              <div class="progressive-blur_panel is-2 right-blur"></div>
+              <div class="progressive-blur_panel is-3 right-blur"></div>
+              <div class="progressive-blur_panel is-4 right-blur"></div>
+              <div class="progressive-blur_panel is-5 right-blur"></div>
+              <div class="progressive-blur_panel is-6 right-blur"></div>
+              <div class="progressive-blur_panel is-7 right-blur"></div>
+              <div class="progressive-blur_panel is-8 right-blur"></div>
+              <div class="progressive-blur_panel is-9 right-blur"></div>
+              <div class="progressive-blur_panel is-10 right-blur"></div>
+            </div>
+            <div style="--blur: 3rem; --ratio: 1.9;" class="progressive-blur_wrap-2 blur-edge-bottom">
+              <div class="progressive-blur_panel is-1 bottom-blur"></div>
+              <div class="progressive-blur_panel is-2 bottom-blur"></div>
+              <div class="progressive-blur_panel is-3 bottom-blur"></div>
+              <div class="progressive-blur_panel is-4 bottom-blur"></div>
+              <div class="progressive-blur_panel is-5 bottom-blur"></div>
+              <div class="progressive-blur_panel is-6 bottom-blur"></div>
+              <div class="progressive-blur_panel is-7 bottom-blur"></div>
+              <div class="progressive-blur_panel is-8 bottom-blur"></div>
+              <div class="progressive-blur_panel is-9 bottom-blur"></div>
+              <div class="progressive-blur_panel is-10 bottom-blur"></div>
+            </div>
+          </div>
+
+          <!-- Left Side Down Big Naming Akshara (Exact Logo Font Style) -->
+          <div class="grounded-hero-content-left" id="heroContentLeft">
+            <div class="grounded-hero-title-mask">
+              <h1 class="grounded-hero-title" id="groundedHeroTitle" aria-label="Akshara">ΛKSHΛRΛ</h1>
+            </div>
+            <div class="grounded-hero-sub-mask">
+              <p class="grounded-hero-subtitle">Architectural Plotted Developments</p>
+            </div>
+          </div>
+
+          <!-- Grounded Explore / Scroll Cue -->
+          <div class="grounded-hero-explore" id="heroScrollCue" onclick="publicComponents.scrollToContent()">
+            <span class="grounded-explore-text">Explore</span>
+            <svg class="grounded-explore-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <polyline points="19 12 12 19 5 12"></polyline>
+            </svg>
           </div>
         </div>
       </section>
     `;
   },
 
+  scrollToContent() {
+    const about = document.getElementById('about');
+    if (about) {
+      about.scrollIntoView({ behavior: 'smooth' });
+    }
+  },
+
   initHeroScroll() {
     const heroImage = document.getElementById('heroZoomImage');
-    const heroContent = document.querySelector('.cinematic-content');
-    
+    const heroContent = document.getElementById('heroContentLeft');
+    const heroDim = document.getElementById('heroScrollDim');
+    const scrollCue = document.getElementById('heroScrollCue');
+    const heroTitle = document.getElementById('groundedHeroTitle');
+    const heroSub = document.querySelector('.grounded-hero-subtitle');
+
     if (!heroImage) return;
 
+    // 1. Initial Page Load Cinematic Reveal (Grounded-style scale & mask slide)
+    const runEntranceAnimation = () => {
+      if (typeof gsap !== 'undefined') {
+        gsap.set(heroImage, { scale: 1.15, filter: 'blur(6px)', willChange: 'transform, filter' });
+        gsap.to(heroImage, {
+          scale: 1.0,
+          filter: 'blur(0px)',
+          duration: 1.6,
+          ease: 'power3.out',
+          clearProps: 'filter'
+        });
+
+        if (heroTitle) {
+          gsap.set(heroTitle, { y: '115%', willChange: 'transform' });
+          gsap.to(heroTitle, {
+            y: '0%',
+            duration: 1.1,
+            delay: 0.25,
+            ease: 'power3.out'
+          });
+        }
+
+        if (heroSub) {
+          gsap.set(heroSub, { y: '115%', opacity: 0, willChange: 'transform, opacity' });
+          gsap.to(heroSub, {
+            y: '0%',
+            opacity: 1,
+            duration: 0.9,
+            delay: 0.45,
+            ease: 'power3.out'
+          });
+        }
+
+        if (scrollCue) {
+          gsap.set(scrollCue, { opacity: 0, y: 15 });
+          gsap.to(scrollCue, {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            delay: 0.7,
+            ease: 'power2.out'
+          });
+        }
+      }
+    };
+
+    // If initial page loader is running, wait until it finishes
+    const loader = document.getElementById('initialPageLoader');
+    if (loader && loader.style.display !== 'none' && !loader.classList.contains('loader-done')) {
+      const observer = new MutationObserver(() => {
+        if (loader.style.display === 'none' || loader.classList.contains('loader-done') || loader.style.opacity === '0') {
+          observer.disconnect();
+          setTimeout(runEntranceAnimation, 80);
+        }
+      });
+      observer.observe(loader, { attributes: true, attributeFilter: ['style', 'class'] });
+    } else {
+      runEntranceAnimation();
+    }
+
+    // 2. Grounded Continuous Scroll Physics
     if (this._onHeroScroll) {
       window.removeEventListener('scroll', this._onHeroScroll);
     }
@@ -271,21 +403,37 @@ window.publicComponents = {
           const scrollY = window.scrollY || window.pageYOffset || 0;
           const vh = window.innerHeight || 800;
 
-          if (scrollY > vh * 1.2) {
+          if (scrollY > vh * 1.5) {
             ticking = false;
             return;
           }
 
+          // Progress through the first viewport (0 to 1)
           const progress = Math.min(Math.max(scrollY / vh, 0), 1);
-          const translateY = progress * 80;
-          const opacity = Math.max(0, 1 - progress * 1.4);
 
-          heroImage.style.transform = `translate3d(0, ${translateY * 0.35}px, 0)`;
-          
-          if (heroContent) {
-            heroContent.style.opacity = opacity;
-            heroContent.style.transform = `translate3d(0, ${translateY * 0.6}px, 0)`;
+          // Hero image: subtle scale zoom and smooth vertical parallax
+          const imgScale = 1 + progress * 0.08;
+          const imgTranslate = progress * 60;
+          heroImage.style.transform = `translate3d(0, ${imgTranslate}px, 0) scale(${imgScale})`;
+
+          // Grounded dark dim overlay fades in
+          if (heroDim) {
+            heroDim.style.opacity = (progress * 0.55).toFixed(3);
           }
+
+          // Left bottom Akshara typography: subtle parallax & fade before curtain completely covers it
+          if (heroContent) {
+            const textTranslate = progress * 30;
+            const textOpacity = Math.max(0, 1 - progress * 1.25);
+            heroContent.style.transform = `translate3d(0, ${textTranslate}px, 0)`;
+            heroContent.style.opacity = textOpacity.toFixed(3);
+          }
+
+          // Scroll explore button fades immediately as user scrolls
+          if (scrollCue) {
+            scrollCue.style.opacity = Math.max(0, 1 - progress * 3.5).toFixed(3);
+          }
+
           ticking = false;
         });
         ticking = true;
@@ -298,7 +446,7 @@ window.publicComponents = {
 
   initProcessScroll() {
     if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-    
+
     gsap.registerPlugin(ScrollTrigger);
 
     const steps = gsap.utils.toArray('.scroll-step');
@@ -680,8 +828,13 @@ window.publicComponents = {
         <div class="testimonial-card">
           <p class="card-text">"${t.quote}"</p>
           <div class="card-footer">
-            <p class="author-name">${t.name}</p>
-            <p class="author-title">${t.location}</p>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <img src="assets/Akshara_LOGO.jpeg" alt="Akshara" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0;" />
+              <div>
+                <p class="author-name">${t.name}</p>
+                <p class="author-title">${t.location}</p>
+              </div>
+            </div>
           </div>
         </div>
       `).join('');
@@ -822,8 +975,8 @@ window.publicComponents = {
           <div class="footer-dark-box">
             <div class="footer-left-col">
               <div class="footer-logo" style="margin-bottom: 20px;">
-                <div style="background: #FFFFFF; width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2); padding: 4px;">
-                  <img src="assets/Akshara__logo.png" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: contain; border-radius: 50%; display: block;" />
+                <div style="width: 56px; height: 56px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.2); border: 1px solid rgba(255,255,255,0.2);">
+                  <img src="assets/Akshara_LOGO.jpeg" alt="Akshara Logo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; display: block;" />
                 </div>
               </div>
               <h2 class="footer-tagline">Premium Plotted Developments<br/>Built for the Future</h2>
@@ -984,13 +1137,13 @@ window.publicComponents = {
     if (window.trackEvent) {
       window.trackEvent('lead_form_submitted', { cityPref, projectPref });
     }
-    
+
     const waText = `Hi Akshara Team, I am interested in your plotted layouts.\n\nName: ${name}\nPhone: ${phone}\nEmail: ${email}\nCity: ${cityPref}\nProject: ${projectPref}\nMessage: ${message}`;
     const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
-    
+
     app.showToast('✓ Redirecting to WhatsApp...');
     document.getElementById('publicEnquiryForm')?.reset();
-    
+
     // Direct location redirect to prevent popup blocker on iOS/Mac/iPad
     window.location.href = waUrl;
   },
@@ -999,7 +1152,7 @@ window.publicComponents = {
     const iconUnmuted = document.getElementById('iconUnmuted');
     const iconMuted = document.getElementById('iconMuted');
     if (!audio) return;
-    
+
     if (audio.paused) {
       audio.play().then(() => {
         if (iconUnmuted) iconUnmuted.style.display = 'block';
@@ -1042,13 +1195,13 @@ window.publicComponents = {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   },
 
-// Interactive Blueprint Page (Light / Main-Page Match Theme)
+  // Interactive Blueprint Page (Light / Main-Page Match Theme)
   renderBlueprintPage(projectName) {
     if (!projectName) projectName = 'Akshara Urban Enclave';
     const proj = window.store.getProjects('All').find(p => p.name === projectName) || { name: projectName, city: 'Chittoor', location: 'Bangalore Road, Chittoor' };
-    
+
     const isVellore = proj.city && proj.city.toLowerCase() === 'vellore';
-    
+
     // Vellore Layout (Option A) SVG
     const velloreSvg = `
       <!-- OPTION-A (Vellore Layout) Sub-Pixel Exact CAD Polygons -->
@@ -1253,7 +1406,7 @@ window.publicComponents = {
             </a>
             
             <div class="hud-brand-pill mono-pill">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" width="30" height="30" style="width:30px;height:30px;max-width:30px;max-height:30px;object-fit:contain;border-radius:50%;background:#FFFFFF;border:1px solid rgba(255,255,255,0.15);" />
+              <img src="assets/Akshara_LOGO.jpeg" alt="Akshara Logo" class="hud-logo-img" width="30" height="30" style="width:30px;height:30px;max-width:30px;max-height:30px;object-fit:contain;border-radius:50%;background:#FFFFFF;border:1px solid rgba(255,255,255,0.15);" />
               <div class="hud-title-col">
                 <span class="hud-project-title">${proj.name}</span>
                 <span class="hud-project-meta">${proj.city} • ${optionBadge}</span>
@@ -1526,7 +1679,7 @@ window.publicComponents = {
     // Update Specs Row
     const areaSqFt = data.areaSqFt || 1200;
     const areaSqM = (areaSqFt * 0.092903).toFixed(2);
-    
+
     const areaLargeEl = document.getElementById('popupPlotAreaLarge');
     if (areaLargeEl) areaLargeEl.innerHTML = `${areaSqFt.toLocaleString()} <span class="stat-unit">sq ft</span>`;
 
@@ -1588,7 +1741,7 @@ window.publicComponents = {
   filterMapPhase(phase, btnEl) {
     document.querySelectorAll('.luminexa-tab-btn').forEach(btn => btn.classList.remove('active'));
     if (btnEl) btnEl.classList.add('active');
-    
+
     if (window.trackEvent) {
       window.trackEvent('blueprint_phase_filtered', { phase });
     }
@@ -1610,7 +1763,7 @@ window.publicComponents = {
   openDirectPlotEnquiry(projectName) {
     const plot = this.currentSelectedPlot;
     const plotInfo = plot ? `${plot.name || ('Plot #' + plot.id)} (${plot.areaSqFt} sq.ft, ${plot.facing})` : 'Master Layout Plot';
-    
+
     const modalBody = document.getElementById('globalModalBody');
     if (!modalBody) return;
 
@@ -1674,7 +1827,7 @@ window.publicComponents = {
 
     const waText = `Hi Akshara Team, I am interested in reserving:\nProject: ${projectName}\nUnit: ${plotInfo}\nName: ${name}\nPhone: ${phone}`;
     const waUrl = `https://wa.me/917013485016?text=${encodeURIComponent(waText)}`;
-    
+
     // Direct location redirect for reliable opening on iOS/Mac/iPad/Android
     window.location.href = waUrl;
   },
@@ -1720,7 +1873,7 @@ window.publicComponents = {
         </div>
       </div>
     `;
-    
+
     document.body.appendChild(wrapper);
     if (typeof gsap !== 'undefined') {
       gsap.to(wrapper, { opacity: 1, duration: 0.4 });
@@ -1742,13 +1895,15 @@ window.publicComponents = {
 
     const currentEl = document.getElementById('eqStep' + currentStep);
     const nextEl = document.getElementById('eqStep' + (currentStep + 1));
-    
+
     if (typeof gsap !== 'undefined') {
-      gsap.to(currentEl, { y: -30, opacity: 0, duration: 0.3, onComplete: () => {
-        currentEl.classList.remove('active');
-        nextEl.classList.add('active');
-        gsap.fromTo(nextEl, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
-      }});
+      gsap.to(currentEl, {
+        y: -30, opacity: 0, duration: 0.3, onComplete: () => {
+          currentEl.classList.remove('active');
+          nextEl.classList.add('active');
+          gsap.fromTo(nextEl, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4 });
+        }
+      });
     } else {
       currentEl.classList.remove('active');
       nextEl.classList.add('active');
@@ -1759,9 +1914,9 @@ window.publicComponents = {
     const name = document.getElementById('eqName').value;
     const phone = document.getElementById('eqPhone').value;
     const loc = document.getElementById('eqLocation').value;
-    
+
     window.store.addLead({ name, phone, email: '', cityPref: loc, projectPref: 'Interactive Map Enquiry', message: '' });
-    
+
     this.nextEnquiryStep(3);
   },
 
@@ -1789,7 +1944,7 @@ window.publicComponents = {
               <span>Home</span>
             </a>
             <div class="hud-brand-pill mono-pill">
-              <img src="assets/Akshara__logo.png" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain; border-radius:50%; background:#FFFFFF;" />
+              <img src="assets/Akshara_LOGO.jpeg" alt="Akshara Logo" class="hud-logo-img" style="width:28px; height:28px; object-fit:contain; border-radius:50%; background:#FFFFFF;" />
               <div class="hud-title-col">
                 <span class="hud-project-title">Akshara Developments</span>
                 <span class="hud-project-meta">Masterplan Navigator</span>
