@@ -112,6 +112,9 @@ class App {
           if (window.publicComponents.initProjectsGooeyNav) {
             window.publicComponents.initProjectsGooeyNav();
           }
+          if (window.publicComponents.initCrowdCanvas) {
+            window.publicComponents.initCrowdCanvas();
+          }
         }, 0);
       }
     }

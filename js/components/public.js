@@ -754,6 +754,11 @@ window.publicComponents = {
 
     return `
       <section class="section testimonials-section" id="testimonials">
+        <!-- Walking Crowd Canvas Layer (Architectural OpenPeeps) -->
+        <div class="crowd-canvas-wrapper" id="crowdCanvasWrapper" aria-hidden="true">
+          <canvas id="crowdCanvas" class="crowd-canvas"></canvas>
+        </div>
+
         <div class="container">
           <div class="section-header">
             <span class="section-tag">Client Feedback</span>
@@ -776,6 +781,358 @@ window.publicComponents = {
         </div>
       </section>
     `;
+  },
+
+  initCrowdCanvas() {
+    const canvas = document.getElementById('crowdCanvas');
+    if (!canvas) return;
+
+    if (this._crowdCleanup) {
+      this._crowdCleanup();
+      this._crowdCleanup = null;
+    }
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const config = {
+      src: 'assets/all-peeps.png',
+      rows: 15,
+      cols: 7,
+    };
+
+    // Utils
+    const randomRange = (min, max) => min + Math.random() * (max - min);
+    const randomIndex = (array) => (randomRange(0, array.length) | 0);
+    const removeFromArray = (array, i) => array.splice(i, 1)[0];
+    const removeItemFromArray = (array, item) => removeFromArray(array, array.indexOf(item));
+    const removeRandomFromArray = (array) => removeFromArray(array, randomIndex(array));
+    const getRandomFromArray = (array) => array[randomIndex(array) | 0];
+
+    const stage = { width: 0, height: 0 };
+    const allPeeps = [];
+    const availablePeeps = [];
+    const crowd = [];
+    let peepScale = 0.85;
+
+    // Tween Factory
+    const resetPeep = ({ stage, peep }) => {
+      const direction = Math.random() > 0.5 ? 1 : -1;
+
+      // 3-Plane Depth Distribution:
+      // 32% walk in background plane (behind review cards)
+      // 46% walk in midground plane (open gap)
+      // 22% walk in foreground plane (transitioning towards footer)
+      const depthRand = Math.random();
+      let depthOffset;
+      let layerScale;
+      let speedFactor;
+
+      if (depthRand < 0.28) {
+        // Background layer: walks behind lower portion of review cards
+        depthOffset = randomRange(-130, -50);
+        layerScale = 0.74;
+        speedFactor = 0.85;
+      } else if (depthRand < 0.75) {
+        // Midground layer: walks prominently across the middle gap
+        depthOffset = randomRange(-45, 45);
+        layerScale = 0.88;
+        speedFactor = 1.0;
+      } else {
+        // Foreground layer: walking down towards and along the black border section
+        depthOffset = randomRange(55, 130);
+        layerScale = 1.0;
+        speedFactor = 1.15;
+      }
+
+      peep.layerScale = layerScale;
+      peep.speedFactor = speedFactor;
+      peep.width = peep.baseWidth * peepScale * layerScale;
+      peep.height = peep.baseHeight * peepScale * layerScale;
+
+      const baselineY = (stage.height - peep.height) * 0.70;
+      const startY = baselineY + depthOffset;
+
+      let startX;
+      let endX;
+
+      if (direction === 1) {
+        startX = -peep.width;
+        endX = stage.width;
+        peep.scaleX = 1;
+      } else {
+        startX = stage.width + peep.width;
+        endX = 0;
+        peep.scaleX = -1;
+      }
+
+      peep.x = startX;
+      peep.y = startY;
+      peep.anchorY = startY;
+
+      return { startX, startY, endX, speedFactor };
+    };
+
+    const normalWalk = ({ peep, props }) => {
+      const { startX, startY, endX, speedFactor } = props;
+      const xDuration = 10;
+      const yDuration = 0.25;
+
+      const tl = gsap.timeline();
+      tl.timeScale(speedFactor * randomRange(0.65, 1.25));
+      tl.to(
+        peep,
+        {
+          duration: xDuration,
+          x: endX,
+          ease: 'none',
+        },
+        0
+      );
+      tl.to(
+        peep,
+        {
+          duration: yDuration,
+          repeat: Math.floor(xDuration / yDuration),
+          yoyo: true,
+          y: startY - (7 * (peep.layerScale || 1)),
+        },
+        0
+      );
+
+      return tl;
+    };
+
+    const walks = [normalWalk];
+
+    // Factory
+    const createPeep = ({ image, rect }) => {
+      const peep = {
+        image,
+        rect: [],
+        baseWidth: 0,
+        baseHeight: 0,
+        width: 0,
+        height: 0,
+        x: 0,
+        y: 0,
+        anchorY: 0,
+        scaleX: 1,
+        walk: null,
+        setRect: (r) => {
+          peep.rect = r;
+          peep.baseWidth = r[2];
+          peep.baseHeight = r[3];
+          peep.width = peep.baseWidth * peepScale;
+          peep.height = peep.baseHeight * peepScale;
+        },
+        render: (ctx) => {
+          ctx.save();
+          ctx.translate(peep.x, peep.y);
+          ctx.scale(peep.scaleX, 1);
+          ctx.drawImage(
+            peep.image,
+            peep.rect[0],
+            peep.rect[1],
+            peep.rect[2],
+            peep.rect[3],
+            0,
+            0,
+            peep.width,
+            peep.height
+          );
+          ctx.restore();
+        },
+      };
+
+      peep.setRect(rect);
+      return peep;
+    };
+
+    const img = new Image();
+
+    const createPeeps = () => {
+      const { rows, cols } = config;
+      const { naturalWidth: width, naturalHeight: height } = img;
+      const total = rows * cols;
+      const rectWidth = width / rows;
+      const rectHeight = height / cols;
+
+      allPeeps.length = 0;
+      for (let i = 0; i < total; i++) {
+        allPeeps.push(
+          createPeep({
+            image: img,
+            rect: [
+              (i % rows) * rectWidth,
+              ((i / rows) | 0) * rectHeight,
+              rectWidth,
+              rectHeight,
+            ],
+          })
+        );
+      }
+    };
+
+    const addPeepToCrowd = () => {
+      if (!availablePeeps.length) return null;
+      const peep = removeRandomFromArray(availablePeeps);
+      const walk = getRandomFromArray(walks)({
+        peep,
+        props: resetPeep({ peep, stage }),
+      }).eventCallback('onComplete', () => {
+        removePeepFromCrowd(peep);
+        addPeepToCrowd();
+      });
+
+      peep.walk = walk;
+      crowd.push(peep);
+      crowd.sort((a, b) => a.anchorY - b.anchorY);
+      return peep;
+    };
+
+    const removePeepFromCrowd = (peep) => {
+      removeItemFromArray(crowd, peep);
+      availablePeeps.push(peep);
+    };
+
+    const initCrowd = () => {
+      // Crowd density dynamically tailored to screen width
+      const maxCrowd = stage.width < 600 ? 22 : (stage.width < 1024 ? 38 : 52);
+      const count = Math.min(availablePeeps.length, maxCrowd);
+      for (let i = 0; i < count; i++) {
+        const p = addPeepToCrowd();
+        if (p && p.walk) {
+          p.walk.progress(Math.random());
+        }
+      }
+    };
+
+    const render = () => {
+      if (!canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.save();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      ctx.scale(dpr, dpr);
+
+      for (let i = 0; i < crowd.length; i++) {
+        crowd[i].render(ctx);
+      }
+
+      ctx.restore();
+    };
+
+    const resize = () => {
+      if (!canvas || !canvas.parentElement) return;
+      const wrapper = canvas.parentElement;
+      const w = wrapper.clientWidth;
+      const h = wrapper.clientHeight;
+      if (w === 0 || h === 0) return;
+
+      stage.width = w;
+      stage.height = h;
+
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = `${w}px`;
+      canvas.style.height = `${h}px`;
+
+      // Proportional scale for peeps based on viewport
+      peepScale = w < 600 ? 0.50 : (w < 1024 ? 0.68 : 0.80);
+      for (let i = 0; i < allPeeps.length; i++) {
+        allPeeps[i].width = allPeeps[i].baseWidth * peepScale;
+        allPeeps[i].height = allPeeps[i].baseHeight * peepScale;
+      }
+
+      for (let i = 0; i < crowd.length; i++) {
+        if (crowd[i].walk) crowd[i].walk.kill();
+      }
+
+      crowd.length = 0;
+      availablePeeps.length = 0;
+      availablePeeps.push(...allPeeps);
+
+      initCrowd();
+    };
+
+    let isTickerActive = false;
+
+    const startTicker = () => {
+      if (!isTickerActive && typeof gsap !== 'undefined') {
+        gsap.ticker.add(render);
+        isTickerActive = true;
+      }
+    };
+
+    const stopTicker = () => {
+      if (isTickerActive && typeof gsap !== 'undefined') {
+        gsap.ticker.remove(render);
+        isTickerActive = false;
+      }
+    };
+
+    const init = () => {
+      createPeeps();
+      resize();
+      startTicker();
+    };
+
+    img.onload = () => {
+      init();
+    };
+    img.src = config.src;
+
+    if (img.complete && img.naturalWidth) {
+      init();
+    }
+
+    let resizeTimer;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resize();
+      }, 120);
+    };
+    window.addEventListener('resize', handleResize);
+
+    // IntersectionObserver to pause rendering when not in viewport
+    let observer;
+    const section = document.getElementById('testimonials');
+    if (section && 'IntersectionObserver' in window) {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              startTicker();
+              crowd.forEach((peep) => {
+                if (peep.walk) peep.walk.resume();
+              });
+            } else {
+              stopTicker();
+              crowd.forEach((peep) => {
+                if (peep.walk) peep.walk.pause();
+              });
+            }
+          });
+        },
+        { rootMargin: '300px 0px' }
+      );
+      observer.observe(section);
+    }
+
+    this._crowdCleanup = () => {
+      window.removeEventListener('resize', handleResize);
+      clearTimeout(resizeTimer);
+      if (observer) observer.disconnect();
+      stopTicker();
+      for (let i = 0; i < crowd.length; i++) {
+        if (crowd[i].walk) crowd[i].walk.kill();
+      }
+      crowd.length = 0;
+      availablePeeps.length = 0;
+      allPeeps.length = 0;
+    };
   },
 
   renderContact() {

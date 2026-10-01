@@ -26,7 +26,7 @@ files.forEach(file => {
 });
 
 // Directories to copy
-const dirs = ['css', 'js', 'assets'];
+const dirs = ['css', 'js', 'assets', 'images'];
 
 dirs.forEach(dir => {
   const src = path.join(__dirname, dir);

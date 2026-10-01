@@ -2326,11 +2326,15 @@ textarea.form-control {
 
 /* Footer */
 .footer-redesigned {
-  padding: 60px 0 30px;
+  position: relative;
+  z-index: 2;
+  padding: 40px 0 30px;
   background-color: var(--bg-primary); /* Matches the page background */
 }
 
 .footer-dark-box {
+  position: relative;
+  z-index: 3;
   background-color: #111;
   color: #fff;
   border-radius: 24px;
@@ -2789,10 +2793,64 @@ textarea.form-control {
 
 /* Testimonials Marquee Section */
 .testimonials-section {
+  position: relative;
   background-color: var(--bg-primary);
-  padding: clamp(60px, 10vw, 100px) 0;
-  overflow: hidden;
+  padding: clamp(60px, 8vw, 90px) 0 clamp(90px, 12vw, 150px);
+  overflow: visible;
   width: 100%;
+}
+
+.testimonials-section .container {
+  position: relative;
+  z-index: 2;
+}
+
+/* Walking Crowd Canvas Layer: Positioned behind reviews and bridging into footer */
+.crowd-canvas-wrapper {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  bottom: -85px;
+  height: clamp(520px, 48vh, 620px);
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  /* Top half is transparent behind the review scrolling section,
+     middle part is most visible,
+     and down towards the black border section it fades to transparent */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.22) 15%,
+    rgba(0, 0, 0, 0.45) 32%,
+    rgba(0, 0, 0, 0.90) 50%,
+    rgba(0, 0, 0, 1) 62%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0.40) 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.22) 15%,
+    rgba(0, 0, 0, 0.45) 32%,
+    rgba(0, 0, 0, 0.90) 50%,
+    rgba(0, 0, 0, 1) 62%,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0.40) 92%,
+    transparent 100%
+  );
+}
+
+.crowd-canvas {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
 }
 
 .marquee-container {
@@ -2802,6 +2860,8 @@ textarea.form-control {
   width: 100%;
   overflow: hidden;
   padding: 20px 0;
+  position: relative;
+  z-index: 2;
 }
 
 .marquee-row {
@@ -2832,7 +2892,9 @@ textarea.form-control {
 
 .testimonial-card {
   width: 380px;
-  background-color: var(--bg-secondary);
+  background-color: rgba(248, 249, 250, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-md);
   padding: 32px;
@@ -2840,6 +2902,8 @@ textarea.form-control {
   flex-direction: column;
   gap: 16px;
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
